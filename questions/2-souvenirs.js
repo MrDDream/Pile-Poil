@@ -1,6 +1,5 @@
 /*
   Niveau 2 · Souvenirs : votre histoire, vos premières fois.
-
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
   Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
@@ -246,4 +245,23 @@
 {id:"s238",l:2,t:"guess",q:"Le prochain « premier » que {X} a envie de vivre avec l'autre ?",o:["Un saut en parachute","Un festival","Un tatouage assorti","Un cours de danse"]},
 {id:"s239",l:2,t:"guess",q:"Comment {X} aimerait fêter votre prochain anniversaire de couple ?",o:["Un voyage","Un dîner chic","Une fête avec les proches","Retour sur le lieu de la rencontre"]},
 {id:"s240",l:2,t:"guess",q:"Ce que {X} aimerait apprendre à faire avec l'autre ?",o:["Danser","Cuisiner un plat du monde","Une langue étrangère","Un sport de glisse"]},
+{id:"s241",l:2,t:"who",q:"Qui de nous deux se souvient le mieux de votre premier rendez-vous ?"},
+{id:"s242",l:2,t:"who",q:"Qui de nous deux a le plus de photos de vous deux dans son téléphone ?"},
+{id:"s243",l:2,t:"who",q:"Qui de nous deux raconte le plus souvent votre histoire aux autres ?"},
+{id:"s244",l:2,t:"who",q:"Qui de nous deux se souvient le mieux des petites attentions de l'autre ?"},
+{id:"s245",l:2,t:"who",q:"Qui de nous deux a le plus de mal à se souvenir des dates importantes de votre couple ?"},
+{id:"s247",l:2,t:"who",q:"Qui de nous deux a le plus de souvenirs liés à la musique ?"},
+{id:"s248",l:2,t:"who",q:"Qui de nous deux se souvient le mieux de votre première dispute ?"},
+{id:"s249",l:2,t:"who",q:"Qui de nous deux a le plus de mal à jeter les souvenirs matériels ?"},
+{id:"s250",l:2,t:"who",q:"Qui de nous deux est le plus attaché aux traditions de couple ?"},
+{id:"s251",l:2,t:"guess",q:"Le souvenir préféré de {X} de votre rencontre ?",o:["Le premier regard","La première conversation","Le premier rire","Le premier baiser"]},
+{id:"s252",l:2,t:"guess",q:"La première fois que {X} a su que c'était sérieux ?",o:["Après quelques jours","Après quelques semaines","Après quelques mois","Il ou elle n'en est toujours pas sûr·e"]},
+{id:"s253",l:2,t:"guess",q:"Le cadeau le plus touchant que {X} a reçu de l'autre ?",o:["Quelque chose de fait main","Un voyage","Un objet symbolique","Un simple mot doux"]},
+{id:"s254",l:2,t:"guess",q:"La chanson qui rappelle le plus {X} de votre histoire ?",o:["Celle de votre première danse","Celle qui passait en boucle au début","Celle d'un moment important","Aucune en particulier"]},
+{id:"s255",l:2,t:"guess",q:"Le lieu qui a le plus de souvenirs pour {X} ?",o:["Le restaurant de votre premier rendez-vous","Votre premier appartement","Un endroit de vacances","Le parc près de chez vous"]},
+{id:"s256",l:2,t:"guess",q:"La plus belle surprise que {X} a reçue de l'autre ?",o:["Un week-end improvisé","Un cadeau inattendu","Une déclaration","Un geste au quotidien"]},
+{id:"s257",l:2,t:"guess",q:"Ce que {X} regrette le plus de ne pas avoir fait plus tôt ?",o:["Dire « je t'aime »","Passer plus de temps ensemble","Prendre plus de photos","Rien, tout est parfait"]},
+{id:"s258",l:2,t:"guess",q:"Le moment le plus embarrassant de votre histoire selon {X} ?",o:["Une gaffe en public","Une dispute ridicule","Un malentendu","Un moment trop intime raté"]},
+{id:"s259",l:2,t:"guess",q:"La tradition de couple préférée de {X} ?",o:["Le dimanche matin au lit","Les anniversaires de rencontre","Les voyages à deux","Les soirées films"]},
+{id:"s260",l:2,t:"guess",q:"Ce que {X} aimerait revivre une fois ?",o:["Votre premier baiser","Votre première nuit","Votre première vacances","Votre première fête ensemble"]},
 );

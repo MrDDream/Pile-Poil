@@ -1,6 +1,5 @@
 /*
   Niveau 4 · Coquin : ça commence à chauffer sous la couette.
-
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
   Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
@@ -246,4 +245,8 @@
 {id:"c238",l:4,t:"guess",q:"Ce qui donne à {X} envie de rester au lit toute la journée ?",o:["La pluie","L'autre, juste à côté","Un dimanche sans projets","Des draps propres"]},
 {id:"c239",l:4,t:"guess",q:"L'objet que {X} emporterait pour un week-end coquin ?",o:["Une huile de massage","Des bougies","Une jolie tenue","Une enceinte"]},
 {id:"c240",l:4,t:"guess",q:"Ce que {X} préfère trouver sur la table de nuit ?",o:["Une bougie","Une huile de massage","Un petit mot doux","Rien, place nette"]},
+{id:"c257",l:4,t:"who",q:"Qui de nous deux est le plus facile à exciter avec un simple regard ?"},
+{id:"c258",l:4,t:"who",q:"Qui de nous deux aime le plus les baisers longs et lents ?"},
+{id:"c259",l:4,t:"who",q:"Qui de nous deux a le plus de mal à rester discret·e quand ça devient chaud ?"},
+{id:"c260",l:4,t:"who",q:"Qui de nous deux est le plus partant pour un câlin improvisé en pleine journée ?"},
 );

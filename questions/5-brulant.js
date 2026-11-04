@@ -1,6 +1,5 @@
 /*
   Niveau 5 · Brûlant : fantasmes et envies inavouées.
-
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
   Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
@@ -246,4 +245,8 @@
 {id:"b238",l:5,t:"guess",q:"Le sexe au téléphone ou en visio, pour {X}, c'est…",o:["Très excitant","Trop gênant","Jamais testé, mais curieux·se","Rien ne vaut le vrai"]},
 {id:"b239",l:5,t:"who",q:"Qui de nous deux aime le plus faire l'amour en plein après-midi ?"},
 {id:"b240",l:5,t:"guess",q:"Avec une baguette magique au lit, {X}…",o:["Doublerait la durée","Lirait les envies de l'autre","Ajouterait une paire de mains","Arrêterait le temps"]},
+{id:"b268",l:5,t:"who",q:"Qui de nous deux a le plus de mal à rester silencieux pendant l'orgasme ?"},
+{id:"b269",l:5,t:"who",q:"Qui de nous deux aimerait le plus être attaché·e ce soir ?"},
+{id:"b270",l:5,t:"who",q:"Qui de nous deux a le plus de fantasmes de domination ?"},
+{id:"b280",l:5,t:"guess",q:"La zone érogène de {X} que l'autre a tendance à négliger ?",o:["Les tétons","Le bas du dos","L'intérieur des cuisses","Derrière les oreilles"]},
 );

@@ -27,7 +27,7 @@
 
 ## Comment on joue
 
-1. **Choisissez un niveau**, du plus tendre au plus osé, et la longueur de la partie : 10, 20 ou 30 questions tirées au hasard parmi les 240 du niveau.
+1. **Choisissez un niveau**, du plus tendre au plus osé, ou le mode **Aléatoire** qui pioche dans les 5, et la longueur de la partie : 10, 20, 30 ou 50 questions tirées au hasard (environ 250 par niveau).
 2. **Répondez chacun de votre côté** : « Qui de nous deux… ? », ou devinez ce que l'autre va répondre.
 3. **Les réponses s'affichent ensemble.** Même réponse : un point de complicité. Pas d'accord : on en parle… ou on relève un petit défi.
 4. **Le bilan final** donne votre score de complicité, à garder en image ou en texte.
@@ -42,13 +42,13 @@
 | 4 · Coquin | Ça chauffe sous la couette | Taquins |
 | 5 · Brûlant | Fantasmes et envies inavouées | Osés |
 
-Les défis sont facultatifs : on peut toujours passer son tour, ou les désactiver avant la partie.
+Les défis sont facultatifs : ils sont désactivés par défaut, on les active avant la partie, et on peut toujours passer son tour.
 
 ## Fonctionnalités
 
 - **Deux façons de jouer** : sur un seul téléphone qu'on se passe, ou sur deux téléphones reliés par un code (`K7QM-3XRP`).
 - **Invitation en un geste** : le bouton « Partager » envoie un lien qui ouvre le jeu avec le code déjà rempli, ou l'autre téléphone scanne un QR code.
-- **Parties de 10, 20 ou 30 questions**, et un bouton « Passer » pour une question qui ne vous inspire pas.
+- **Parties de 10, 20, 30 ou 50 questions**, un mode **Aléatoire** qui mélange les 5 niveaux, et un bouton « Passer » pour une question qui ne vous inspire pas.
 - **Réactions rapides** (cœur, rire, rougir) envoyées à l'autre téléphone au moment de la révélation, **sons doux** optionnels et transitions animées.
 - **Bilan à partager** : votre score de complicité, vos désaccords, et l'image du bilan à envoyer en un geste.
 - **Reprise de partie** : si l'app se ferme par erreur, une fenêtre propose de reprendre là où vous en étiez.

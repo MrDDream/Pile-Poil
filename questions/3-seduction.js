@@ -1,6 +1,5 @@
 /*
   Niveau 3 · Séduction : ce qui vous fait craquer l’un chez l’autre.
-
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
   Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
@@ -246,4 +245,6 @@
 {id:"d238",l:3,t:"guess",q:"Ce que {X} préfère partager à deux ?",o:["Un dessert","Un plaid","Une paire d'écouteurs","Un parapluie"]},
 {id:"d239",l:3,t:"guess",q:"Le moment où {X} a le plus envie d'embrasser l'autre ?",o:["En pleine dispute","Quand l'autre rit","Au milieu d'une phrase","Devant tout le monde"]},
 {id:"d240",l:3,t:"guess",q:"Ce qui rend un baiser inoubliable pour {X} ?",o:["Le lieu","La surprise","La durée","Ce qui vient avant"]},
+{id:"d241",l:3,t:"who",q:"Qui de nous deux drague le plus l'autre au quotidien ?"},
+{id:"d244",l:3,t:"who",q:"Qui de nous deux fait le plus de compliments ?"},
 );

@@ -19,93 +19,97 @@ const LEVELS = [
 /* Les questions sont dans le dossier questions/ (un fichier par niveau). */
 const Q = window.PILEPOIL_Q || [];
 const DECK_SIZE = 30;          // nombre de questions par défaut
-const LENGTHS = [10, 20, 30];  // longueurs de partie proposées
+const LENGTHS = [10, 20, 30, 50];  // longueurs de partie proposées
 /* Défis proposés quand les réponses diffèrent. Le ton suit le niveau : rien de coquin avant le niveau 4. */
 const DARES = {
-  1:[
-    "Dites chacun une qualité de l'autre que vous n'avez jamais dite à voix haute.",
-    "Imitez-vous mutuellement au réveil.",
-    "Un câlin de 10 secondes avant la question suivante.",
-    "Inventez sur le moment votre poignée de main secrète.",
-    "Restez 15 secondes les yeux dans les yeux sans rire.",
-    "Chantez ensemble le refrain d'une chanson que vous connaissez tous les deux.",
+  1: [ // Complicité – doux, drôles, complices
+    "Dites chacun une qualité de l’autre que vous n’avez jamais dite à voix haute.",
+    "Imitez-vous mutuellement au réveil pendant 10 secondes.",
+    "Restez 20 secondes les yeux dans les yeux sans rire.",
+    "Inventez sur le moment votre poignée de main secrète et testez-la trois fois.",
     "Racontez la dernière chose qui vous a fait rire ensemble.",
-    "Inventez chacun un nouveau surnom pour l'autre.",
-    "Faites une photo grimace à deux.",
-    "Citez à tour de rôle trois choses que vous aimez faire ensemble.",
+    "Inventez chacun un nouveau surnom pour l’autre et utilisez-le jusqu’à la fin de la partie.",
+    "Faites une grimace en même temps et prenez-en une photo mentale.",
+    "Citez à tour de rôle trois petites choses du quotidien que vous aimez chez l’autre.",
     "Un massage des mains de 30 secondes chacun.",
-    "Imitez la façon dont l'autre répond au téléphone.",
-    "Promettez-vous une petite attention pour demain.",
-    "Imitez la tête de l'autre quand la faim arrive.",
-    "Faites-vous un compliment sur un détail que personne ne remarque.",
+    "Imitez la façon dont l’autre répond au téléphone ou parle quand il/elle est stressé·e.",
+    "Promettez-vous une petite attention concrète pour demain.",
+    "Imitez la tête de l’autre quand il/elle a faim ou est fatigué·e.",
+    "Faites-vous un compliment sur un détail physique ou une manie que personne d’autre ne remarque.",
+    "Chantez ensemble le refrain d’une chanson que vous connaissez tous les deux (même faux).",
+    "Racontez chacun une anecdote drôle de l’autre que vous aimez bien raconter.",
   ],
-  2:[
-    "Racontez chacun votre souvenir préféré de vous deux.",
-    "Un bisou sur le bout du nez.",
-    "Rejouez votre premier baiser.",
-    "Retrouvez la plus vieille photo de vous deux dans vos téléphones.",
-    "Racontez chacun votre toute première impression de l'autre.",
-    "Rejouez la scène de votre rencontre en 30 secondes.",
-    "Retrouvez la date d'un moment important pour vous deux… sans vérifier.",
-    "Fredonnez une chanson qui vous rappelle un souvenir commun.",
-    "Citez chacun un moment où vous avez été fier ou fière de l'autre.",
-    "Choisissez ensemble une date pour refaire votre premier rendez-vous.",
-    "Racontez un souvenir drôle de vous deux que personne d'autre ne connaît.",
-    "Un câlin de retrouvailles, comme après un long voyage.",
-    "Résumez chacun votre première année ensemble en un seul mot.",
-    "Relisez ensemble les premiers messages que vous vous êtes envoyés.",
-    "Dites merci à l'autre pour un souvenir précis.",
+
+  2: [ // Souvenirs – moments à revivre, tendresse
+    "Racontez chacun votre souvenir préféré de vous deux en détail.",
+    "Un bisou tout doux sur le bout du nez.",
+    "Rejouez votre premier baiser en version accélérée (15 secondes max).",
+    "Racontez chacun votre toute première impression de l’autre.",
+    "Rejouez la scène de votre rencontre en 30 secondes chrono.",
+    "Citez chacun un moment où vous avez été particulièrement fier ou fière de l’autre.",
+    "Racontez un souvenir drôle de vous deux que personne d’autre ne connaît.",
+    "Un câlin de « retrouvailles » comme après un long voyage (20 secondes).",
+    "Résumez chacun votre première année ensemble en un seul mot, puis expliquez pourquoi.",
+    "Dites merci à l’autre pour un souvenir précis et expliquez ce qu’il vous a apporté.",
+    "Fredonnez une chanson qui vous rappelle un moment à deux.",
+    "Racontez comment vous avez su que c’était « sérieux » entre vous.",
+    "Choisissez ensemble un souvenir à revivre bientôt et fixez une date approximative.",
+    "Décrivez le moment où vous avez eu le plus de papillons dans le ventre à cause de l’autre.",
+    "Embrassez la main de l’autre comme au premier rendez-vous.",
   ],
-  3:[
-    "Un bisou dans le cou.",
-    "Un compliment sincère, les yeux dans les yeux, sans rire.",
-    "Un slow de 30 secondes, même sans musique.",
-    "Draguez l'autre comme si vous vous rencontriez ce soir.",
-    "Un baisemain dans les règles de l'art.",
-    "Murmurez un compliment à l'oreille de l'autre.",
-    "Regard de braise : 10 secondes sans cligner des yeux.",
-    "Écrivez un mot doux du bout du doigt dans le dos de l'autre, qui doit deviner.",
-    "Un baiser de cinéma, version timide.",
-    "Dites en une phrase ce qui vous a fait craquer chez l'autre.",
-    "Faites votre plus belle déclaration en trois mots.",
-    "Recoiffez l'autre tendrement.",
-    "Lancez votre phrase de drague la plus ringarde.",
-    "Embrassez la paume de la main de l'autre.",
-    "Prenez l'autre dans vos bras et balancez-vous doucement pendant 20 secondes.",
+
+  3: [ // Séduction – charme, tension douce
+    "Un bisou lent dans le cou.",
+    "Un compliment sincère, les yeux dans les yeux, sans rire ni détourner le regard.",
+    "Un slow de 30 secondes, même sans musique, collés l’un à l’autre.",
+    "Draguez l’autre comme si vous vous rencontriez pour la première fois ce soir.",
+    "Murmurez un compliment très précis à l’oreille de l’autre.",
+    "Regard de braise : 12 secondes sans cligner des yeux.",
+    "Écrivez un mot doux du bout du doigt dans le dos de l’autre, qui doit le deviner.",
+    "Un baiser de cinéma version timide (5-7 secondes).",
+    "Dites en une seule phrase ce qui vous a fait craquer chez l’autre au début.",
+    "Faites votre plus belle déclaration en exactement trois mots.",
+    "Recoiffez l’autre tendrement pendant 15 secondes.",
+    "Lancez votre phrase de drague la plus ringarde possible, avec le sérieux le plus total.",
+    "Embrassez la paume de la main de l’autre très lentement.",
+    "Prenez l’autre dans vos bras et balancez-vous doucement pendant 20 secondes en silence.",
+    "Décrivez le détail physique de l’autre qui vous fait le plus craquer en ce moment.",
   ],
-  4:[
-    "Un massage des épaules de 2 minutes.",
-    "Un baiser de cinéma de 10 secondes.",
-    "Retirez chacun un vêtement… une chaussette compte.",
-    "Murmurez une envie coquine à l'oreille de l'autre.",
-    "Un bisou à l'endroit que l'autre choisit, au-dessus de la ceinture.",
-    "Défaites un bouton chez l'autre, sans les mains si vous osez.",
-    "Un câlin collé-serré de 20 secondes, sans parler.",
-    "Caressez le dos de l'autre du bout des doigts pendant 30 secondes.",
-    "Envoyez un message coquin à l'autre, alors que vous êtes côte à côte.",
-    "Un baiser dans le cou qui dure 10 secondes.",
-    "Décrivez la tenue dans laquelle vous aimeriez voir l'autre ce soir.",
-    "Les yeux fermés, devinez où l'autre vous embrasse.",
-    "Massez les pieds de l'autre pendant une minute.",
-    "Offrez à l'autre un bon pour un câlin coquin, à utiliser quand il lui plaira.",
-    "Mordillez doucement l'oreille de l'autre.",
+
+  4: [ // Coquin – taquin, sensuel, au-dessus de la ceinture d’abord
+    "Un massage des épaules et de la nuque de 90 secondes.",
+    "Un baiser de cinéma de 10 secondes bien appuyé.",
+    "Retirez chacun un vêtement (une chaussette ou un accessoire vestimentaire compte).",
+    "Murmurez une envie coquine précise à l’oreille de l’autre.",
+    "Un bisou à l’endroit que l’autre choisit, au-dessus de la ceinture.",
+    "Défaites un bouton ou ouvrez une fermeture chez l’autre, sans utiliser les mains si vous osez.",
+    "Un câlin collé-serré de 25 secondes, sans parler, juste le souffle.",
+    "Caressez le dos de l’autre du bout des doigts pendant 40 secondes.",
+    "Décrivez à voix basse la tenue (ou le manque de tenue) dans laquelle vous aimeriez voir l’autre ce soir.",
+    "Les yeux fermés, devinez où l’autre vous embrasse (3 essais).",
+    "Massez les pieds de l’autre pendant une minute en silence.",
+    "Mordillez doucement le lobe de l’oreille de l’autre.",
+    "Embrassez le cou de l’autre pendant 10 secondes en variant la pression.",
+    "Dites à l’autre exactement ce que vous aimeriez qu’il/elle fasse de ses mains sur vous maintenant.",
+    "Un baiser dans le creux du cou qui dure au moins 8 secondes.",
   ],
-  5:[
-    "Retirez chacun un vêtement, celui que l'autre choisit.",
-    "Murmurez chacun à l'oreille de l'autre ce que vous avez envie de lui faire ce soir.",
-    "Embrassez-vous 10 secondes, là où l'autre le décide.",
-    "Un massage de 2 minutes, torse nu.",
-    "Choisissez ensemble une position à essayer plus tard ce soir.",
-    "Bandez les yeux de l'autre jusqu'à la prochaine question.",
-    "Décrivez votre fantasme du moment en une seule phrase.",
-    "Un baiser sur l'intérieur de la cuisse de l'autre.",
-    "Retirez un vêtement à l'autre, les mains dans le dos.",
-    "Dites sans détour ce qui vous excite le plus chez l'autre.",
-    "Montrez l'endroit où vous préférez être embrassé·e.",
-    "Un baiser langoureux de 20 secondes, mains baladeuses autorisées.",
-    "Choisissez ensemble un jouet ou un accessoire à essayer bientôt.",
-    "Une minute de caresses, les yeux bandés pour qui les reçoit.",
-    "Déshabillez l'autre d'une pièce de votre choix, très lentement.",
+
+  5: [ // Brûlant – explicite, direct, sans accessoire
+    "Retirez chacun un vêtement choisi par l’autre.",
+    "Murmurez à l’oreille de l’autre exactement ce que vous avez envie de lui faire ce soir.",
+    "Embrassez-vous 12 secondes exactement là où l’autre le décide.",
+    "Un massage de 2 minutes, torse nu (ou chemise ouverte).",
+    "Choisissez ensemble une position que vous aimeriez essayer plus tard et décrivez-la brièvement.",
+    "Décrivez votre fantasme du moment en une seule phrase claire et directe.",
+    "Un baiser sur l’intérieur de la cuisse de l’autre.",
+    "Retirez un vêtement à l’autre, les mains dans le dos.",
+    "Dites sans détour ce qui vous excite le plus chez l’autre en ce moment.",
+    "Montrez (en touchant) l’endroit où vous préférez être embrassé·e ou caressé·e.",
+    "Un baiser langoureux de 20 secondes, mains autorisées à se promener.",
+    "Déshabillez l’autre d’une pièce de votre choix, très lentement.",
+    "Décrivez en détail ce que vous aimeriez faire à l’autre dans les 10 prochaines minutes.",
+    "Caressez l’autre pendant une minute exactement comme vous aimeriez être caressé·e.",
+    "Embrassez l’autre là où il/elle vous le demande, et ne bougez plus pendant 15 secondes.",
   ],
 };
 /* Le même défi s'affiche sur les deux téléphones : il dépend de la partie et de la question. */
@@ -141,7 +145,13 @@ const ICON = {
 function icon(markup){ const t = document.createElement("template"); t.innerHTML = markup.trim(); return t.content.firstChild; }
 
 /* ---------- Illustrations des niveaux ---------- */
+/* Mode « Aléatoire » : niveau 0, questions piochées dans les 5 niveaux. */
+const RANDOM = {n:0, name:"Aléatoire", tok:"--accent", tag:"Un mélange des 5 niveaux",
+  about:"Un mélange des 5 niveaux, du plus tendre au plus osé.",
+  dare:{t:"Défis variés", s:"Le défi suit le niveau de chaque question"}};
+function levelOf(n){ return n === 0 ? RANDOM : LEVELS[n - 1]; }
 const LVPIC = {
+  0: '<svg viewBox="0 0 48 48"><rect x="7" y="7" width="34" height="34" rx="9" fill="#fff" stroke="#e2405f" stroke-width="3"/><circle cx="16.5" cy="16.5" r="3.2" fill="#e2405f"/><circle cx="31.5" cy="16.5" r="3.2" fill="#e2405f"/><circle cx="24" cy="24" r="3.2" fill="#e2405f"/><circle cx="16.5" cy="31.5" r="3.2" fill="#e2405f"/><circle cx="31.5" cy="31.5" r="3.2" fill="#e2405f"/></svg>',
   1: '<svg viewBox="0 0 48 48"><path d="M24 7c-1.4-2.3-5.4-1.7-5.4 1.2 0 2.3 3 4.3 5.4 5.9 2.4-1.6 5.4-3.6 5.4-5.9 0-2.9-4-3.5-5.4-1.2z" fill="#ff6b8b"/><rect x="5" y="20" width="15" height="19" rx="4" fill="#ffb3c6"/><path d="M20 25h2.5a3.5 3.5 0 0 1 0 7H20" fill="none" stroke="#ffb3c6" stroke-width="3"/><rect x="26" y="20" width="15" height="19" rx="4" fill="#8ec5ff"/><path d="M41 25h2a3.5 3.5 0 0 1 0 7h-2" fill="none" stroke="#8ec5ff" stroke-width="3"/><path d="M9 28q2 2 4 0M30 28q2 2 4 0" fill="none" stroke="#2b1d22" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="12.5" cy="33" rx="2" ry="1.2" fill="#ff6b8b" opacity=".6"/><ellipse cx="33.5" cy="33" rx="2" ry="1.2" fill="#ff6b8b" opacity=".6"/></svg>',
   2: '<svg viewBox="0 0 48 48"><g transform="rotate(-9 24 24)"><rect x="9" y="7" width="30" height="35" rx="2.5" fill="#ffffff" stroke="#e3d6dc" stroke-width="1.2"/><rect x="12.5" y="10.5" width="23" height="21" rx="1" fill="#bfe3ff"/><circle cx="31" cy="15" r="3" fill="#ffd36b"/><path d="M12.5 31.5l7-8 5 5 3.5-3.5 7.5 6.5z" fill="#7cc47f"/><path d="M24 22.6c-.9-1.5-3.5-1.1-3.5.8 0 1.5 2 2.8 3.5 3.8 1.5-1 3.5-2.3 3.5-3.8 0-1.9-2.6-2.3-3.5-.8z" fill="#ff6b8b"/><path d="M15 37h12" stroke="#c9b5bf" stroke-width="1.6" stroke-linecap="round"/></g></svg>',
   3: '<svg viewBox="0 0 48 48"><path d="M24 44V24" stroke="#3f9b4b" stroke-width="2.6" stroke-linecap="round"/><path d="M24 35c-5-1-8-4-8-8 4 0 7 3 8 8z" fill="#5fb769"/><path d="M24 31c4-.5 6.5-3 7-6.5-3.5.2-6.3 2.6-7 6.5z" fill="#5fb769"/><path d="M14 13c0-5 5-8 10-8s10 3 10 8c0 7-4.5 12-10 12s-10-5-10-12z" fill="#e2405f"/><path d="M18 11c2-3 10-3 12 0-1 4-3 6-6 6s-5-2-6-6z" fill="#c42c4a"/><path d="M21 12c1.5 2 4.5 2 6 0" fill="none" stroke="#ff8fa8" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 15c2 4 5 6 9.5 6" fill="none" stroke="#b81f3e" stroke-width="1.4" stroke-linecap="round"/></svg>',
@@ -324,8 +334,8 @@ const store = {
   del(k){ try { localStorage.removeItem(k); } catch(e){} },
 };
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
-function buildDeck(lvl, n){ return shuffle(Q.filter(x=>x.l===lvl).map(x=>x.id)).slice(0, n || DECK_SIZE); }
-function lvCount(lvl){ return Q.filter(x=>x.l===lvl).length; }
+function buildDeck(lvl, n){ return shuffle(Q.filter(x => lvl === 0 || x.l === lvl).map(x=>x.id)).slice(0, n || DECK_SIZE); }
+function lvCount(lvl){ return Q.filter(x => lvl === 0 || x.l === lvl).length; }
 function deckSize(lvl, n){ return Math.min(n || DECK_SIZE, lvCount(lvl)); }
 /* Insère le prénom à la place de {X}, avec l'élision française : « de Anna » → « d'Anna », « que Hugo » → « qu'Hugo ». */
 function fillName(q, name){
@@ -387,7 +397,7 @@ function keepHist(s){
 }
 function clearHist(){ for (const k in HIST) delete HIST[k]; store.del("dm-hist"); }
 let screen = store.get("dm-adult") === "1" ? "home" : "gate", err = "", lastCardKey = null, handoffOk = "";
-let draft = { name: store.get("dm-name") || "", partner: "", av: store.get("dm-av") || "chat", av2: "lapin", maxL: 5, dares: true, code: "",
+let draft = { name: store.get("dm-name") || "", partner: "", av: store.get("dm-av") || "chat", av2: "lapin", maxL: 5, dares: false, code: "",
   len: LENGTHS.includes(Number(store.get("dm-len"))) ? Number(store.get("dm-len")) : DECK_SIZE };
 
 const PCOL = { host: "var(--p1)", guest: "var(--p2)" };
@@ -532,10 +542,13 @@ function avPicker(key, lbl, hideLabel){
       on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k)), h("span", {class:"avn", "aria-hidden":"true", text:a.n})))));
 }
 function levelPicker(){
-  const L = LEVELS[draft.maxL-1];
+  const L = levelOf(draft.maxL);
   return h("div", {class:"field"},
-    h("label", {id:"lvl-lbl", text:"Niveau"}),
-    h("div", {class:"lvtrack", role:"group", "aria-labelledby":"lvl-lbl"},
+    h("div", {class:"fhead"},
+      h("label", {id:"lvl-lbl", text:"Niveau"}),
+      h("button", {type:"button", class:"rndchip", "aria-pressed": String(draft.maxL === 0), title:"Questions piochées dans les 5 niveaux",
+        on:{click:()=>{ draft.maxL = draft.maxL === 0 ? 1 : 0; render(); }}}, h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[0])), "Aléatoire")),
+    h("div", {class:"lvtrack" + (draft.maxL === 0 ? " rnd" : ""), role:"group", "aria-labelledby":"lvl-lbl"},
       LEVELS.map(X => h("button", {type:"button", class:"lvstep", style:"--lc:var(" + X.tok + ")",
         "aria-pressed": String(draft.maxL === X.n), "aria-label": X.name + ", niveau " + X.n + " sur 5 : " + X.tag,
         on:{click:()=>{ draft.maxL = X.n; render(); }}},
@@ -544,18 +557,19 @@ function levelPicker(){
     h("div", {class:"lvinfo", style:"--lc:var(" + L.tok + ")", "aria-live":"polite"},
       h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
       h("span", {class:"txt"},
-        h("span", {class:"hd"}, h("b", {text: L.name}), h("span", {class:"heat", text:"Intensité " + L.n + "/5"})),
+        h("span", {class:"hd"}, h("b", {text: L.name}), h("span", {class:"heat", text: L.n === 0 ? "Les 5 niveaux" : "Intensité " + L.n + "/5"})),
         h("span", {class:"ab", text: L.about}),
         QBY[L.ex] ? h("span", {class:"ex", text:"Ex. : « " + QBY[L.ex].q + " »"}) : null)));
 }
 function explainDares(){
-  const L = LEVELS[draft.maxL-1]; const list = DARES[L.n];
-  const examples = [list[0], list[Math.floor(list.length / 3)], list[Math.floor(2 * list.length / 3)]];
+  const L = levelOf(draft.maxL); const list = DARES[L.n] || [];
+  const examples = L.n === 0 ? [DARES[1][0], DARES[3][3], DARES[5][1]]   // aléatoire : un défi doux, un charmeur, un brûlant
+    : [list[0], list[Math.floor(list.length / 3)], list[Math.floor(2 * list.length / 3)]];
   ask({ icon:"info", cancel:false, confirm:"Compris", title: L.dare.t,
     text:"Quand vos réponses ne collent pas, un petit défi s'affiche, à faire ensemble avant la question suivante. "
-      + "Son ton suit le niveau choisi. C'est toujours facultatif : on peut passer son tour.",
+      + (L.n === 0 ? "En mode Aléatoire, son ton suit le niveau de chaque question. " : "Son ton suit le niveau choisi. ") + "C'est toujours facultatif : on peut passer son tour.",
     body: h("div", {class:"dex", style:"--lc:var(" + L.tok + ")"},
-      h("span", {class:"dex-t"}, h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])), "Exemples en " + L.name),
+      h("span", {class:"dex-t"}, h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])), L.n === 0 ? "Exemples, du plus doux au plus osé" : "Exemples en " + L.name),
       h("ul", null, examples.map(d => h("li", {text: d})))),
     onConfirm: ()=>{} });
 }
@@ -623,7 +637,7 @@ function privacyNote(){
 }
 /* Nombre de questions, puis défis en dessous. */
 function optionsRow(){
-  const L = LEVELS[draft.maxL-1];
+  const L = levelOf(draft.maxL);
   const tone = L.dare.t.replace(/^Défis /, "");
   return h("div", {class:"opts2"},
     h("div", {class:"orow2"},
@@ -666,7 +680,7 @@ function viewLobby(){
     h("h2", {text: isHost ? (guest ? guest.name + " est là" : "Envoie ce code à ta moitié") : "Session de " + pname(S,"host")}),
     h("div", {class:"codebox"}, h("span", {class:"eyebrow", text:"Code de la session"}),
       h("div", {class:"codebig", "aria-label":"Code " + S.code.replace("-", "").split("").join(" "), text:S.code}),
-      h("span", {class:"muted", style:"font-size:14px", text: S.deck && S.deck.length ? S.deck.length + " questions · " + LEVELS[S.maxL-1].name : deckSize(S.maxL, S.n) + " questions · niveau " + LEVELS[S.maxL-1].name + (S.dares ? " · avec défis" : "")})),
+      h("span", {class:"muted", style:"font-size:14px", text: S.deck && S.deck.length ? S.deck.length + " questions · " + levelOf(S.maxL).name : deckSize(S.maxL, S.n) + " questions · " + levelOf(S.maxL).name + (S.dares ? " · avec défis" : "")})),
     guest ? (isHost ? btn("primary", "next", "Commencer avec " + guest.name, startGame) : waiting(pname(S,"host") + " va lancer la partie"))
           : waiting("En attente de ta moitié"),
     S.code ? h("div", {class:"row share"}, btn("ghost mini wide", "copy", "Copier", copyCode, {"aria-label": "Copier le code"}), btn("ghost mini wide", "share", "Partager", shareInvite),
@@ -752,11 +766,11 @@ function endStats(){
   const n = syncCount(S), tot = playedCount(S), pct = tot ? Math.round(n / tot * 100) : 0;
   const skipped = Object.values(S.results || {}).filter(v => v === null).length;
   const msg = pct >= 80 ? "Vous vous connaissez par cœur." : pct >= 60 ? "Très belle complicité, avec encore quelques surprises." : pct >= 40 ? "Il vous reste plein de choses à découvrir l'un sur l'autre." : "Beaucoup de surprises ce soir. De quoi alimenter la conversation.";
-  const levels = LEVELS.filter(L => L.n === S.maxL).map(L => {
+  const levels = LEVELS.filter(L => S.maxL === 0 || L.n === S.maxL).map(L => {
     let ok = 0, all = 0;
     S.deck.forEach((id, i) => { const v = S.results && S.results[i]; if (QBY[id].l === L.n && (v === true || v === false)){ all++; if (v) ok++; } });
     return { L, ok, all };
-  });
+  }).filter(x => S.maxL !== 0 || x.all > 0);
   const rows = S.deck.map((id, i) => {
     const c = QBY[id]; const tg = i % 2 === 0 ? "guest" : "host";
     const hv = HIST[S.round + ":" + i];
@@ -820,7 +834,7 @@ async function recapImage(){
       ctx.textAlign = "left"; ctx.fillStyle = "#2b1020"; ctx.font = "800 30px " + BODY; ctx.fillText(x.L.name, P, y + 32);
       const bx = P + 250, bw = W - 2*P - 250 - 110;
       rr(ctx, bx, y + 12, bw, 24, 12); ctx.fillStyle = "#f1dbe3"; ctx.fill();
-      if (x.ok){ rr(ctx, bx, y + 12, Math.max(24, bw * x.ok / x.all), 24, 12); ctx.fillStyle = lvCol[k]; ctx.fill(); }
+      if (x.ok){ rr(ctx, bx, y + 12, Math.max(24, bw * x.ok / x.all), 24, 12); ctx.fillStyle = lvCol[x.L.n - 1]; ctx.fill(); }
       ctx.textAlign = "right"; ctx.fillStyle = "#2b1020"; ctx.font = "700 30px " + BODY; ctx.fillText(x.ok + " / " + x.all, W - P, y + 32);
       y += 58;
     });
@@ -904,7 +918,7 @@ function viewEnd(){
         h("span", {class:"amp", text:"&"}), h("span", {class:"p"}, h("span", {class:"ava"}, avatarSvg(S.players.guest.av)), pname(S,"guest"))),
       h("span", {class:"eyebrow", text:"Votre complicité"}), h("b", {text: st.pct + " %"}),
       h("p", {text: st.n + " réponses en phase sur " + st.tot + (st.skipped ? " (" + st.skipped + (st.skipped > 1 ? " passées)" : " passée)") : "") + ". " + st.msg}),
-      h("div", {class:"bylv"}, st.levels.map(x => h("div", null, h("span", {text:x.L.name}), h("span", {text: x.ok + " / " + x.all}))))),
+      h("div", {class:"bylv" + (st.levels.length > 1 ? " multi" : "")}, st.levels.map(x => h("div", null, h("span", {text:x.L.name}), h("span", {text: x.ok + " / " + x.all}))))),
     h("div", {class:"exp"},
       disagreements(st).length
         ? btn("link", null, "Revoir vos désaccords (" + disagreements(st).length + ")", ()=>showDisagreements(st))
@@ -996,7 +1010,7 @@ function askLeave(){
 }
 function askReplay(){
   ask({ icon:"replay", confirm:"Rejouer", title:"Nouvelle partie ?",
-    text:"Les questions du niveau " + LEVELS[S.maxL-1].name + " sont remélangées et le score repart à zéro" + (local ? "." : " pour vous deux."),
+    text:(S.maxL === 0 ? "De nouvelles questions sont tirées dans les 5 niveaux" : "Les questions du niveau " + levelOf(S.maxL).name + " sont remélangées") + " et le score repart à zéro" + (local ? "." : " pour vous deux."),
     onConfirm: ()=>{ exportMsg = ""; startGame(); } });
 }
 /* Lien d'invitation : ouvre le jeu sur « Rejoindre » avec le code déjà rempli. */
