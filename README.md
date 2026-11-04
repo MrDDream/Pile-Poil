@@ -17,6 +17,8 @@ Site statique : HTML, CSS et JavaScript, sans framework ni étape de build.
 | --- | --- |
 | `index.html` | La page |
 | `style.css` | Les styles (couleurs, thème sombre) |
+| `fonts.css`, `fonts/` | Les polices Fredoka et Nunito, servies par le site (licence OFL) |
+| `confidentialite.html` | Confidentialité et mentions légales |
 | `app.js` | Le jeu : questions, défis, avatars, écrans |
 | `storage.js` | Le lien avec Firebase Firestore pour les sessions à distance |
 | `firebase-config.js` | Ta configuration Firebase (vide par défaut) |
@@ -39,10 +41,17 @@ Puis ouvre http://localhost:8000.
 Sans configuration, seul le mode « un seul téléphone » est proposé. Pour jouer sur deux téléphones :
 
 1. Crée un projet sur https://console.firebase.google.com (le forfait gratuit Spark suffit).
-2. **Build → Firestore Database → Créer une base de données**, en mode production, région `eur3` (Europe).
+2. **Build → Firestore Database → Créer une base de données**, en mode production, région `eur3` (Europe). La page de confidentialité indique un hébergement en Europe : garde-la à jour si tu choisis une autre région.
 3. Onglet **Règles** : remplace le contenu par celui de `firestore.rules`, puis **Publier**.
 4. **Paramètres du projet → Vos applications → Web (`</>`)** : enregistre une application, puis copie l'objet `firebaseConfig` dans `firebase-config.js`.
-5. Facultatif mais conseillé : pour que les vieilles sessions s'effacent toutes seules, va dans **Firestore → TTL** et crée une règle sur la collection `sessions`, champ `expireAt`. Chaque session expire 48 h après sa dernière activité.
+
+Ne passe pas à la formule payante Blaze : la formule Spark ne demande pas de carte bancaire et ne peut donc rien facturer.
+
+## Données et vie privée
+
+- Quitter la partie supprime la session pour les deux joueurs.
+- Le serveur ne garde que la réponse en cours (remise à zéro à chaque question) et, pour chaque question jouée, « en phase » oui ou non. L'historique détaillé reste dans les navigateurs.
+- Les règles rendent illisible toute session inactive depuis 48 h. Les sessions abandonnées restent stockées jusqu'à ce que leur code soit réutilisé : pour les supprimer, efface la collection `sessions` dans la console Firebase de temps en temps. Le TTL automatique de Firestore n'est pas utilisé, car il exige la formule payante.
 
 La clé `apiKey` de Firebase n'est pas un secret : elle peut être publiée sur GitHub. C'est `firestore.rules` qui protège la base.
 

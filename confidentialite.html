@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Confidentialité · Pile-poil</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#a8243e">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    try { var t = localStorage.getItem("dm-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  </script>
+  <style>
+    .legal{display:flex;flex-direction:column;gap:22px}
+    .legal h1{font-family:var(--display);font-weight:600;font-size:32px;line-height:1.15;margin:0}
+    .legal h2{font-size:21px}
+    .legal section{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px}
+    .legal p,.legal li{font-size:15.5px;line-height:1.55}
+    .legal ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+    .legal a{color:var(--accent);text-underline-offset:3px}
+    .legal .back{align-self:flex-start;font-weight:700;text-decoration:none}
+    .legal .tldr{background:var(--accent-soft);border-color:transparent}
+  </style>
+</head>
+<body>
+<div class="wrap legal">
+  <a class="back" href="./">← Retour au jeu</a>
+  <h1>Confidentialité et mentions légales</h1>
+  <p class="muted">Dernière mise à jour : 4 novembre 2026</p>
+
+  <section class="tldr">
+    <h2>En bref</h2>
+    <ul>
+      <li>Pas de compte, pas de publicité, pas de mesure d'audience, pas de cookie.</li>
+      <li>Sur un seul téléphone, rien ne quitte ton appareil.</li>
+      <li>Sur deux téléphones, seuls vos prénoms, vos avatars et la réponse en cours passent par le serveur. L'historique de vos réponses reste sur vos téléphones.</li>
+      <li>La session est effacée dès que l'un de vous quitte la partie.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Jeu réservé aux adultes</h2>
+    <p>Pile-poil est un jeu pour couples majeurs. Certains niveaux abordent la sexualité de façon explicite. En continuant après l'écran d'accueil, tu confirmes avoir 18 ans ou plus.</p>
+  </section>
+
+  <section>
+    <h2>Sur un seul téléphone</h2>
+    <p>Aucune donnée n'est envoyée. La partie se déroule entièrement dans ton navigateur et disparaît quand tu fermes la page.</p>
+    <p>Pour t'éviter de tout ressaisir, le navigateur garde localement ton dernier prénom, ton avatar, le thème clair ou sombre et ta confirmation d'âge. Ces informations restent sur ton appareil ; tu peux les effacer en vidant les données du site dans ton navigateur.</p>
+  </section>
+
+  <section>
+    <h2>Sur deux téléphones</h2>
+    <p>Pour que vos deux téléphones se synchronisent, une « session » est enregistrée dans une base de données Google Firebase (Cloud Firestore), hébergée en Europe. Elle contient :</p>
+    <ul>
+      <li>le code de la session, vos prénoms et vos avatars ;</li>
+      <li>le niveau choisi, l'option défis, l'ordre des questions et la question en cours ;</li>
+      <li>la réponse en cours de chacun, remise à zéro à chaque nouvelle question ;</li>
+      <li>pour chaque question déjà jouée, seulement si vous étiez « en phase » (oui ou non) ;</li>
+      <li>les dates de création et d'expiration de la session.</li>
+    </ul>
+    <p>L'historique détaillé de vos réponses n'est jamais stocké sur le serveur : il reste sur vos téléphones, pour afficher le bilan, et disparaît quand vous fermez la page.</p>
+    <p><strong>Durée de conservation.</strong> La session est supprimée dès que l'un de vous appuie sur « Quitter ». Si la partie est abandonnée sans quitter, la session devient illisible pour tout le monde 48 h après la dernière activité, puis elle est écrasée lorsqu'une nouvelle partie réutilise le même code, ou supprimée lors d'un nettoyage manuel de la base.</p>
+    <p><strong>Base légale.</strong> Ton consentement : tu choisis de créer ou de rejoindre une session, après avoir été informé·e de ce qui est enregistré (articles 6.1.a et 9.2.a du RGPD).</p>
+  </section>
+
+  <section>
+    <h2>Données techniques</h2>
+    <p>Comme pour tout site web, les hébergeurs (GitHub pour la page, Google pour la base de données) reçoivent techniquement ton adresse IP lors de la connexion et peuvent la conserver dans leurs journaux de sécurité. Ce sont des sociétés américaines ; ces transferts s'appuient sur les garanties qu'elles proposent, comme le Data Privacy Framework UE–États-Unis ou les clauses contractuelles types de la Commission européenne.</p>
+    <p>Les polices de caractères sont servies directement par ce site : aucune requête n'est faite à Google Fonts.</p>
+  </section>
+
+  <section>
+    <h2>Tes droits</h2>
+    <p>Tu disposes d'un droit d'accès, de rectification, d'effacement et d'opposition sur tes données, et tu peux retirer ton consentement à tout moment. Le plus simple : quitter la partie, ce qui efface la session. Pour toute autre demande, contacte l'éditeur (ci-dessous). Tu peux aussi adresser une réclamation à la <a href="https://www.cnil.fr/fr/plaintes">CNIL</a>.</p>
+  </section>
+
+  <section>
+    <h2>Mentions légales</h2>
+    <p><strong>Éditeur.</strong> MrDDream, particulier, à titre non professionnel et sans but lucratif. Conformément à l'article 6-III-2 de la loi pour la confiance dans l'économie numérique (LCEN), l'éditeur a choisi de rester anonyme ; ses coordonnées ont été communiquées à l'hébergeur. Contact : via <a href="https://github.com/MrDDream/Pile-Poil/issues">le dépôt GitHub du projet</a>.</p>
+    <p><strong>Hébergement du site.</strong> GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (<a href="https://github.com">github.com</a>).</p>
+    <p><strong>Base de données des sessions.</strong> Google Cloud Firestore (Firebase), un service de Google, région Europe.</p>
+    <p><strong>Code source.</strong> Le code est libre, sous licence MIT : <a href="https://github.com/MrDDream/Pile-Poil">github.com/MrDDream/Pile-Poil</a>. Les polices Fredoka et Nunito sont sous licence SIL Open Font License 1.1.</p>
+  </section>
+
+  <a class="back" href="./">← Retour au jeu</a>
+</div>
+</body>
+</html>

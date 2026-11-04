@@ -13,17 +13,23 @@ service cloud.firestore {
       function validShape() {
         return request.resource.data.keys().hasOnly([
           'code', 'createdAt', 'maxL', 'dares', 'players', 'phase',
-          'deck', 'idx', 'answers', 'results', 'hist', 'round', 'expireAt'
-        ]);
+          'deck', 'idx', 'answers', 'results', 'round', 'expireAt'
+        ])
+        && request.resource.data.expireAt is timestamp
+        && request.resource.data.expireAt <= request.time + duration.value(49, 'h');
       }
 
-      // Lire une session dont on connaît le code : oui.
+      // Lire une session dont on connaît le code : oui, tant qu'elle a moins de 48 h
+      // d'inactivité. Passé ce délai, elle devient illisible pour tout le monde.
       // Lister toutes les sessions : non (personne ne peut parcourir les codes).
-      allow get: if validCode();
+      allow get: if validCode() && (resource == null || resource.data.expireAt > request.time);
       allow list: if false;
 
+      // Une session expirée peut être écrasée par une nouvelle partie qui tire le même code.
       allow create, update: if validCode() && validShape();
-      allow delete: if false;
+
+      // Quitter la partie efface la session pour les deux joueurs.
+      allow delete: if validCode();
     }
 
     // Tout le reste est fermé.

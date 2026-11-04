@@ -59,7 +59,15 @@
       doc(path) {
         const ref = fs.doc(firestore, path);
         return {
-          async get() { return wrap(await fs.getDoc(ref)); },
+          async get() {
+            try { return wrap(await fs.getDoc(ref)); }
+            catch (e) {
+              // Les règles refusent la lecture d'une session de plus de 48 h : on la traite comme inexistante.
+              if (e && e.code === "permission-denied") return { exists: false, data: () => undefined };
+              throw e;
+            }
+          },
+          async delete() { await fs.deleteDoc(ref); },
           async set(value) { await fs.setDoc(ref, Object.assign({}, value, { expireAt: expireAt() })); },
           async update(patch) {
             const args = [];

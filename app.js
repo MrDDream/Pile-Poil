@@ -157,6 +157,7 @@ function localDoc(){
     async get(){ return {exists: !!data, data: () => data ? clone(data) : undefined}; },
     async set(v){ data = clone(v); emit(); },
     async update(v){ data = merge(data || {}, clone(v)); emit(); },
+    async delete(){ data = null; },
     onSnapshot(fn){ subs.add(fn); setTimeout(emit, 0); return () => subs.delete(fn); },
   };
 }
@@ -164,6 +165,12 @@ let db = null, dbChecked = false;
 
 /* ---------- État ---------- */
 let S = null, ref = null, unsub = null, role = null, local = false;
+/* Historique des réponses, gardé seulement dans ce navigateur (jamais envoyé au serveur). Clé : "round:idx". */
+const HIST = {};
+function keepHist(s){
+  if (s && s.phase === "play" && ansOf(s,"host") !== null && ansOf(s,"guest") !== null)
+    HIST[s.round + ":" + s.idx] = { h: ansOf(s,"host"), g: ansOf(s,"guest") };
+}
 let screen = store.get("dm-adult") === "1" ? "home" : "gate", err = "", lastCardKey = null, handoffOk = "";
 let draft = { name: store.get("dm-name") || "", partner: "", av: store.get("dm-av") || "chat", av2: "lapin", maxL: 5, dares: true, code: "" };
 
@@ -184,12 +191,17 @@ function attach(r, isLocal, docRef, code){
   role = r; local = isLocal; ref = docRef; S = null;
   if (!isLocal){ store.set("dm-role-" + code, r); store.set("dm-last", code); }
   unsub = ref.onSnapshot(snap => {
-    if (!snap.exists){ S = null; err = "Cette session n'existe plus."; screen = "home"; render(); return; }
-    S = snap.data(); render();
+    if (!snap.exists){
+      err = S && !local ? "Ta moitié a quitté la partie : la session a été effacée." : "Cette session n'existe plus.";
+      S = null; screen = "home"; if (code) store.del("dm-last"); render(); return;
+    }
+    S = snap.data(); keepHist(S); render();
   }, () => { err = "Connexion perdue avec la session. Rouvre la page pour la reprendre."; render(); });
 }
 function leave(){
   if (unsub) unsub(); unsub = null;
+  // Partie à distance : on efface la session du serveur pour les deux joueurs.
+  if (ref && !local && ref.delete) ref.delete().catch(() => {});
   if (S && S.code) store.del("dm-role-" + S.code);
   store.del("dm-last");
   S = null; ref = null; role = null; local = false; screen = "home"; err = ""; exportMsg = ""; render();
@@ -249,10 +261,11 @@ const startGame = () => act(() => ref.set(Object.assign(
 function answer(r, val){ const p = {answers:{}}; p.answers[r] = val; return act(() => ref.update(p)); }
 function next(){
   const i = S.idx + 1; const res = {}; res[S.idx] = isMatch(S);
-  const hist = {}; hist[S.idx] = { h: ansOf(S,"host"), g: ansOf(S,"guest") };
-  const patch = { results: res, hist };
+  keepHist(S);
+  // Les réponses sont remises à zéro à chaque question : le serveur ne garde que « en phase » oui/non.
+  const patch = { results: res, answers: {host:null, guest:null} };
   if (i >= S.deck.length) patch.phase = "end";
-  else { patch.idx = i; patch.answers = {host:null, guest:null}; }
+  else patch.idx = i;
   return act(() => ref.update(patch));
 }
 
@@ -336,13 +349,17 @@ function viewHome(){
     errLine()
   ];
 }
+function privacyNote(){
+  return h("p", {class:"note"}, "Pendant la partie, vos prénoms et la réponse en cours passent par notre serveur. La session est effacée dès que l'un de vous quitte, et devient illisible au bout de 48 h. ",
+    h("a", {href:"confidentialite.html", text:"En savoir plus"}));
+}
 function viewCreate(){
   return [brand(false), h("section", {class:"panel"},
     h("h2", {text:"Nouvelle session"}),
     nameField("host-name", "Ton prénom", "name", "ex. Julien"),
     avPicker("av", "Ta photo de profil"),
     levelPicker(), dareSwitch(),
-    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Obtenir le code", createSession))), errLine()];
+    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Obtenir le code", createSession)), privacyNote()), errLine()];
 }
 function viewLocal(){
   return [brand(false), h("section", {class:"panel"},
@@ -363,7 +380,7 @@ function viewJoin(){
         on:{input:e=>{ draft.code = e.target.value.toUpperCase(); }}})),
     nameField("guest-name", "Ton prénom", "name", "ex. Léa"),
     avPicker("av", "Ta photo de profil"),
-    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Rejoindre", joinSession))), errLine()];
+    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Rejoindre", joinSession)), privacyNote()), errLine()];
 }
 function viewLobby(){
   const guest = S.players && S.players.guest; const isHost = role === "host";
@@ -458,7 +475,7 @@ function endStats(){
   });
   const rows = S.deck.map((id, i) => {
     const c = QBY[id]; const tg = i % 2 === 0 ? "guest" : "host";
-    const hv = S.hist && S.hist[i];
+    const hv = HIST[S.round + ":" + i];
     const lab = (v) => (v === null || v === undefined) ? "—" : (c.t === "who" ? pname(S, v) : c.o[v]);
     return { c, q: c.q.replace("{X}", pname(S, tg)), h: hv ? lab(hv.h) : "—", g: hv ? lab(hv.g) : "—", ok: !!(S.results && S.results[i]) };
   });
@@ -664,9 +681,9 @@ function askLeave(){
   const inGame = S.phase === "play";
   ask({ icon:"exit", danger:true, confirm:"Quitter",
     title: S.phase === "end" ? "Quitter le bilan ?" : inGame ? "Quitter la partie ?" : "Quitter la session ?",
-    text: S.phase === "end" ? "Pensez à exporter le récap avant de partir : il ne sera plus affiché ensuite."
+    text: S.phase === "end" ? "Pensez à exporter le récap avant de partir : " + (local ? "il ne sera plus affiché ensuite." : "la session sera effacée pour vous deux.")
       : local ? "La partie en cours sera perdue."
-      : "Tu quittes cet écran. Tant que la session existe, tu pourras revenir avec le code " + S.code + "." });
+      : "La session sera effacée pour vous deux." });
   modal.onConfirm = leave;
 }
 function askReplay(){
