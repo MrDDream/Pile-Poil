@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// Règles de sécurité Firestore pour Pile-poil.
+// À coller dans la console Firebase → Firestore Database → Règles.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Une session = un document dont l'identifiant est le code à 4 caractères.
+    match /sessions/{code} {
+      function validCode() {
+        return code.matches('^[A-HJ-NP-Z2-9]{4}$');
+      }
+      function validShape() {
+        return request.resource.data.keys().hasOnly([
+          'code', 'createdAt', 'maxL', 'dares', 'players', 'phase',
+          'deck', 'idx', 'answers', 'results', 'hist', 'round', 'expireAt'
+        ]);
+      }
+
+      // Lire une session dont on connaît le code : oui.
+      // Lister toutes les sessions : non (personne ne peut parcourir les codes).
+      allow get: if validCode();
+      allow list: if false;
+
+      allow create, update: if validCode() && validShape();
+      allow delete: if false;
+    }
+
+    // Tout le reste est fermé.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

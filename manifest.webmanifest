@@ -1,0 +1,14 @@
+{
+  "name": "Pile-poil",
+  "short_name": "Pile-poil",
+  "description": "Le jeu de questions pour couples.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f0f4",
+  "theme_color": "#a8243e",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
