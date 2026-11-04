@@ -4,10 +4,13 @@ Le jeu de questions pour couples. Répondez chacun de votre côté, puis découv
 
 **Jouer : https://mrddream.github.io/Pile-Poil/**
 
-- 5 niveaux, de « Complicité » à « Brûlant » (réservé aux adultes)
-- Deux modes : **un seul téléphone** qu'on se passe, ou **deux téléphones** reliés par un code à 4 lettres
+- 5 niveaux, de « Complicité » à « Brûlant » (réservé aux adultes), environ 240 questions par niveau
+- Chaque partie tire 30 questions au hasard dans le niveau choisi
+- Deux modes : **un seul téléphone** qu'on se passe, ou **deux téléphones** reliés par un code à 8 caractères (ex. `K7QM-3XRP`), à partager par lien
 - Défis quand vos réponses ne collent pas, et un récap à exporter en image ou en texte
-- Thème clair et sombre, installable sur l'écran d'accueil
+- Thème clair et sombre, pensé pour tenir sur un écran de téléphone sans défilement
+- Application web installable (PWA) : bouton « Installer l'app », jeu à un téléphone hors connexion
+- Bouton « Partager » : envoie un lien d'invitation qui ouvre le jeu avec le code déjà rempli
 
 Site statique : HTML, CSS et JavaScript, sans framework ni étape de build.
 
@@ -19,12 +22,39 @@ Site statique : HTML, CSS et JavaScript, sans framework ni étape de build.
 | `style.css` | Les styles (couleurs, thème sombre) |
 | `fonts.css`, `fonts/` | Les polices Fredoka et Nunito, servies par le site (licence OFL) |
 | `confidentialite.html` | Confidentialité et mentions légales |
-| `app.js` | Le jeu : questions, défis, avatars, écrans |
+| `app.js` | Le jeu : niveaux, défis, avatars, écrans |
+| `questions/` | Les questions, un fichier par niveau |
+| `tools/check-questions.js` | Vérifie les fichiers de questions |
+| `sw.js` | Service worker : installation et mode hors ligne |
+| `manifest.webmanifest`, `icons/` | Nom, couleurs et icônes de l'app installée |
 | `storage.js` | Le lien avec Firebase Firestore pour les sessions à distance |
 | `firebase-config.js` | Ta configuration Firebase (vide par défaut) |
 | `firestore.rules` | Les règles de sécurité de la base |
 
-Les questions et les défis sont au début de `app.js` (`LEVELS`, `Q`, `DARES`).
+## Application installable (PWA)
+
+`sw.js` garde une copie des fichiers pour le mode hors ligne. Il sert toujours la version en ligne quand le réseau est là, donc une mise à jour du site arrive tout de suite. Si tu ajoutes un fichier au site (une page, un fichier de questions…), ajoute-le aussi à la liste `SHELL` de `sw.js` pour qu'il marche hors ligne.
+
+## Ajouter ou modifier des questions
+
+Chaque niveau a son fichier dans `questions/`. Deux types de questions :
+
+```js
+{id:"a12",l:1,t:"who",q:"Qui de nous deux chante le plus faux ?"},
+{id:"a13",l:1,t:"guess",q:"Le petit-déjeuner idéal de {X} ?",o:["Sucré","Salé","Juste un café","Rien du tout"]},
+```
+
+- `who` : « Qui de nous deux… », chacun désigne l'un des deux.
+- `guess` : `{X}` est remplacé par le prénom d'un des joueurs ; il ou elle répond pour soi, l'autre devine parmi les 4 options. L'élision est automatique (« de Anna » devient « d'Anna »).
+- Un `id` ne doit jamais changer ni être réutilisé.
+
+Après une modification, lance la vérification :
+
+```bash
+node tools/check-questions.js
+```
+
+Les niveaux et les défis sont au début de `app.js` (`LEVELS`, `DARES`). Le nombre de questions par partie est `DECK_SIZE`.
 
 ## Tester en local
 

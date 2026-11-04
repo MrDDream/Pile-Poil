@@ -5,10 +5,11 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Une session = un document dont l'identifiant est le code à 4 caractères.
+    // Une session = un document dont l'identifiant est son code : 8 caractères
+    // avec un tiret au milieu, sans I, O, 0 ni 1 (ex. K7QM-3XRP).
     match /sessions/{code} {
       function validCode() {
-        return code.matches('^[A-HJ-NP-Z2-9]{4}$');
+        return code.matches('^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$');
       }
       function validShape() {
         return request.resource.data.keys().hasOnly([

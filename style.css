@@ -221,3 +221,143 @@ footer{color:var(--muted);font-size:12px;text-align:center}
 /* Mentions de confidentialité */
 .note{font-size:13px;color:var(--muted);text-align:center;line-height:1.45;text-wrap:balance}
 .note a,footer a{color:inherit;text-underline-offset:3px}
+
+/* ===== Mise en page compacte : tout tient sur un écran de téléphone, sans défilement ===== */
+body{padding-block:8px 10px}
+.wrap{gap:10px;min-height:calc(100vh - 18px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:calc(100dvh - 18px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+main{flex:1;display:flex;flex-direction:column}
+.view{flex:1;display:flex;flex-direction:column;gap:12px}
+footer{margin-top:auto;font-size:11.5px;line-height:1.5}
+body[data-screen="play"] footer,body[data-screen="lobby"] footer,body[data-screen="end"] footer{display:none}
+.err:empty,.toast:empty{display:none}
+
+/* Barre du haut : 40 px, avec le petit logo sur les écrans secondaires */
+.toolbar{min-height:40px}
+.tb{min-height:40px;padding:0 12px;font-size:13.5px}
+.tb.icon{width:40px}
+.toolbar .spacer{flex:1}
+.toolbar .brand svg{width:30px;height:30px}
+.toolbar .brand h1{font-size:21px}
+
+/* Accueil : logo et titre s'adaptent à la hauteur de l'écran */
+body[data-screen="home"] .view,body[data-screen="gate"] .view,body[data-screen="minor"] .view{justify-content:center}
+.brand.big{gap:4px;padding-top:0}
+.brand.big svg{width:clamp(52px,11vh,96px);height:clamp(52px,11vh,96px)}
+.brand.big h1{font-size:clamp(34px,6.5vh,52px)}
+.lead{font-size:clamp(14.5px,2.3vh,17px);line-height:1.45}
+.parade .ava{width:clamp(30px,5.5vh,44px);height:clamp(30px,5.5vh,44px);border-width:2px}
+@media (max-height:560px){.parade{display:none}}
+
+/* Panneaux, champs et boutons */
+h2{font-size:24px}
+.panel{padding:16px;gap:12px;border-radius:18px}
+.field{gap:6px}
+label,.eyebrow{font-size:11px}
+input[type=text]{min-height:46px;font-size:16px;padding:10px 12px}
+input.code{font-size:26px}
+button{min-height:48px;border-radius:14px}
+.stack{gap:8px}
+.divider{font-size:12px}
+.intro{font-size:14px;line-height:1.4}
+.note{font-size:12px;line-height:1.4}
+
+/* Avatars : une seule ligne de 8, ou 4 × 2 quand les deux joueurs sont côte à côte */
+.avpick{grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}
+.avbtn{padding:3px;border-radius:12px;min-height:0}
+.avbtn .ava{max-width:44px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair .avpick{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pair input[type=text]{min-width:0}
+
+/* Niveaux et défis */
+.levels{gap:4px}
+.lv{padding:7px 2px 6px;gap:4px;border-radius:14px}
+.lv .pic{max-width:36px}
+.lvsum{font-size:12.5px;padding:7px 10px;line-height:1.35}
+.toggle{padding:9px 12px;gap:12px;border-radius:16px}
+.toggle .ic{width:36px;height:36px;border-radius:12px}
+.toggle .ic svg{width:22px;height:22px}
+.toggle .tx b{font-size:15.5px}
+.toggle .tx span{font-size:12.5px}
+
+/* Salon d'attente */
+.codebox{padding:12px}
+.codebig{font-size:44px}
+
+/* En-tête de partie : les deux joueurs et le score sur une ligne */
+.top{gap:8px;align-items:center}
+.players{flex:1;min-width:0;flex-wrap:nowrap;gap:6px}
+.pl{flex:1 1 0;min-width:0;padding:3px 8px 3px 3px;gap:6px}
+.pl .av{width:28px;height:28px}
+.pl .pn{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.pl .pn .nm{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl .st{font-size:11px}
+.sync{flex:none}
+.sync b{font-size:21px}
+.sync span{font-size:10px}
+.levelbar .nm{font-size:11px}
+.levelbar .ct{font-size:12px}
+
+/* Carte question */
+.card{padding:16px 14px 14px;gap:12px;border-radius:20px}
+.chip{font-size:10.5px;padding:5px 10px;text-align:center;max-width:100%}
+.q{font-size:clamp(19px,3.4vh,25px);line-height:1.22}
+.hint{font-size:14px;line-height:1.35}
+.opts{gap:6px}
+.opt{min-height:46px;padding:8px 14px;font-size:15.5px;line-height:1.25}
+.opts.two .opt{min-height:80px;font-size:16px;gap:4px}
+.opts.two .opt .av{width:44px;height:44px}
+.handoff{gap:10px;padding:4px 0}
+.handoff .av{width:60px;height:60px}
+.reveal{gap:6px}
+.rv{padding:9px 11px;gap:4px}
+.rv strong{font-size:15px}
+.result b{font-size:22px}
+.result span{font-size:14px}
+.dare{padding:10px 12px}
+.dare p{font-size:16.5px}
+
+/* Bilan */
+.final{gap:4px}
+.final b{font-size:clamp(44px,8vh,64px)}
+.final p{font-size:14.5px;line-height:1.4}
+.duo{gap:10px;margin-bottom:2px}
+.duo .ava{width:clamp(44px,8vh,60px);height:clamp(44px,8vh,60px)}
+.duo .amp{font-size:22px}
+.final .bylv{margin-top:4px}
+.final .bylv div{padding:6px 10px}
+.exp{gap:8px}
+.exp p{font-size:12.5px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.lvsum{gap:0}
+
+/* Petits écrans : on retire le décoratif des formulaires */
+@media (max-height:700px){
+  .lv .pic{display:none}
+  .lv{padding:8px 2px 7px}
+  .toggle .tx span{display:none}
+  .toggle .ic{width:30px;height:30px}
+  .toggle .ic svg{width:18px;height:18px}
+  .panel>h2{font-size:21px}
+}
+@media (max-height:600px){
+  .panel>h2{display:none}
+  .lvsum span:first-child{display:none}
+}
+
+/* Codes à 8 caractères (K7QM-3XRP) et boutons de partage */
+.codebig{font-size:clamp(30px,10vw,40px);letter-spacing:.12em;padding-left:.12em;white-space:nowrap}
+input.code{font-size:24px;letter-spacing:.14em;padding-left:calc(12px + .14em)}
+.row.share{gap:8px}
+.row.share>button{flex:1 1 0;min-height:42px;font-size:14px;padding:0 10px}
+@media (max-height:580px){
+  .lvsum{display:none}
+  .final b{font-size:40px}
+  .duo .ava{width:42px;height:42px}
+}
+@media (max-height:580px){
+  .result span{display:none}
+  .dare{padding:8px 10px}
+  .dare p{font-size:15px}
+  .card{gap:10px}
+}

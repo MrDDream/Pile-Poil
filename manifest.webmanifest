@@ -1,14 +1,21 @@
 {
+  "id": "./",
   "name": "Pile-poil",
   "short_name": "Pile-poil",
-  "description": "Le jeu de questions pour couples.",
+  "description": "Le jeu de questions pour couples : répondez chacun de votre côté, puis découvrez si vous êtes sur la même longueur d'onde.",
   "lang": "fr",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f3f0f4",
   "theme_color": "#a8243e",
+  "categories": ["games", "entertainment", "lifestyle"],
   "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
 }

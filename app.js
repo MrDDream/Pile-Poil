@@ -11,58 +11,9 @@ const LEVELS = [
   {n:4, name:"Coquin",     tok:"--h4", tag:"Ça commence à chauffer sous la couette"},
   {n:5, name:"Brûlant",    tok:"--h5", tag:"Fantasmes et envies inavouées"},
 ];
-const Q = [
-  // 1 · Complicité
-  {id:"a1",l:1,t:"who",q:"Qui de nous deux est le plus têtu ?"},
-  {id:"a2",l:1,t:"who",q:"Qui de nous deux s'endort en premier devant un film ?"},
-  {id:"a3",l:1,t:"who",q:"Qui de nous deux est le plus de mauvaise foi ?"},
-  {id:"a4",l:1,t:"who",q:"Qui de nous deux mettrait le plus de temps à se préparer pour sortir ?"},
-  {id:"a5",l:1,t:"guess",q:"Le plat que {X} pourrait manger tous les jours ?",o:["Des pâtes ou une pizza","Un bon burger","Asiatique : sushis, ramen…","Un plat de famille"]},
-  {id:"a6",l:1,t:"guess",q:"Le super-pouvoir rêvé de {X} ?",o:["Se téléporter","Lire dans les pensées","Voler","Arrêter le temps"]},
-  {id:"a7",l:1,t:"guess",q:"Un dimanche parfait pour {X}, c'est…",o:["Grasse matinée et plaid","Une balade dehors","Voir des amis","Rien de prévu, on improvise"]},
-  {id:"a8",l:1,t:"guess",q:"Ce qui agace le plus {X} au quotidien ?",o:["Le désordre","Les retards","Le bruit","Qu'on ne l'écoute pas"]},
-  // 2 · Souvenirs
-  {id:"s1",l:2,t:"who",q:"Qui de nous deux a fait le premier pas ?"},
-  {id:"s2",l:2,t:"who",q:"Qui de nous deux a craqué en premier ?"},
-  {id:"s3",l:2,t:"who",q:"Qui de nous deux se souvient le mieux des dates importantes ?"},
-  {id:"s4",l:2,t:"who",q:"Qui de nous deux est le plus romantique ?"},
-  {id:"s5",l:2,t:"guess",q:"Ce que {X} a remarqué en premier chez l'autre ?",o:["Le regard","Le sourire","L'humour","La silhouette"]},
-  {id:"s6",l:2,t:"guess",q:"Le moment préféré de {X} dans votre histoire ?",o:["Le premier rendez-vous","Le premier baiser","Un voyage ensemble","Un moment tout simple"]},
-  {id:"s7",l:2,t:"guess",q:"Si {X} devait résumer votre couple en un mot ?",o:["Fous rires","Tendresse","Passion","Évidence"]},
-  {id:"s8",l:2,t:"guess",q:"Le cadeau qui ferait le plus plaisir à {X} ?",o:["Un week-end surprise","Une lettre écrite à la main","Une soirée préparée pour lui ou elle","Un objet dont il ou elle rêve"]},
-  // 3 · Séduction
-  {id:"d1",l:3,t:"who",q:"Qui de nous deux drague le plus l'autre ?"},
-  {id:"d2",l:3,t:"who",q:"Qui de nous deux est le plus jaloux ?"},
-  {id:"d3",l:3,t:"who",q:"Qui de nous deux est le plus tactile ?"},
-  {id:"d4",l:3,t:"who",q:"Qui de nous deux résiste le moins à un regard appuyé ?"},
-  {id:"d5",l:3,t:"guess",q:"Ce que {X} trouve le plus séduisant chez l'autre ?",o:["Le regard","La voix","Les mains","L'assurance"]},
-  {id:"d6",l:3,t:"guess",q:"La tenue de l'autre qui fait le plus craquer {X} ?",o:["Une tenue chic","Jean et t-shirt","Le pyjama du dimanche","Pas de tenue du tout"]},
-  {id:"d7",l:3,t:"guess",q:"Le geste qui fait fondre {X} ?",o:["Un baiser dans le cou","Une main dans le dos","Un regard qui dure","Un mot doux à l'oreille"]},
-  {id:"d8",l:3,t:"guess",q:"Le rendez-vous idéal pour {X} ?",o:["Dîner aux chandelles","Pique-nique au coucher du soleil","Plateau-télé sous la couette","Escapade improvisée"]},
-  // 4 · Coquin
-  {id:"c1",l:4,t:"who",q:"Qui de nous deux lance le plus souvent les câlins coquins ?"},
-  {id:"c2",l:4,t:"who",q:"Qui de nous deux est le plus joueur sous la couette ?"},
-  {id:"c3",l:4,t:"who",q:"Qui de nous deux a le plus de mal à attendre ?"},
-  {id:"c4",l:4,t:"guess",q:"Le moment préféré de {X} pour un moment à deux ?",o:["Le matin","La sieste","Le soir","Au milieu de la nuit"]},
-  {id:"c5",l:4,t:"guess",q:"L'endroit qui tente le plus {X}, en dehors du lit ?",o:["La douche","Le canapé","La cuisine","Une chambre d'hôtel"]},
-  {id:"c6",l:4,t:"guess",q:"Ce que {X} préfère recevoir ?",o:["Un long massage","Des baisers partout","Des mots coquins","Un petit effeuillage"]},
-  {id:"c7",l:4,t:"guess",q:"Pour {X}, les préliminaires, c'est…",o:["Indispensable","Le meilleur moment","Selon l'humeur","On peut aller droit au but"]},
-  {id:"c8",l:4,t:"guess",q:"Ce que {X} aimerait voir l'autre porter plus souvent ?",o:["De la lingerie ou un sous-vêtement sexy","Une chemise, et rien d'autre","Un parfum en particulier","Rien du tout"]},
-  // 5 · Brûlant
-  {id:"b1",l:5,t:"who",q:"Qui de nous deux pense le plus souvent au sexe dans la journée ?"},
-  {id:"b2",l:5,t:"who",q:"Qui de nous deux a déjà eu envie de l'autre dans un endroit totalement inapproprié ?"},
-  {id:"b3",l:5,t:"who",q:"Qui de nous deux a le plus de mal à rester discret au lit ?"},
-  {id:"b4",l:5,t:"who",q:"Qui de nous deux prend le plus souvent les commandes ?"},
-  {id:"b5",l:5,t:"who",q:"Qui de nous deux serait le plus partant pour un jeu de rôle ce soir ?"},
-  {id:"b6",l:5,t:"guess",q:"La position préférée de {X} ?",o:["Face à face","Par derrière","Au-dessus, aux commandes","En cuillère"]},
-  {id:"b7",l:5,t:"guess",q:"Le fantasme que {X} aimerait le plus réaliser ?",o:["Le faire dans un lieu public, discrètement","Un jeu de rôle : inconnus, collègues…","Être attaché·e ou avoir les yeux bandés","Se regarder dans un miroir pendant l'amour"]},
-  {id:"b8",l:5,t:"guess",q:"Ce que {X} préfère qu'on lui fasse ?",o:["Du sexe oral","De longues caresses partout","Des mordillements dans le cou","Des mots crus murmurés à l'oreille"]},
-  {id:"b9",l:5,t:"guess",q:"Le jouet que {X} serait prêt·e à essayer (ou à ressortir) ?",o:["Un vibromasseur","Des menottes ou des liens","Un bandeau et une plume","Une huile de massage chauffante"]},
-  {id:"b10",l:5,t:"guess",q:"Au lit, {X} préfère quand c'est…",o:["Doux et sensuel","Intense et rapide","Joueur, avec des pauses","Sauvage"]},
-  {id:"b11",l:5,t:"guess",q:"Le moment le plus chaud de votre histoire, selon {X} ?",o:["Votre toute première fois","Une nuit en vacances","Une fois dans un endroit risqué","Une nuit récente"]},
-  {id:"b12",l:5,t:"guess",q:"Ce que {X} aimerait que l'autre ose plus souvent ?",o:["Prendre l'initiative","Dire clairement ce qu'il ou elle veut","Tester de nouvelles positions","Envoyer des messages coquins dans la journée"]},
-  {id:"b13",l:5,t:"guess",q:"Combien de temps {X} tiendrait sans faire l'amour avant de craquer ?",o:["Moins de 3 jours","Une semaine","Deux semaines","Plus d'un mois"]},
-];
+/* Les questions sont dans le dossier questions/ (un fichier par niveau). */
+const Q = window.PILEPOIL_Q || [];
+const DECK_SIZE = 30; // nombre de questions tirées au hasard pour une partie
 const DARES = {
   1:["Chacun dit une qualité de l'autre qu'il n'a jamais dite.","Imitez-vous mutuellement au réveil.","Un câlin de 10 secondes avant la question suivante."],
   2:["Racontez chacun votre souvenir préféré de vous deux.","Un bisou sur le bout du nez.","Rejouez votre premier baiser."],
@@ -84,6 +35,7 @@ const ICON = {
   key: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></svg>',
   phone: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18h2"/></svg>',
   download: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+  share: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M8 11H6.5A2.5 2.5 0 0 0 4 13.5v5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-5a2.5 2.5 0 0 0-2.5-2.5H16"/></svg>',
   copy: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>',
   sun: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg>',
   moon: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
@@ -142,10 +94,30 @@ const store = {
   del(k){ try { localStorage.removeItem(k); } catch(e){} },
 };
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
-function buildDeck(lvl){ return shuffle(Q.filter(x=>x.l===lvl).map(x=>x.id)); }
+function buildDeck(lvl){ return shuffle(Q.filter(x=>x.l===lvl).map(x=>x.id)).slice(0, DECK_SIZE); }
 function lvCount(lvl){ return Q.filter(x=>x.l===lvl).length; }
+function deckSize(lvl){ return Math.min(DECK_SIZE, lvCount(lvl)); }
+/* Insère le prénom à la place de {X}, avec l'élision française : « de Anna » → « d'Anna », « que Hugo » → « qu'Hugo ». */
+function fillName(q, name){
+  const vowel = /^[aeiouhàâäéèêëîïôöùûüœæ]/i.test(name || "");
+  return q.replace(/(^|[\s(])(de|que|lorsque|puisque|jusque) \{X\}/i, (m, pre, w) => pre + (vowel ? w.slice(0, -1) + "'" + name : w + " " + name))
+          .replace("{X}", name);
+}
 const ALPH = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-function newCode(){ let s=""; for(let i=0;i<4;i++) s+=ALPH[Math.floor(Math.random()*ALPH.length)]; return s; }
+/* Code de session : 8 caractères sans I, O, 0 ni 1 (trop faciles à confondre), avec un tiret au milieu. Ex. K7QM-3XRP */
+function randomChars(n){
+  const out = []; const rnd = new Uint32Array(n);
+  try { crypto.getRandomValues(rnd); } catch(e){ for (let i = 0; i < n; i++) rnd[i] = Math.floor(Math.random() * 4294967296); }
+  for (let i = 0; i < n; i++) out.push(ALPH[rnd[i] % ALPH.length]);
+  return out.join("");
+}
+function newCode(){ const c = randomChars(8); return c.slice(0, 4) + "-" + c.slice(4); }
+/* Remet en forme ce qu'on a tapé ou collé : majuscules, sans espaces, tiret ajouté. */
+function cleanCode(v){
+  const c = String(v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+  return c.length > 4 ? c.slice(0, 4) + "-" + c.slice(4) : c;
+}
+const CODE_RE = /^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$/;
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
 function merge(t,s){ for(const k in s){ const v=s[k]; if (v && typeof v==="object" && !Array.isArray(v) && t[k] && typeof t[k]==="object" && !Array.isArray(t[k])) merge(t[k],v); else t[k]=v; } return t; }
 
@@ -179,7 +151,7 @@ function other(r){ return r === "host" ? "guest" : "host"; }
 function pname(s, r){ return (s.players && s.players[r] && s.players[r].name) || (r === "host" ? "Joueur 1" : "Joueur 2"); }
 function target(s){ return s.idx % 2 === 0 ? "guest" : "host"; }  // personne visée par une question « guess »
 function cardOf(s){ return QBY[s.deck[s.idx]]; }
-function qText(card, s){ return card.q.replace("{X}", pname(s, target(s))); }
+function qText(card, s){ return fillName(card.q, pname(s, target(s))); }
 function ansOf(s, r){ const a = s.answers && s.answers[r]; return (a === undefined) ? null : a; }
 function isMatch(s){ return ansOf(s,"host") !== null && ansOf(s,"host") === ansOf(s,"guest"); }
 function syncCount(s){ return Object.values(s.results || {}).filter(Boolean).length; }
@@ -233,8 +205,9 @@ async function createLocal(){
   await r.set(Object.assign({ code: "", maxL: draft.maxL, dares: draft.dares, players: { host:{name:a, av:draft.av}, guest:{name:b, av:draft.av2} } }, freshGame(draft.maxL)));
 }
 async function joinSession(){
-  const code = draft.code.trim().toUpperCase(); const name = draft.name.trim();
-  if (code.length !== 4){ err = "Le code fait 4 caractères."; render(); return; }
+  const code = cleanCode(draft.code); const name = draft.name.trim();
+  if (!db){ err = "Les sessions à distance ne sont pas disponibles pour le moment."; render(); return; }
+  if (!CODE_RE.test(code)){ err = "Le code fait 8 caractères, par exemple K7QM-3XRP."; render(); return; }
   if (!name){ err = "Indique ton prénom."; render(); return; }
   store.set("dm-name", name);
   await act(async () => {
@@ -275,11 +248,11 @@ function btn(cls, iconKey, text, onClick, extra){
   return h("button", Object.assign({type:"button", class:cls, on:{click:onClick}}, extra||{}), iconKey ? icon(ICON[iconKey]) : null, text);
 }
 function av(s, r){ const k = s.players && s.players[r] && s.players[r].av; return h("span", {class:"av ava", "aria-hidden":"true"}, avatarSvg(k || (r === "host" ? "chat" : "lapin"))); }
-function avPicker(key, lbl){
+function avPicker(key, lbl, hideLabel){
   const id = "avp-" + key;
-  return h("div", {class:"field"}, h("label", {id, text: lbl}),
-    h("div", {class:"avpick", role:"group", "aria-labelledby": id}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n,
-      on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k)), a.n))));
+  return h("div", {class:"field"}, h("label", {id, text: lbl, class: hideLabel ? "sr-only" : null}),
+    h("div", {class:"avpick", role:"group", "aria-labelledby": id}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n, title: a.n,
+      on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k))))));
 }
 function levelPicker(){
   const L = LEVELS[draft.maxL-1];
@@ -297,12 +270,12 @@ function levelPicker(){
       })),
     h("div", {class:"lvsum"},
       h("span", null, h("b", {text: L.name}), " · " + L.tag),
-      h("span", null, h("b", {text:String(lvCount(draft.maxL))}), " questions, uniquement du niveau " + L.name)));
+      h("span", null, h("b", {text:String(deckSize(draft.maxL))}), " questions au hasard parmi " + lvCount(draft.maxL))));
 }
 function dareSwitch(){
   return h("label", {class:"toggle", for:"dares"},
     h("span", {class:"ic", "aria-hidden":"true"}, icon(CHILI)),
-    h("span", {class:"tx"}, h("b", {text:"Défis coquins"}), h("span", {text:"Un petit défi quand vos réponses ne collent pas"})),
+    h("span", {class:"tx"}, h("b", {text:"Défis coquins"}), h("span", {text:"Un défi quand vos réponses diffèrent"})),
     h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; }}}));
 }
 function nameField(id, lbl, key, ph){
@@ -319,7 +292,7 @@ function viewGate(){
       h("h2", {text:"Réservé aux adultes"}),
       h("p", {class:"muted", text:"Pile-poil est un jeu pour couples. Certains niveaux abordent la sexualité de façon explicite."}),
       h("div", {class:"stack"},
-        btn("primary", null, "J'ai 18 ans ou plus", ()=>{ store.set("dm-adult", "1"); screen = "home"; render(); }),
+        btn("primary", null, "J'ai 18 ans ou plus", ()=>{ store.set("dm-adult", "1"); screen = inviteCode ? "join" : "home"; render(); }),
         btn("ghost", null, "J'ai moins de 18 ans", ()=>{ screen = "minor"; render(); })))
   ];
 }
@@ -350,11 +323,11 @@ function viewHome(){
   ];
 }
 function privacyNote(){
-  return h("p", {class:"note"}, "Pendant la partie, vos prénoms et la réponse en cours passent par notre serveur. La session est effacée dès que l'un de vous quitte, et devient illisible au bout de 48 h. ",
+  return h("p", {class:"note"}, "Vos prénoms et la réponse en cours passent par notre serveur, puis tout est effacé quand l'un de vous quitte. ",
     h("a", {href:"confidentialite.html", text:"En savoir plus"}));
 }
 function viewCreate(){
-  return [brand(false), h("section", {class:"panel"},
+  return [h("section", {class:"panel"},
     h("h2", {text:"Nouvelle session"}),
     nameField("host-name", "Ton prénom", "name", "ex. Julien"),
     avPicker("av", "Ta photo de profil"),
@@ -362,36 +335,34 @@ function viewCreate(){
     h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Obtenir le code", createSession)), privacyNote()), errLine()];
 }
 function viewLocal(){
-  return [brand(false), h("section", {class:"panel"},
+  return [h("section", {class:"panel"},
     h("h2", {text:"Sur un seul téléphone"}),
-    h("p", {class:"muted", style:"font-size:15px", text:"Vous répondez chacun votre tour sans regarder l'écran de l'autre, puis les réponses s'affichent ensemble."}),
-    nameField("p1-name", "Premier prénom", "name", "ex. Julien"),
-    avPicker("av", "Photo de profil"),
-    nameField("p2-name", "Second prénom", "partner", "ex. Léa"),
-    avPicker("av2", "Sa photo de profil"),
+    h("div", {class:"pair"},
+      h("div", {class:"stack"}, nameField("p1-name", "Joueur 1", "name", "Julien"), avPicker("av", "Avatar du joueur 1", true)),
+      h("div", {class:"stack"}, nameField("p2-name", "Joueur 2", "partner", "Léa"), avPicker("av2", "Avatar du joueur 2", true))),
     levelPicker(), dareSwitch(),
     h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Commencer", createLocal))), errLine()];
 }
 function viewJoin(){
-  return [brand(false), h("section", {class:"panel"},
+  return [h("section", {class:"panel"},
     h("h2", {text:"Rejoindre ta moitié"}),
     h("div", {class:"field"}, h("label", {for:"join-code", text:"Le code reçu"}),
-      h("input", {type:"text", id:"join-code", class:"code", value: draft.code, maxlength:"4", autocomplete:"off", autocapitalize:"characters", placeholder:"····",
-        on:{input:e=>{ draft.code = e.target.value.toUpperCase(); }}})),
+      h("input", {type:"text", id:"join-code", class:"code", value: draft.code, maxlength:"12", autocomplete:"off", autocapitalize:"characters", spellcheck:"false", placeholder:"XXXX-XXXX",
+        on:{input:e=>{ const v = cleanCode(e.target.value); draft.code = v; if (e.target.value !== v) e.target.value = v; }}})),
     nameField("guest-name", "Ton prénom", "name", "ex. Léa"),
     avPicker("av", "Ta photo de profil"),
     h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Rejoindre", joinSession)), privacyNote()), errLine()];
 }
 function viewLobby(){
   const guest = S.players && S.players.guest; const isHost = role === "host";
-  return [brand(false), h("section", {class:"panel"},
+  return [h("section", {class:"panel"},
     h("h2", {text: isHost ? (guest ? guest.name + " est là" : "Envoie ce code à ta moitié") : "Session de " + pname(S,"host")}),
     h("div", {class:"codebox"}, h("span", {class:"eyebrow", text:"Code de la session"}),
-      h("div", {class:"codebig", "aria-label":"Code " + S.code.split("").join(" "), text:S.code}),
-      h("span", {class:"muted", style:"font-size:14px", text: S.deck && S.deck.length ? S.deck.length + " questions · " + LEVELS[S.maxL-1].name : lvCount(S.maxL) + " questions · niveau " + LEVELS[S.maxL-1].name + (S.dares ? " · avec défis" : "")})),
+      h("div", {class:"codebig", "aria-label":"Code " + S.code.replace("-", "").split("").join(" "), text:S.code}),
+      h("span", {class:"muted", style:"font-size:14px", text: S.deck && S.deck.length ? S.deck.length + " questions · " + LEVELS[S.maxL-1].name : deckSize(S.maxL) + " questions · niveau " + LEVELS[S.maxL-1].name + (S.dares ? " · avec défis" : "")})),
     guest ? (isHost ? btn("primary", "next", "Commencer avec " + guest.name, startGame) : waiting(pname(S,"host") + " va lancer la partie"))
           : waiting("En attente de ta moitié"),
-    S.code ? btn("ghost mini", "copy", "Copier le code", copyCode) : null,
+    S.code ? h("div", {class:"row share"}, btn("ghost mini wide", "copy", "Copier", copyCode, {"aria-label": "Copier le code"}), btn("ghost mini wide", "share", "Partager", shareInvite)) : null,
     h("p", {class:"toast", role:"status", text: exportMsg})), errLine()];
 }
 
@@ -416,7 +387,7 @@ function viewPlay(){
   const aH = ansOf(S,"host"), aG = ansOf(S,"guest");
   const both = aH !== null && aG !== null;
   const kids = [
-    h("span", {class:"chip", text: card.t === "who" ? "Qui de nous deux" : "Devine la réponse de " + pname(S, target(S))}),
+    h("span", {class:"chip", text: card.t === "who" ? "Qui de nous deux" : fillName("Devine la réponse de {X}", pname(S, target(S)))}),
     h("p", {class:"q", text: qText(card, S)}),
   ];
   if (!both){
@@ -452,11 +423,12 @@ function viewPlay(){
   const played = playedCount(S);
   const statusOf = (r) => both ? "" : (ansOf(S, r) !== null ? "a répondu" : "réfléchit");
   return [
-    h("div", {class:"top"}, brand(false),
+    h("div", {class:"top"},
+      h("div", {class:"players"}, ["host","guest"].map(r => h("span", {class:"pl"}, av(S, r),
+        h("span", {class:"pn"}, h("span", {class:"nm", text: pname(S, r) + ((!local && r === role) ? " (toi)" : "")}),
+          statusOf(r) ? h("span", {class:"st" + (ansOf(S, r) !== null ? " done" : ""), text: statusOf(r)}) : null)))),
       h("div", {class:"sync", "aria-label": syncCount(S) + " réponses en phase sur " + played},
         h("b", {text: syncCount(S) + " / " + played}), h("span", {text:"en phase"}))),
-    h("div", {class:"players"}, ["host","guest"].map(r => h("span", {class:"pl"}, av(S, r), pname(S, r) + ((!local && r === role) ? " (toi)" : ""),
-      statusOf(r) ? h("span", {class:"st" + (ansOf(S, r) !== null ? " done" : ""), text: statusOf(r)}) : null))),
     h("div", {class:"levelbar"},
       h("span", {class:"nm", text: L.name}),
       h("span", {class:"segs", "aria-hidden":"true"}, LEVELS.map(x => h("i", {style: x.n <= card.l ? "background:var(" + x.tok + ")" : null}))),
@@ -477,7 +449,7 @@ function endStats(){
     const c = QBY[id]; const tg = i % 2 === 0 ? "guest" : "host";
     const hv = HIST[S.round + ":" + i];
     const lab = (v) => (v === null || v === undefined) ? "—" : (c.t === "who" ? pname(S, v) : c.o[v]);
-    return { c, q: c.q.replace("{X}", pname(S, tg)), h: hv ? lab(hv.h) : "—", g: hv ? lab(hv.g) : "—", ok: !!(S.results && S.results[i]) };
+    return { c, q: fillName(c.q, pname(S, tg)), h: hv ? lab(hv.h) : "—", g: hv ? lab(hv.g) : "—", ok: !!(S.results && S.results[i]) };
   });
   return { n, tot, pct, msg, levels, rows };
 }
@@ -592,7 +564,7 @@ async function copyRecap(){
 }
 function viewEnd(){
   const st = endStats();
-  return [brand(false), h("section", {class:"panel"},
+  return [h("section", {class:"panel"},
     h("div", {class:"final"},
       h("div", {class:"duo"}, h("span", {class:"p"}, h("span", {class:"ava"}, avatarSvg(S.players.host.av)), pname(S,"host")),
         h("span", {class:"amp", text:"&"}), h("span", {class:"p"}, h("span", {class:"ava"}, avatarSvg(S.players.guest.av)), pname(S,"guest"))),
@@ -630,7 +602,7 @@ function highlightNames(root){
   const todo = []; let t;
   while ((t = walker.nextNode())){
     const p = t.parentElement;
-    if (!p || p.closest(".primary, .nmh, .dare, .pl, .duo, .avbtn, .brand, footer, .ava")) continue;
+    if (!p || p.closest(".primary, .nmh, .dare, .pl, .duo, .avbtn, .brand, footer, .ava, .chip, .toolbar")) continue;
     const hits = find(t.nodeValue); if (hits.length) todo.push([t, hits]);
   }
   todo.forEach(([node, hits]) => {
@@ -667,7 +639,7 @@ function renderModal(){
   const sheet = h("div", {class:"sheet", role:"alertdialog", "aria-modal":"true", "aria-labelledby":"mdl-t", "aria-describedby":"mdl-d"},
     h("span", {class:"sic", "aria-hidden":"true"}, icon(ICON[m.icon || "exit"])),
     h("h3", {id:"mdl-t", text:m.title}), h("p", {id:"mdl-d", text:m.text}),
-    h("div", {class:"row"}, btn("ghost wide", null, m.cancel || "Annuler", closeModal), confirmBtn));
+    h("div", {class:"row"}, m.cancel === false ? null : btn("ghost wide", null, m.cancel || "Annuler", closeModal), confirmBtn));
   const scrim = h("div", {class:"scrim", on:{
     click:(e)=>{ if (e.target === scrim) closeModal(); },
     keydown:(e)=>{ if (e.key === "Escape"){ e.preventDefault(); closeModal(); }
@@ -691,18 +663,56 @@ function askReplay(){
     text:"Les questions du niveau " + LEVELS[S.maxL-1].name + " sont remélangées et le score repart à zéro" + (local ? "." : " pour vous deux."),
     onConfirm: ()=>{ exportMsg = ""; startGame(); } });
 }
+/* Lien d'invitation : ouvre le jeu sur « Rejoindre » avec le code déjà rempli. */
+function inviteUrl(code){ return location.origin + location.pathname + "?code=" + encodeURIComponent(code); }
+async function shareInvite(){
+  const url = inviteUrl(S.code);
+  const text = pname(S, "host") + " t'invite à jouer à Pile-poil. Code : " + S.code;
+  if (navigator.share){
+    try { await navigator.share({ title: "Pile-poil", text, url }); exportMsg = ""; render(); return; }
+    catch(e){ if (e && e.name === "AbortError") return; }
+  }
+  try { await navigator.clipboard.writeText(text + "\n" + url); exportMsg = "Lien d'invitation copié, colle-le dans un message."; }
+  catch(e){ exportMsg = "Lien d'invitation : " + url; }
+  render();
+}
 async function copyCode(){
   try { await navigator.clipboard.writeText(S.code); exportMsg = "Code copié."; }
   catch(e){ exportMsg = "Le code est " + S.code + "."; }
   render();
 }
 
+/* ---------- Installation (PWA) ---------- */
+/* Android / Chrome : le navigateur propose l'installation, on garde l'invitation pour notre bouton.
+   iPhone / iPad : pas d'invitation possible, on explique la marche à suivre dans Safari. */
+let installPrompt = null;
+const isStandalone = () => { try { return matchMedia("(display-mode: standalone)").matches || navigator.standalone === true; } catch(e){ return false; } };
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); installPrompt = e; renderToolbar(); });
+window.addEventListener("appinstalled", () => { installPrompt = null; renderToolbar(); });
+async function install(){
+  if (installPrompt){
+    const p = installPrompt; installPrompt = null;
+    try { await p.prompt(); await p.userChoice; } catch(e){}
+    renderToolbar(); return;
+  }
+  ask({ icon:"download", cancel:false, confirm:"Compris", title:"Installer Pile-poil",
+    text:"Dans Safari, touche le bouton Partager (le carré avec une flèche), puis « Sur l'écran d'accueil ». Pile-poil s'ouvrira ensuite comme une app.",
+    onConfirm: ()=>{} });
+}
+function installButton(){
+  if (isStandalone() || (!installPrompt && !isIOS())) return h("span");
+  return btn("tb", "download", "Installer l'app", install);
+}
+
 /* ---------- Barre d'outils ---------- */
 const $toolbar = document.getElementById("toolbar");
+function currentScreen(){ return S ? S.phase : screen; }
 function renderToolbar(){
   const dark = effectiveTheme() === "dark";
-  const left = S ? btn("tb", "exit", S.phase === "play" ? "Quitter la partie" : "Quitter", askLeave) : h("span");
-  $toolbar.replaceChildren(left,
+  const bigBrand = ["home", "gate", "minor"].includes(currentScreen());
+  const left = S ? btn("tb", "exit", "Quitter", askLeave) : bigBrand ? installButton() : brand(false);
+  $toolbar.replaceChildren(left, S ? brand(false) : h("span", {class:"spacer"}),
     btn("tb icon", dark ? "sun" : "moon", "", toggleTheme, {"aria-label": dark ? "Passer en mode clair" : "Passer en mode sombre", title: dark ? "Mode clair" : "Mode sombre"}));
 }
 function render(){
@@ -710,17 +720,34 @@ function render(){
   let v;
   if (S) v = S.phase === "lobby" ? viewLobby() : S.phase === "end" ? viewEnd() : viewPlay();
   else v = screen === "gate" ? viewGate() : screen === "minor" ? viewMinor() : screen === "create" ? viewCreate() : screen === "join" ? viewJoin() : screen === "local" ? viewLocal() : viewHome();
-  $app.replaceChildren(h("div", {style:"display:flex;flex-direction:column;gap:20px"}, v));
+  document.body.dataset.screen = currentScreen();
+  $app.replaceChildren(h("div", {class:"view"}, v));
   try { highlightNames($app); } catch(e){}
   renderToolbar();
   if (focusId){ const el = document.getElementById(focusId); if (el && el.tagName === "INPUT"){ el.focus(); try{ el.setSelectionRange(el.value.length, el.value.length); }catch(e){} } }
 }
 
+/* Lien d'invitation (?code=K7QM-3XRP) : on ouvre directement « Rejoindre » avec le code. */
+let inviteCode = "";
+try {
+  const q = new URLSearchParams(location.search).get("code");
+  if (q && CODE_RE.test(cleanCode(q))){
+    inviteCode = cleanCode(q); draft.code = inviteCode;
+    if (screen === "home") screen = "join";
+  }
+  if (q) history.replaceState(null, "", location.pathname);
+} catch(e){}
+
 applyTheme();
 render();
+/* Mode hors ligne et installation : voir sw.js */
+if ("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+}
 (async () => {
   try { db = window.PilePoilStorage ? await window.PilePoilStorage.connect() : null; } catch(e){ console.error("Pile-poil : connexion Firebase impossible", e); db = null; }
   dbChecked = true;
+  if (!db && screen === "join"){ screen = "home"; if (inviteCode) err = "Les sessions à distance ne sont pas disponibles pour le moment."; }
   if (!S) render();
 })();
 })();
