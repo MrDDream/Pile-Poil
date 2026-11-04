@@ -20,6 +20,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Sur grand écran (PC) : présentation du jeu à côté de l'app -->
+  <aside class="desk">
+    <img src="icons/icon-192.png" alt="" width="84" height="84">
+    <h2>Pile-<span>poil</span></h2>
+    <p class="desk-lead">Le jeu de questions pour couples. Répondez chacun de votre côté, puis découvrez si vous êtes sur la même longueur d'onde.</p>
+    <ul>
+      <li>5 niveaux, de « Complicité » à « Brûlant »</li>
+      <li>1 200 questions, des défis et un bilan à partager</li>
+      <li>Sur un seul téléphone, ou à deux avec un code</li>
+    </ul>
+    <div class="desk-qr">
+      <div id="deskqr" aria-hidden="true"></div>
+      <p><b>Pile-poil se joue mieux sur téléphone.</b><br>Scanne ce code pour l'ouvrir, puis installe l'app.</p>
+    </div>
+  </aside>
   <div class="wrap">
     <nav class="toolbar" id="toolbar" aria-label="Options"></nav>
     <main id="app" aria-live="polite"></main>

@@ -5,15 +5,15 @@
    who   : « Qui de nous deux… » – chacun désigne l'un des deux, on compare.
    guess : question sur {X} (la personne visée) – {X} répond pour elle-même, l'autre devine. */
 const LEVELS = [
-  {n:1, name:"Complicité", tok:"--h1", tag:"Manies et petites habitudes",
+  {n:1, name:"Complicité", tok:"--h1", tag:"Manies et petites habitudes", about:"Vos petites manies, vos goûts et votre quotidien. Tout public.", ex:"a2",
    dare:{t:"Défis complices", s:"Un gage tout doux quand vos réponses diffèrent"}},
-  {n:2, name:"Souvenirs",  tok:"--h2", tag:"Votre histoire, vos premières fois",
+  {n:2, name:"Souvenirs",  tok:"--h2", tag:"Votre histoire, vos premières fois", about:"Votre rencontre, vos premières fois et vos plus beaux moments.", ex:"s1",
    dare:{t:"Défis souvenirs", s:"Un moment à revivre quand vos réponses diffèrent"}},
-  {n:3, name:"Séduction",  tok:"--h3", tag:"Ce qui vous fait craquer",
+  {n:3, name:"Séduction",  tok:"--h3", tag:"Ce qui vous fait craquer", about:"Ce qui vous attire et vous fait craquer, sans aller plus loin.", ex:"d3",
    dare:{t:"Défis charmeurs", s:"Un geste tendre quand vos réponses diffèrent"}},
-  {n:4, name:"Coquin",     tok:"--h4", tag:"Ça chauffe sous la couette",
+  {n:4, name:"Coquin",     tok:"--h4", tag:"Ça chauffe sous la couette", about:"Ça devient taquin : envies, câlins et petites audaces.", ex:"c1",
    dare:{t:"Défis coquins", s:"Un défi taquin quand vos réponses diffèrent"}},
-  {n:5, name:"Brûlant",    tok:"--h5", tag:"Fantasmes et envies inavouées",
+  {n:5, name:"Brûlant",    tok:"--h5", tag:"Fantasmes et envies inavouées", about:"Sans tabou : fantasmes, désirs et pratiques. Pour adultes.", ex:"b4",
    dare:{t:"Défis brûlants", s:"Un défi osé quand vos réponses diffèrent"}},
 ];
 /* Les questions sont dans le dossier questions/ (un fichier par niveau). */
@@ -126,6 +126,7 @@ const ICON = {
   download: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
   soundOn: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
   soundOff: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
   qr: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.2"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.2"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.2"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5"/></svg>',
   info: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8v.5M12 17h.01"/></svg>',
   share: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M8 11H6.5A2.5 2.5 0 0 0 4 13.5v5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-5a2.5 2.5 0 0 0-2.5-2.5H16"/></svg>',
@@ -540,15 +541,36 @@ function levelPicker(){
         on:{click:()=>{ draft.maxL = X.n; render(); }}},
         h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[X.n])),
         h("span", {class:"nm", text: X.name})))),
-    h("p", {class:"lvcap", "aria-live":"polite"}, h("b", {text: L.name}), " · " + L.tag));
+    h("div", {class:"lvinfo", style:"--lc:var(" + L.tok + ")", "aria-live":"polite"},
+      h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
+      h("span", {class:"txt"},
+        h("span", {class:"hd"}, h("b", {text: L.name}), h("span", {class:"heat", text:"Intensité " + L.n + "/5"})),
+        h("span", {class:"ab", text: L.about}),
+        QBY[L.ex] ? h("span", {class:"ex", text:"Ex. : « " + QBY[L.ex].q + " »"}) : null)));
 }
 function explainDares(){
-  const L = LEVELS[draft.maxL-1];
-  ask({ icon:"info", cancel:false, confirm:"Compris", title:"Les défis",
+  const L = LEVELS[draft.maxL-1]; const list = DARES[L.n];
+  const examples = [list[0], list[Math.floor(list.length / 3)], list[Math.floor(2 * list.length / 3)]];
+  ask({ icon:"info", cancel:false, confirm:"Compris", title: L.dare.t,
     text:"Quand vos réponses ne collent pas, un petit défi s'affiche, à faire ensemble avant la question suivante. "
-      + "Son ton suit le niveau : tout doux en Complicité, osé en Brûlant. C'est toujours facultatif, on peut passer son tour. "
-      + "Exemple en " + L.name + " : « " + DARES[L.n][0] + " »",
+      + "Son ton suit le niveau choisi. C'est toujours facultatif : on peut passer son tour.",
+    body: h("div", {class:"dex", style:"--lc:var(" + L.tok + ")"},
+      h("span", {class:"dex-t"}, h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])), "Exemples en " + L.name),
+      h("ul", null, examples.map(d => h("li", {text: d})))),
     onConfirm: ()=>{} });
+}
+/* Joueur sur « un seul téléphone » : bouton avatar (ouvre la grille) + prénom. */
+function playerField(id, lbl, key, ph, avKey){
+  return h("div", {class:"field"}, h("label", {for:id, text:lbl}),
+    h("div", {class:"plrow"},
+      h("button", {type:"button", class:"avchoose", "aria-label":"Avatar : " + (AVBY[draft[avKey]] || AVATARS[0]).n + ". Changer", title:"Changer d'avatar",
+        on:{click:()=>pickAvatar(avKey, lbl)}}, h("span", {class:"ava"}, avatarSvg(draft[avKey])), h("span", {class:"edit", "aria-hidden":"true"}, icon(ICON.edit))),
+      h("input", {type:"text", id, value: draft[key], placeholder: ph, autocomplete:"off", maxlength:"20", on:{input:e=>{ draft[key] = e.target.value; }}})));
+}
+function pickAvatar(key, lbl){
+  const grid = h("div", {class:"avpick big", role:"group", "aria-label":"Avatars"}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n,
+    on:{click:()=>{ draft[key] = a.k; closeModal(); render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k)), h("span", {class:"avn", text:a.n}))));
+  ask({ icon:false, cancel:false, confirm:"Fermer", title:"Avatar · " + lbl, body: grid, onConfirm: ()=>{} });
 }
 function nameField(id, lbl, key, ph){
   return h("div", {class:"field"}, h("label", {for:id, text:lbl}),
@@ -584,36 +606,36 @@ function viewHome(){
   return [
     brand(true),
     h("p", {class:"lead", text:"Le jeu de questions pour couples. Répondez chacun de votre côté, puis découvrez si vous êtes sur la même longueur d'onde."}),
-    h("div", {class:"parade", "aria-hidden":"true"}, AVATARS.map(a => h("span", {class:"ava"}, avatarSvg(a.k)))),
     h("section", {class:"panel"},
       shared ? h("div", {class:"stack"},
         btn("primary", "plus", "Créer une session", ()=>{ screen="create"; err=""; render(); }),
         btn("ghost", "key", "J'ai reçu un code", ()=>{ screen="join"; err=""; render(); }))
       : h("p", {class:"muted", style:"font-size:14px;text-align:center", text: dbChecked ? "Les sessions à distance ne sont pas disponibles ici. Jouez sur un seul téléphone en vous le passant." : "Connexion aux sessions…"}),
       shared ? h("div", {class:"divider", text:"ou"}) : null,
-      btn(shared ? "ghost" : "primary", "phone", "Jouer sur un seul téléphone", ()=>{ screen="local"; err=""; render(); }),
+      btn(shared ? "ghost tint" : "primary", "phone", "Jouer sur un seul téléphone", ()=>{ screen="local"; err=""; render(); }),
       resumeBtn),
     errLine()
   ];
 }
 function privacyNote(){
-  return h("p", {class:"note"}, "Vos prénoms passent par notre serveur le temps de la partie, puis tout est effacé. ",
+  return h("p", {class:"note"}, h("span", {class:"nt", text:"Vos prénoms passent par notre serveur le temps de la partie, puis tout est effacé. "}),
     h("a", {href:"confidentialite.html", text:"En savoir plus"}));
 }
-/* Nombre de questions et défis, côte à côte. */
+/* Nombre de questions, puis défis en dessous. */
 function optionsRow(){
   const L = LEVELS[draft.maxL-1];
-  return h("div", {class:"optrow"},
-    h("div", {class:"obox"},
+  const tone = L.dare.t.replace(/^Défis /, "");
+  return h("div", {class:"opts2"},
+    h("div", {class:"orow2"},
       h("span", {class:"olbl", id:"len-lbl", text:"Questions"}),
       h("span", {class:"lenbtns", role:"group", "aria-labelledby":"len-lbl"}, LENGTHS.map(n => h("button", {type:"button", class:"len", "aria-pressed": String(draft.len === n), "aria-label": n + " questions",
         on:{click:()=>{ draft.len = n; store.set("dm-len", String(n)); render(); }}}, String(n))))),
-    h("div", {class:"obox", style:"--lc:var(" + L.tok + ")"},
-      h("span", {class:"olbl"}, h("label", {for:"dares", text: "Défis"}),
-        btn("help", "info", "", ()=>explainDares(), {"aria-label":"À quoi servent les défis ?", title:"À quoi servent les défis ?"})),
-      h("span", {class:"orow"},
-        h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; render(); }}}),
-        h("span", {class:"ostate", text: draft.dares ? L.dare.t.replace(/^Défis /, "").replace(/^./, c => c.toUpperCase()) : "Désactivés"}))));
+    h("div", {class:"orow2 dares-row" + (draft.dares ? " on" : ""), style:"--lc:var(" + L.tok + ")"},
+      h("span", {class:"olbl"}, h("label", {for:"dares", text:"Défis"}),
+        btn("help", "info", "", ()=>explainDares(), {"aria-label":"À quoi servent les défis ? Exemples", title:"À quoi servent les défis ?"})),
+      h("label", {class:"oswitch", for:"dares"},
+        h("span", {class:"ostate", text: draft.dares ? tone.charAt(0).toUpperCase() + tone.slice(1) : "Désactivés"}),
+        h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; render(); }}}))));
 }
 function viewCreate(){
   return [h("section", {class:"panel form"},
@@ -624,9 +646,8 @@ function viewCreate(){
 }
 function viewLocal(){
   return [h("section", {class:"panel form"},
-    h("div", {class:"pair"},
-      h("div", {class:"stack"}, nameField("p1-name", "Joueur 1", "name", "Julien"), avPicker("av", "Avatar du joueur 1", true)),
-      h("div", {class:"stack"}, nameField("p2-name", "Joueur 2", "partner", "Léa"), avPicker("av2", "Avatar du joueur 2", true))),
+    playerField("p1-name", "Joueur 1", "name", "Julien", "av"),
+    playerField("p2-name", "Joueur 2", "partner", "Léa", "av2"),
     levelPicker(), optionsRow(),
     btn("primary cta", null, "Commencer", createLocal)), errLine()];
 }
@@ -656,10 +677,10 @@ function viewLobby(){
 function answerUI(card, r){
   // r = joueur qui répond sur cet écran
   if (card.t === "who"){
-    return h("div", {class:"opts two"}, ["host","guest"].map(p => h("button", {type:"button", class:"opt", on:{click:()=>answer(r, p)}},
+    return h("div", {class:"opts two"}, ["host","guest"].map((p, i) => h("button", {type:"button", class:"opt", "data-k": String(i + 1), on:{click:()=>answer(r, p)}},
       av(S, p), p === r ? (local ? pname(S,p) : "Moi") : pname(S, p))));
   }
-  return h("div", {class:"opts"}, card.o.map((o,i) => h("button", {type:"button", class:"opt", on:{click:()=>answer(r, i)}}, o)));
+  return h("div", {class:"opts"}, card.o.map((o,i) => h("button", {type:"button", class:"opt", "data-k": String(i + 1), on:{click:()=>answer(r, i)}}, o)));
 }
 function promptFor(card, r){
   if (card.t === "who") return local ? pname(S, r) + ", qui choisis-tu ?" : "Qui choisis-tu ?";
@@ -952,8 +973,8 @@ function renderModal(){
   const m = modal;
   const confirmBtn = btn(m.danger ? "danger" : "primary", null, m.confirm, ()=>{ closeModal(); m.onConfirm(); });
   const sheet = h("div", {class:"sheet", role:"alertdialog", "aria-modal":"true", "aria-labelledby":"mdl-t", "aria-describedby":"mdl-d"},
-    h("span", {class:"sic", "aria-hidden":"true"}, icon(ICON[m.icon || "exit"])),
-    h("h3", {id:"mdl-t", text:m.title}), h("p", {id:"mdl-d", text:m.text}), m.body || null,
+    m.icon === false ? null : h("span", {class:"sic", "aria-hidden":"true"}, icon(ICON[m.icon || "exit"])),
+    h("h3", {id:"mdl-t", text:m.title}), m.text ? h("p", {id:"mdl-d", text:m.text}) : null, m.body || null,
     h("div", {class:"row"}, m.cancel === false ? null : btn("ghost wide", null, m.cancel || "Annuler", ()=>{ closeModal(); if (m.onCancel) m.onCancel(); }), confirmBtn));
   const scrim = h("div", {class:"scrim", on:{
     click:(e)=>{ if (e.target === scrim) closeModal(); },
@@ -1153,6 +1174,20 @@ try {
   }
   if (q) history.replaceState(null, "", location.pathname);
 } catch(e){}
+
+/* Clavier (PC) pendant la partie : 1 à 4 pour répondre, Entrée pour continuer. */
+document.addEventListener("keydown", (e) => {
+  if (modal || e.ctrlKey || e.metaKey || e.altKey || !S || S.phase !== "play") return;
+  const t = e.target; if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+  const card = document.querySelector(".card"); if (!card) return;
+  if (/^[1-4]$/.test(e.key)){
+    const b = card.querySelector('.opt[data-k="' + e.key + '"]'); if (b){ e.preventDefault(); b.click(); }
+  } else if (e.key === "Enter" && !(t && t.tagName === "BUTTON")){
+    const b = card.querySelector(".handoff .primary, :scope > .primary"); if (b){ e.preventDefault(); b.click(); }
+  }
+});
+/* PC : QR code pour ouvrir le jeu sur son téléphone. */
+try { const q = document.getElementById("deskqr"); if (q && window.qrcode) q.append(qrSvg(location.origin + location.pathname)); } catch(e){}
 
 applyTheme();
 render();

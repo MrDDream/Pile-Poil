@@ -16,10 +16,12 @@
 <p align="center">
   <img src="docs/accueil.png" alt="Écran d'accueil" width="230">
   &nbsp;
-  <img src="docs/nouvelle-partie.png" alt="Choix des joueurs, de l'avatar et du niveau" width="230">
+  <img src="docs/nouvelle-partie.png" alt="Nouvelle session : prénom, avatar, niveau expliqué, nombre de questions et défis" width="230">
   &nbsp;
   <img src="docs/reponses.png" alt="Les deux réponses dévoilées : en phase" width="230">
 </p>
+
+<p align="center"><img src="docs/pc.png" alt="Sur ordinateur : présentation du jeu et QR code pour l'ouvrir sur son téléphone" width="700"></p>
 
 > Jeu réservé aux adultes : les niveaux 4 et 5 abordent la sexualité de façon explicite.
 
@@ -52,6 +54,7 @@ Les défis sont facultatifs : on peut toujours passer son tour, ou les désactiv
 - **Reprise de partie** : si l'app se ferme par erreur, une fenêtre propose de reprendre là où vous en étiez.
 - **Application installable** (PWA) : sur l'écran d'accueil comme une vraie app, et le jeu à un téléphone marche hors connexion.
 - **Pensé pour le téléphone** : chaque écran tient sans défiler, des petits écrans aux grands ; thème clair et sombre.
+- **Aussi sur ordinateur** : l'app s'affiche dans une carte avec une présentation du jeu et un QR code pour l'ouvrir sur son téléphone ; pendant la partie, touches 1 à 4 pour répondre et Entrée pour continuer.
 - **Respect de la vie privée** : pas de compte, pas de pub, pas de statistiques, pas de cookie. Détails dans [la page Confidentialité](https://mrddream.github.io/Pile-Poil/confidentialite.html).
 
 ---
