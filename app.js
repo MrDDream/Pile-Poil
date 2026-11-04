@@ -18,7 +18,8 @@ const LEVELS = [
 ];
 /* Les questions sont dans le dossier questions/ (un fichier par niveau). */
 const Q = window.PILEPOIL_Q || [];
-const DECK_SIZE = 30; // nombre de questions tirées au hasard pour une partie
+const DECK_SIZE = 30;          // nombre de questions par défaut
+const LENGTHS = [10, 20, 30];  // longueurs de partie proposées
 /* Défis proposés quand les réponses diffèrent. Le ton suit le niveau : rien de coquin avant le niveau 4. */
 const DARES = {
   1:[
@@ -123,6 +124,9 @@ const ICON = {
   key: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></svg>',
   phone: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18h2"/></svg>',
   download: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+  soundOn: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+  soundOff: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>',
+  qr: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.2"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.2"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.2"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5"/></svg>',
   info: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8v.5M12 17h.01"/></svg>',
   share: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M8 11H6.5A2.5 2.5 0 0 0 4 13.5v5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-5a2.5 2.5 0 0 0-2.5-2.5H16"/></svg>',
   copy: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>',
@@ -319,9 +323,9 @@ const store = {
   del(k){ try { localStorage.removeItem(k); } catch(e){} },
 };
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
-function buildDeck(lvl){ return shuffle(Q.filter(x=>x.l===lvl).map(x=>x.id)).slice(0, DECK_SIZE); }
+function buildDeck(lvl, n){ return shuffle(Q.filter(x=>x.l===lvl).map(x=>x.id)).slice(0, n || DECK_SIZE); }
 function lvCount(lvl){ return Q.filter(x=>x.l===lvl).length; }
-function deckSize(lvl){ return Math.min(DECK_SIZE, lvCount(lvl)); }
+function deckSize(lvl, n){ return Math.min(n || DECK_SIZE, lvCount(lvl)); }
 /* Insère le prénom à la place de {X}, avec l'élision française : « de Anna » → « d'Anna », « que Hugo » → « qu'Hugo ». */
 function fillName(q, name){
   const vowel = /^[aeiouhàâäéèêëîïôöùûüœæ]/i.test(name || "");
@@ -382,7 +386,8 @@ function keepHist(s){
 }
 function clearHist(){ for (const k in HIST) delete HIST[k]; store.del("dm-hist"); }
 let screen = store.get("dm-adult") === "1" ? "home" : "gate", err = "", lastCardKey = null, handoffOk = "";
-let draft = { name: store.get("dm-name") || "", partner: "", av: store.get("dm-av") || "chat", av2: "lapin", maxL: 5, dares: true, code: "" };
+let draft = { name: store.get("dm-name") || "", partner: "", av: store.get("dm-av") || "chat", av2: "lapin", maxL: 5, dares: true, code: "",
+  len: LENGTHS.includes(Number(store.get("dm-len"))) ? Number(store.get("dm-len")) : DECK_SIZE };
 
 const PCOL = { host: "var(--p1)", guest: "var(--p2)" };
 function other(r){ return r === "host" ? "guest" : "host"; }
@@ -392,20 +397,21 @@ function cardOf(s){ return QBY[s.deck[s.idx]]; }
 function qText(card, s){ return fillName(card.q, pname(s, target(s))); }
 function ansOf(s, r){ const a = s.answers && s.answers[r]; return (a === undefined) ? null : a; }
 function isMatch(s){ return ansOf(s,"host") !== null && ansOf(s,"host") === ansOf(s,"guest"); }
-function syncCount(s){ return Object.values(s.results || {}).filter(Boolean).length; }
-function playedCount(s){ return Object.keys(s.results || {}).length; }
+/* results[i] : true (en phase), false (pas d'accord) ou null (question passée, qui ne compte pas). */
+function syncCount(s){ return Object.values(s.results || {}).filter(v => v === true).length; }
+function playedCount(s){ return Object.values(s.results || {}).filter(v => v === true || v === false).length; }
 function label(s, card, val){ return card.t === "who" ? pname(s, val) : card.o[val]; }
 
 function attach(r, isLocal, docRef, code){
   if (unsub) unsub();
-  role = r; local = isLocal; ref = docRef; S = null;
+  role = r; local = isLocal; ref = docRef; S = null; let first = true; reactSeen = {}; lastRevealKey = null;
   if (!isLocal){ store.set("dm-role-" + code, r); store.set("dm-last", code); }
   unsub = ref.onSnapshot(snap => {
     if (!snap.exists){
       err = S && !local ? "Ta moitié a quitté la partie : la session a été effacée." : "Cette session n'existe plus.";
       S = null; screen = "home"; if (code) store.del("dm-last"); render(); return;
     }
-    S = snap.data(); keepHist(S); render();
+    S = snap.data(); keepHist(S); onStateChange(S, first); first = false; render();
   }, () => { err = "Connexion perdue avec la session. Rouvre la page pour la reprendre."; render(); });
 }
 function leave(){
@@ -422,14 +428,14 @@ async function act(fn){
 }
 
 /* ---------- Actions ---------- */
-function freshGame(maxL){ return { deck: buildDeck(maxL), idx: 0, phase: "play", answers: {host:null, guest:null}, results: {}, round: Date.now() }; }
+function freshGame(maxL, n){ return { deck: buildDeck(maxL, n), idx: 0, phase: "play", answers: {host:null, guest:null}, results: {}, round: Date.now() }; }
 async function createSession(){
   const name = draft.name.trim(); if (!name){ err = "Indique ton prénom."; render(); return; }
   store.set("dm-name", name); store.set("dm-av", draft.av);
   await act(async () => {
     let code, r, tries = 0;
     do { code = newCode(); r = db.doc("sessions/" + code); tries++; } while ((await r.get()).exists && tries < 6);
-    await r.set({ code, createdAt: Date.now(), maxL: draft.maxL, dares: draft.dares, players: { host: { name, av: draft.av } },
+    await r.set({ code, createdAt: Date.now(), maxL: draft.maxL, n: draft.len, dares: draft.dares, players: { host: { name, av: draft.av } },
       phase: "lobby", deck: [], idx: 0, answers: {host:null, guest:null}, results: {} });
     attach("host", false, r, code);
   });
@@ -440,7 +446,7 @@ async function createLocal(){
   store.set("dm-name", a);
   const r = localDoc(null, saveLocalGame);
   attach("host", true, r, "");
-  await r.set(Object.assign({ code: "", maxL: draft.maxL, dares: draft.dares, players: { host:{name:a, av:draft.av}, guest:{name:b, av:draft.av2} } }, freshGame(draft.maxL)));
+  await r.set(Object.assign({ code: "", maxL: draft.maxL, n: draft.len, dares: draft.dares, players: { host:{name:a, av:draft.av}, guest:{name:b, av:draft.av2} } }, freshGame(draft.maxL, draft.len)));
 }
 async function joinSession(){
   const code = cleanCode(draft.code); const name = draft.name.trim();
@@ -500,11 +506,11 @@ async function resume(code){
   });
 }
 const startGame = () => act(() => ref.set(Object.assign(
-  { code: S.code || "", createdAt: S.createdAt || Date.now(), maxL: S.maxL, dares: !!S.dares, players: S.players }, freshGame(S.maxL))));
+  { code: S.code || "", createdAt: S.createdAt || Date.now(), maxL: S.maxL, n: S.n || DECK_SIZE, dares: !!S.dares, players: S.players }, freshGame(S.maxL, S.n || DECK_SIZE))));
 function answer(r, val){ const p = {answers:{}}; p.answers[r] = val; return act(() => ref.update(p)); }
-function next(){
-  const i = S.idx + 1; const res = {}; res[S.idx] = isMatch(S);
-  keepHist(S);
+function next(skip){
+  const i = S.idx + 1; const res = {}; res[S.idx] = skip === true ? null : isMatch(S);
+  if (skip !== true) keepHist(S);
   // Les réponses sont remises à zéro à chaque question : le serveur ne garde que « en phase » oui/non.
   const patch = { results: res, answers: {host:null, guest:null} };
   if (i >= S.deck.length) patch.phase = "end";
@@ -532,13 +538,18 @@ function heatDots(n){
 function levelPicker(){
   const L = LEVELS[draft.maxL-1];
   return h("div", {class:"field"},
-    h("label", {id:"lvl-lbl", text:"Quel niveau ce soir ?"}),
+    h("div", {class:"fhead"},
+      h("label", {id:"lvl-lbl", text:"Niveau ce soir"}),
+      h("span", {class:"lenseg", role:"group", "aria-label":"Nombre de questions"},
+        h("span", {class:"lenbtns"}, LENGTHS.map(n => h("button", {type:"button", class:"len", "aria-pressed": String(draft.len === n), "aria-label": n + " questions",
+          on:{click:()=>{ draft.len = n; store.set("dm-len", String(n)); render(); }}}, String(n)))),
+        h("span", {class:"lenlbl", "aria-hidden":"true", text:"questions"}))),
     h("div", {class:"lvcard", style:"--lc:var(" + L.tok + ")", "aria-live":"polite"},
       h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
       h("span", {class:"txt"},
         h("span", {class:"hd"}, h("b", {text: L.name}), heatDots(L.n), h("span", {class:"sr-only", text:"intensité " + L.n + " sur 5"})),
         h("span", {class:"tg", text: L.tag}),
-        h("span", {class:"ct", text: deckSize(L.n) + " questions au hasard parmi " + lvCount(L.n)}))),
+        h("span", {class:"ct", text: draft.len + " questions tirées au hasard parmi " + lvCount(L.n)}))),
     h("div", {class:"lvtrack", role:"group", "aria-labelledby":"lvl-lbl"},
       LEVELS.map(X => h("button", {type:"button", class:"lvstep", style:"--lc:var(" + X.tok + ")",
         "aria-pressed": String(draft.maxL === X.n), "aria-label": X.name + ", niveau " + X.n + " sur 5",
@@ -645,10 +656,11 @@ function viewLobby(){
     h("h2", {text: isHost ? (guest ? guest.name + " est là" : "Envoie ce code à ta moitié") : "Session de " + pname(S,"host")}),
     h("div", {class:"codebox"}, h("span", {class:"eyebrow", text:"Code de la session"}),
       h("div", {class:"codebig", "aria-label":"Code " + S.code.replace("-", "").split("").join(" "), text:S.code}),
-      h("span", {class:"muted", style:"font-size:14px", text: S.deck && S.deck.length ? S.deck.length + " questions · " + LEVELS[S.maxL-1].name : deckSize(S.maxL) + " questions · niveau " + LEVELS[S.maxL-1].name + (S.dares ? " · avec défis" : "")})),
+      h("span", {class:"muted", style:"font-size:14px", text: S.deck && S.deck.length ? S.deck.length + " questions · " + LEVELS[S.maxL-1].name : deckSize(S.maxL, S.n) + " questions · niveau " + LEVELS[S.maxL-1].name + (S.dares ? " · avec défis" : "")})),
     guest ? (isHost ? btn("primary", "next", "Commencer avec " + guest.name, startGame) : waiting(pname(S,"host") + " va lancer la partie"))
           : waiting("En attente de ta moitié"),
-    S.code ? h("div", {class:"row share"}, btn("ghost mini wide", "copy", "Copier", copyCode, {"aria-label": "Copier le code"}), btn("ghost mini wide", "share", "Partager", shareInvite)) : null,
+    S.code ? h("div", {class:"row share"}, btn("ghost mini wide", "copy", "Copier", copyCode, {"aria-label": "Copier le code"}), btn("ghost mini wide", "share", "Partager", shareInvite),
+      window.qrcode ? btn("ghost mini wide", "qr", "QR code", showQR, {"aria-label": "Afficher le QR code à scanner"}) : null) : null,
     h("p", {class:"toast", role:"status", text: exportMsg})), errLine()];
 }
 
@@ -693,6 +705,9 @@ function viewPlay(){
       kids.push(waiting("Réponse envoyée. " + pname(S, other(role)) + " réfléchit…"));
       kids.push(btn("link", null, "Changer ma réponse", ()=>answer(role, null)));
     }
+    // Passer : la question ne compte ni pour ni contre, sans défi.
+    kids.push(h("button", {type:"button", class:"link skip", "aria-label":"Passer cette question", on:{click:()=>next(true)}},
+      h("span", {class:"sk-l", text:"Passer cette question"}), h("span", {class:"sk-s", text:"Passer"})));
   } else {
     const m = isMatch(S);
     const rv = (r) => {
@@ -704,7 +719,7 @@ function viewPlay(){
       h("b", {text: m ? "En phase" : "Pas d'accord"}),
       h("span", {text: m ? "Un point de complicité." : (card.t === "guess" ? "Parlez-en : qu'est-ce qui a trompé " + pname(S, other(target(S))) + " ?" : "À vous de défendre votre choix.")})));
     if (!m && S.dares) kids.push(h("div", {class:"dare"}, h("small", {text:"Défi"}), h("p", {text: dareFor(S, card.l)}), h("span", {class:"pass", text:"Facultatif : on peut toujours passer son tour."})));
-    kids.push(btn("primary", "next", S.idx + 1 >= S.deck.length ? "Voir le bilan" : "Question suivante", next));
+    kids.push(btn("primary", "next", S.idx + 1 >= S.deck.length ? "Voir le bilan" : "Question suivante", ()=>next()));
   }
   const played = playedCount(S);
   const statusOf = (r) => both ? "" : (ansOf(S, r) !== null ? "a répondu" : "réfléchit");
@@ -724,20 +739,22 @@ function viewPlay(){
   ];
 }
 function endStats(){
-  const n = syncCount(S), tot = S.deck.length, pct = Math.round(n / tot * 100);
+  const n = syncCount(S), tot = playedCount(S), pct = tot ? Math.round(n / tot * 100) : 0;
+  const skipped = Object.values(S.results || {}).filter(v => v === null).length;
   const msg = pct >= 80 ? "Vous vous connaissez par cœur." : pct >= 60 ? "Très belle complicité, avec encore quelques surprises." : pct >= 40 ? "Il vous reste plein de choses à découvrir l'un sur l'autre." : "Beaucoup de surprises ce soir. De quoi alimenter la conversation.";
   const levels = LEVELS.filter(L => L.n === S.maxL).map(L => {
     let ok = 0, all = 0;
-    S.deck.forEach((id, i) => { if (QBY[id].l === L.n){ all++; if (S.results && S.results[i]) ok++; } });
+    S.deck.forEach((id, i) => { const v = S.results && S.results[i]; if (QBY[id].l === L.n && (v === true || v === false)){ all++; if (v) ok++; } });
     return { L, ok, all };
   });
   const rows = S.deck.map((id, i) => {
     const c = QBY[id]; const tg = i % 2 === 0 ? "guest" : "host";
     const hv = HIST[S.round + ":" + i];
     const lab = (v) => (v === null || v === undefined) ? "—" : (c.t === "who" ? pname(S, v) : c.o[v]);
-    return { c, q: fillName(c.q, pname(S, tg)), h: hv ? lab(hv.h) : "—", g: hv ? lab(hv.g) : "—", ok: !!(S.results && S.results[i]) };
+    const v = S.results ? S.results[i] : undefined;
+    return { c, q: fillName(c.q, pname(S, tg)), h: hv ? lab(hv.h) : "—", g: hv ? lab(hv.g) : "—", ok: v === true, skip: v === null };
   });
-  return { n, tot, pct, msg, levels, rows };
+  return { n, tot, pct, msg, levels, rows, skipped };
 }
 let exportMsg = "";
 function recapText(){
@@ -747,7 +764,7 @@ function recapText(){
   t += "Complicité : " + st.pct + " % (" + st.n + " / " + st.tot + " réponses en phase)\n" + st.msg + "\n\n";
   st.levels.forEach(x => { t += "· " + x.L.name + " : " + x.ok + " / " + x.all + "\n"; });
   t += "\n";
-  st.rows.forEach((r, i) => { t += (i+1) + ". " + r.q + "\n   " + A + " : " + r.h + " · " + B + " : " + r.g + "  →  " + (r.ok ? "en phase" : "pas d'accord") + "\n"; });
+  st.rows.forEach((r, i) => { t += (i+1) + ". " + r.q + "\n   " + (r.skip ? "question passée" : A + " : " + r.h + " · " + B + " : " + r.g + "  →  " + (r.ok ? "en phase" : "pas d'accord")) + "\n"; });
   return t;
 }
 function svgImg(str){
@@ -802,7 +819,7 @@ async function recapImage(){
     ctx.textAlign = "left"; ctx.fillStyle = "#85536b"; ctx.font = "800 26px " + BODY; ctx.fillText("LES QUESTIONS", P, y + 26); y += 56;
     st.rows.forEach(r => {
       ctx.font = "700 30px " + BODY; const ql = wrap(ctx, r.q, W - 2*P - 100);
-      ctx.font = "600 26px " + BODY; const al = wrap(ctx, A + " : " + r.h + "   ·   " + B + " : " + r.g, W - 2*P - 100);
+      ctx.font = "600 26px " + BODY; const al = wrap(ctx, r.skip ? "Question passée" : A + " : " + r.h + "   ·   " + B + " : " + r.g, W - 2*P - 100);
       const hgt = 40 + ql.length * 40 + al.length * 34 + 12;
       rr(ctx, P, y, W - 2*P, hgt, 24); ctx.fillStyle = "#ffffff"; ctx.fill();
       ctx.fillStyle = lvCol[r.c.l - 1]; rr(ctx, P, y, 10, hgt, 5); ctx.fill();
@@ -811,9 +828,10 @@ async function recapImage(){
       ctx.fillStyle = "#85536b"; ctx.font = "600 26px " + BODY; al.forEach(l => { ctx.fillText(l, P + 34, yy); yy += 34; });
       // marque
       const mx = W - P - 44, my = y + hgt/2;
-      ctx.beginPath(); ctx.arc(mx, my, 24, 0, Math.PI*2); ctx.fillStyle = r.ok ? "#dff3e7" : "#fde7dc"; ctx.fill();
-      ctx.strokeStyle = r.ok ? "#1d7a4c" : "#b23e1b"; ctx.lineWidth = 5; ctx.lineCap = "round"; ctx.beginPath();
-      if (r.ok){ ctx.moveTo(mx-10, my+1); ctx.lineTo(mx-3, my+8); ctx.lineTo(mx+11, my-8); }
+      ctx.beginPath(); ctx.arc(mx, my, 24, 0, Math.PI*2); ctx.fillStyle = r.skip ? "#ece6ee" : r.ok ? "#dff3e7" : "#fde7dc"; ctx.fill();
+      ctx.strokeStyle = r.skip ? "#9a8ea0" : r.ok ? "#1d7a4c" : "#b23e1b"; ctx.lineWidth = 5; ctx.lineCap = "round"; ctx.beginPath();
+      if (r.skip){ ctx.moveTo(mx-9, my); ctx.lineTo(mx+9, my); }
+      else if (r.ok){ ctx.moveTo(mx-10, my+1); ctx.lineTo(mx-3, my+8); ctx.lineTo(mx+11, my-8); }
       else { ctx.moveTo(mx-8, my-8); ctx.lineTo(mx+8, my+8); ctx.moveTo(mx+8, my-8); ctx.lineTo(mx-8, my+8); }
       ctx.stroke();
       y += hgt + 16;
@@ -833,6 +851,14 @@ async function exportImage(){
     const blob = await recapImage();
     if (!blob) throw new Error("canvas");
     const name = ("pile-poil-" + pname(S,"host") + "-" + pname(S,"guest") + ".png").replace(/[^\w\-.À-ÿ]+/g, "-");
+    // Sur téléphone : ouvre directement le partage (WhatsApp, Messages…). Sinon : téléchargement.
+    try {
+      const file = new File([blob], name, { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })){
+        await navigator.share({ files: [file], title: "Pile-poil", text: "Notre complicité : " + endStats().pct + " %" });
+        return;
+      }
+    } catch(e){ if (e && e.name === "AbortError") return; }
     const url = URL.createObjectURL(blob);
     const a = h("a", {href: url, download: name, style: "display:none"});
     document.body.append(a); a.click(); a.remove();
@@ -848,6 +874,18 @@ async function copyRecap(){
   catch(e){ exportMsg = ""; err = "La copie est bloquée ici. Utilise plutôt l'export en image."; }
   render();
 }
+/* Les questions où vous n'étiez pas d'accord (jouées sur cet appareil). */
+function disagreements(st){ return st.rows.filter(r => !r.ok && !r.skip && r.h !== "—"); }
+function showDisagreements(st){
+  const list = disagreements(st); const A = pname(S, "host"), B = pname(S, "guest");
+  const body = h("ol", {class:"dis"}, list.slice(0, 5).map(r => h("li", null,
+    h("b", {text: r.q}),
+    h("span", null, h("span", {class:"nmh nm1", text: A}), " " + r.h),
+    h("span", null, h("span", {class:"nmh nm2", text: B}), " " + r.g))));
+  ask({ icon:"replay", cancel:false, confirm:"Fermer", title:"Vos désaccords",
+    text: list.length > 5 ? "Les 5 premiers sur " + list.length + ". Le récap en image ou en texte les contient tous." : "De quoi alimenter la conversation.",
+    body, onConfirm: ()=>{} });
+}
 function viewEnd(){
   const st = endStats();
   return [h("section", {class:"panel"},
@@ -855,12 +893,14 @@ function viewEnd(){
       h("div", {class:"duo"}, h("span", {class:"p"}, h("span", {class:"ava"}, avatarSvg(S.players.host.av)), pname(S,"host")),
         h("span", {class:"amp", text:"&"}), h("span", {class:"p"}, h("span", {class:"ava"}, avatarSvg(S.players.guest.av)), pname(S,"guest"))),
       h("span", {class:"eyebrow", text:"Votre complicité"}), h("b", {text: st.pct + " %"}),
-      h("p", {text: st.n + " réponses en phase sur " + st.tot + ". " + st.msg}),
+      h("p", {text: st.n + " réponses en phase sur " + st.tot + (st.skipped ? " (" + st.skipped + (st.skipped > 1 ? " passées)" : " passée)") : "") + ". " + st.msg}),
       h("div", {class:"bylv"}, st.levels.map(x => h("div", null, h("span", {text:x.L.name}), h("span", {text: x.ok + " / " + x.all}))))),
     h("div", {class:"exp"},
-      h("p", {text:"Gardez un souvenir de la partie : vos avatars, le score et toutes vos réponses."}),
+      disagreements(st).length
+        ? btn("link", null, "Revoir vos désaccords (" + disagreements(st).length + ")", ()=>showDisagreements(st))
+        : h("p", {text:"Aucun désaccord ce soir : bravo !"}),
       h("div", {class:"row"},
-        btn("primary", "download", "Exporter le récap", exportImage),
+        btn("primary", "share", "Partager l'image", exportImage),
         btn("ghost wide", "copy", "Copier le texte", copyRecap)),
       h("p", {class:"toast", role:"status", text: exportMsg})),
     h("div", {class:"row"}, btn("ghost", "exit", "Quitter", askLeave), btn("primary", "replay", "Rejouer", askReplay))), errLine()];
@@ -924,7 +964,7 @@ function renderModal(){
   const confirmBtn = btn(m.danger ? "danger" : "primary", null, m.confirm, ()=>{ closeModal(); m.onConfirm(); });
   const sheet = h("div", {class:"sheet", role:"alertdialog", "aria-modal":"true", "aria-labelledby":"mdl-t", "aria-describedby":"mdl-d"},
     h("span", {class:"sic", "aria-hidden":"true"}, icon(ICON[m.icon || "exit"])),
-    h("h3", {id:"mdl-t", text:m.title}), h("p", {id:"mdl-d", text:m.text}),
+    h("h3", {id:"mdl-t", text:m.title}), h("p", {id:"mdl-d", text:m.text}), m.body || null,
     h("div", {class:"row"}, m.cancel === false ? null : btn("ghost wide", null, m.cancel || "Annuler", ()=>{ closeModal(); if (m.onCancel) m.onCancel(); }), confirmBtn));
   const scrim = h("div", {class:"scrim", on:{
     click:(e)=>{ if (e.target === scrim) closeModal(); },
@@ -962,11 +1002,86 @@ async function shareInvite(){
   catch(e){ exportMsg = "Lien d'invitation : " + url; }
   render();
 }
+/* QR code du lien d'invitation, dessiné en SVG (noir sur blanc, lisible aussi en thème sombre). */
+function qrSvg(text){
+  const qr = window.qrcode(0, "M"); qr.addData(text); qr.make();
+  const n = qr.getModuleCount(), q = 4, size = n + 2 * q; let d = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += "M" + (c + q) + " " + (r + q) + "h1v1h-1z";
+  return icon('<svg class="qr" viewBox="0 0 ' + size + ' ' + size + '" shape-rendering="crispEdges" role="img" aria-label="QR code du lien d\'invitation">'
+    + '<rect width="' + size + '" height="' + size + '" fill="#fff"/><path d="' + d + '" fill="#1d1720"/></svg>');
+}
+function showQR(){
+  ask({ icon:"qr", cancel:false, confirm:"Fermer", title:"Scanner pour rejoindre",
+    text:"Avec l'appareil photo de l'autre téléphone : le jeu s'ouvre avec le code déjà rempli.",
+    body: h("div", {class:"qrbox"}, qrSvg(inviteUrl(S.code)), h("b", {class:"qrcode-txt", text: S.code})),
+    onConfirm: ()=>{} });
+}
 async function copyCode(){
   try { await navigator.clipboard.writeText(S.code); exportMsg = "Code copié."; }
   catch(e){ exportMsg = "Le code est " + S.code + "."; }
   render();
 }
+
+/* ---------- Réactions rapides (à deux téléphones) ---------- */
+const REACTIONS = [
+  {k:"heart", n:"Cœur", svg:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27.5C9.5 23 4 18.4 4 12.4 4 8.8 6.8 6 10.3 6c2.3 0 4.4 1.2 5.7 3.1C17.3 7.2 19.4 6 21.7 6 25.2 6 28 8.8 28 12.4c0 6-5.5 10.6-12 15.1z" fill="#e2405f"/><path d="M9 11c.5-1.6 1.8-2.6 3.4-2.8" fill="none" stroke="#ff9fb4" stroke-width="2" stroke-linecap="round"/></svg>'},
+  {k:"laugh", n:"Rire", svg:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="#ffc94a"/><path d="M9.5 13.2q2-2.4 4 0M18.5 13.2q2-2.4 4 0" fill="none" stroke="#2b1d22" stroke-width="1.8" stroke-linecap="round"/><path d="M9 17.5h14c0 4.4-3.1 7.5-7 7.5s-7-3.1-7-7.5z" fill="#2b1d22"/><path d="M11.5 22.3c1.2 1.4 2.8 2.2 4.5 2.2s3.3-.8 4.5-2.2c-1.3-.9-2.8-1.3-4.5-1.3s-3.2.4-4.5 1.3z" fill="#ff7f9c"/></svg>'},
+  {k:"blush", n:"Rougir", svg:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="#ffc94a"/><ellipse cx="9.5" cy="18" rx="3.2" ry="2" fill="#ff6f8f" opacity=".75"/><ellipse cx="22.5" cy="18" rx="3.2" ry="2" fill="#ff6f8f" opacity=".75"/><path d="M10 13.5q1.8 1.6 3.6 0M18.4 13.5q1.8 1.6 3.6 0" fill="none" stroke="#2b1d22" stroke-width="1.8" stroke-linecap="round"/><path d="M13.2 21.2q2.8 2 5.6 0" fill="none" stroke="#2b1d22" stroke-width="1.8" stroke-linecap="round"/></svg>'},
+];
+const REACT_BY = Object.fromEntries(REACTIONS.map(x => [x.k, x]));
+let reactSeen = {}, lastReactAt = 0, lastRevealKey = null;
+const revealed = (s) => s && s.phase === "play" && ansOf(s, "host") !== null && ansOf(s, "guest") !== null;
+/* Appelé à chaque nouvel état de la partie : sons de révélation et réactions de l'autre téléphone. */
+function onStateChange(s, first){
+  const rk = revealed(s) ? s.round + ":" + s.idx : null;
+  if (rk && rk !== lastRevealKey && !first) playSound(isMatch(s) ? "match" : "miss");
+  lastRevealKey = rk;
+  const re = s.react || {};
+  for (const r of ["host", "guest"]){
+    const x = re[r]; if (!x || !x.t) continue;
+    const isNew = !first && x.t > (reactSeen[r] || 0);
+    reactSeen[r] = Math.max(reactSeen[r] || 0, x.t);
+    if (isNew && r !== role && x.i === s.idx && REACT_BY[x.e]) { floatReaction(x.e); playSound("pop"); }
+  }
+}
+function sendReaction(k){
+  if (!S || local || !ref || Date.now() - lastReactAt < 1500) return;
+  lastReactAt = Date.now();
+  const p = { react: {} }; p.react[role] = { e: k, i: S.idx, t: Date.now() };
+  floatReaction(k); playSound("pop");
+  ref.update(p).catch(() => {});
+}
+function floatReaction(k){
+  const x = REACT_BY[k]; if (!x) return;
+  const el = h("span", {class:"rfloat", "aria-hidden":"true", style:"left:" + (38 + Math.random() * 24) + "%"});
+  el.append(icon(x.svg)); document.body.append(el);
+  setTimeout(() => el.remove(), 1900);
+}
+function reactionBar(){
+  return h("span", {class:"reacts", role:"group", "aria-label":"Réagir"}, REACTIONS.map(x =>
+    h("button", {type:"button", class:"tb icon react", "aria-label": x.n, title: x.n, on:{click:()=>sendReaction(x.k)}}, icon(x.svg))));
+}
+
+/* ---------- Sons doux (coupés par défaut, générés sans fichier) ---------- */
+let soundOn = store.get("dm-sound") === "1", actx = null;
+function note(f, t, d, type, g){
+  const o = actx.createOscillator(), v = actx.createGain();
+  o.type = type || "sine"; o.frequency.value = f;
+  v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g || .14, t + .015); v.gain.exponentialRampToValueAtTime(.0001, t + d);
+  o.connect(v); v.connect(actx.destination); o.start(t); o.stop(t + d + .03);
+}
+function playSound(kind){
+  if (!soundOn) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === "suspended") actx.resume();
+    const t = actx.currentTime + .01;
+    if (kind === "match"){ note(523.25, t, .22); note(659.25, t + .09, .24); note(783.99, t + .18, .34); }
+    else if (kind === "miss"){ note(392, t, .26, "triangle", .1); note(311.13, t + .13, .34, "triangle", .1); }
+    else { note(880, t, .09, "sine", .1); note(1318.5, t + .04, .08, "sine", .06); }
+  } catch(e){}
+}
+function toggleSound(){ soundOn = !soundOn; store.set("dm-sound", soundOn ? "1" : "0"); if (soundOn) playSound("pop"); renderToolbar(); }
 
 /* ---------- Installation (PWA) ---------- */
 /* Android / Chrome : le navigateur propose l'installation, on garde l'invitation pour notre bouton.
@@ -997,11 +1112,24 @@ function currentScreen(){ return S ? S.phase : screen; }
 function renderToolbar(){
   const dark = effectiveTheme() === "dark";
   const bigBrand = ["home", "gate", "minor"].includes(currentScreen());
-  const left = S ? btn("tb", "exit", "Quitter", askLeave) : bigBrand ? installButton() : brand(false);
-  $toolbar.replaceChildren(left, S ? brand(false) : h("span", {class:"spacer"}),
-    btn("tb icon", dark ? "sun" : "moon", "", toggleTheme, {"aria-label": dark ? "Passer en mode clair" : "Passer en mode sombre", title: dark ? "Mode clair" : "Mode sombre"}));
+  const inPlay = S && S.phase === "play";
+  const left = inPlay ? btn("tb icon", "exit", "", askLeave, {"aria-label":"Quitter la partie", title:"Quitter la partie"})
+    : S ? btn("tb", "exit", "Quitter", askLeave) : bigBrand ? installButton() : brand(false);
+  // Au centre : le logo, ou les réactions juste après une révélation à deux téléphones.
+  const center = (inPlay && !local && revealed(S)) ? reactionBar() : S ? brand(false) : h("span", {class:"spacer"});
+  $toolbar.replaceChildren(left, center, h("span", {class:"tbr"},
+    btn("tb icon", soundOn ? "soundOn" : "soundOff", "", toggleSound, {"aria-label": soundOn ? "Couper les sons" : "Activer les sons", title: soundOn ? "Couper les sons" : "Activer les sons", "aria-pressed": String(soundOn)}),
+    btn("tb icon", dark ? "sun" : "moon", "", toggleTheme, {"aria-label": dark ? "Passer en mode clair" : "Passer en mode sombre", title: dark ? "Mode clair" : "Mode sombre"})));
 }
+/* Changement d'écran : transition animée quand le navigateur sait faire (View Transitions). */
+let lastScreen = null;
 function render(){
+  const sc = currentScreen(); const changed = lastScreen !== null && sc !== lastScreen; lastScreen = sc;
+  let reduce = false; try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){}
+  if (changed && document.startViewTransition && !reduce){ try { document.startViewTransition(doRender); return; } catch(e){} }
+  doRender();
+}
+function doRender(){
   const focusId = document.activeElement && document.activeElement.id;
   let v;
   if (S) v = S.phase === "lobby" ? viewLobby() : S.phase === "end" ? viewEnd() : viewPlay();

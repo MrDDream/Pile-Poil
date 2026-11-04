@@ -534,3 +534,67 @@ body[data-screen="local"] .view,body[data-screen="end"] .view{justify-content:ce
 .pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .pair>*,.field{min-width:0}
 .parade .ava{box-sizing:border-box}
+
+/* ===== Longueur de partie (10 / 20 / 30), dans la carte du niveau ===== */
+.lvcard .txt{flex:1}
+.lenseg{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px}
+.lenbtns{display:flex;gap:2px;padding:2px;border-radius:10px;background:var(--surface)}
+.lenseg .len{min-height:0;width:30px;height:28px;padding:0;border-radius:8px;font-size:13px;font-weight:800;background:transparent;color:var(--muted);border:0}
+.lenseg .len[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.lenlbl{font-size:10.5px;font-weight:700;color:var(--muted);line-height:1}
+@media (min-height:800px){ .lenseg .len{width:34px;height:32px;font-size:14px} }
+/* Passer une question */
+.card .skip{min-height:30px;font-size:13px;align-self:center;margin-top:-6px;padding:0 10px}
+.card{position:relative}
+.skip .sk-s{display:none}
+@media (max-height:620px){
+  .card .skip{position:absolute;top:6px;right:6px;margin:0;min-height:26px;font-size:12px;padding:0 8px}
+  .skip .sk-l{display:none}
+  .skip .sk-s{display:inline}
+  .card .chip{max-width:calc(100% - 120px)}
+  .lenlbl{display:none}
+}
+@media (max-height:620px){ .card .chip{align-self:flex-start;max-width:calc(100% - 72px)} }
+@media (max-height:580px){ .opt{min-height:43px;padding:7px 12px} }
+
+/* ===== Bilan : liste des désaccords dans la fenêtre ===== */
+.sheet{max-height:calc(100dvh - 32px);overflow-y:auto}
+.dis{margin:0;padding:0 0 0 22px;text-align:left;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.dis li{display:flex;flex-direction:column;gap:3px}
+.dis li b{font-size:14.5px;line-height:1.3}
+.dis li>span{color:var(--muted);line-height:1.3}
+.exp .link{min-height:36px;font-size:14px}
+
+/* ===== QR code d'invitation ===== */
+.qrbox{display:flex;flex-direction:column;align-items:center;gap:8px}
+.qrbox .qr{width:min(240px,62vw);height:auto;border-radius:12px;display:block}
+.qrcode-txt{font-size:22px;letter-spacing:.12em}
+.row.share>button svg{width:17px;height:17px}
+@media (max-width:380px){ .row.share>button{font-size:13px;padding:0 6px;gap:5px} }
+
+/* ===== Barre du haut : sons + thème, réactions ===== */
+.tbr{display:flex;gap:6px;flex:none}
+.reacts{display:flex;gap:6px}
+.tb.react{border-color:transparent;background:var(--surface-2)}
+.tb.react svg{width:24px;height:24px}
+.tb.react:active svg{transform:scale(1.25)}
+.rfloat{position:fixed;bottom:22%;z-index:60;width:54px;height:54px;margin-left:-27px;pointer-events:none;animation:rfloat 1.8s cubic-bezier(.2,.7,.3,1) forwards}
+.rfloat svg{width:100%;height:100%;display:block}
+@keyframes rfloat{0%{opacity:0;transform:translateY(20px) scale(.5)}15%{opacity:1;transform:translateY(0) scale(1.15)}30%{transform:translateY(-30px) scale(1)}100%{opacity:0;transform:translateY(-240px) scale(1.1) rotate(-8deg)}}
+@media (max-width:380px){ .toolbar .brand h1{font-size:19px} }
+
+/* ===== Transitions entre écrans ===== */
+::view-transition-old(root){animation:vt-out .16s ease both}
+::view-transition-new(root){animation:vt-in .24s cubic-bezier(.2,.8,.25,1) both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion: reduce){ .rfloat{animation-duration:.01s} ::view-transition-old(root),::view-transition-new(root){animation:none} }
+/* La longueur se choisit sur la ligne du titre « Niveau ce soir » */
+.fhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lenseg{flex-direction:row;gap:6px}
+.lenbtns{background:var(--surface-2)}
+.lenseg .len{width:30px;height:26px}
+.lenlbl{font-size:11px;letter-spacing:.04em}
+@media (min-height:800px){ .lenseg .len{width:34px;height:30px} }
+@media (max-height:620px){ .lenlbl{display:inline} }
+@media (max-height:700px){ .lenbtns{padding:1px} .lenseg .len{height:21px;width:28px;font-size:12px} .field>.fhead{margin-block:-2px} }

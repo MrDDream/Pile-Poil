@@ -24,6 +24,7 @@ const SHELL = [
   "questions/3-seduction.js",
   "questions/4-coquin.js",
   "questions/5-brulant.js",
+  "vendor/qrcode.js",
   "app.js",
   "manifest.webmanifest",
   "icon.svg",

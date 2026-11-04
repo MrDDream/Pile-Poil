@@ -13,9 +13,10 @@ service cloud.firestore {
       }
       function validShape() {
         return request.resource.data.keys().hasOnly([
-          'code', 'createdAt', 'maxL', 'dares', 'players', 'phase',
-          'deck', 'idx', 'answers', 'results', 'round', 'expireAt'
+          'code', 'createdAt', 'maxL', 'n', 'dares', 'players', 'phase',
+          'deck', 'idx', 'answers', 'results', 'round', 'react', 'expireAt'
         ])
+        && (!('n' in request.resource.data) || request.resource.data.n in [10, 20, 30])
         && request.resource.data.expireAt is timestamp
         && request.resource.data.expireAt <= request.time + duration.value(49, 'h');
       }

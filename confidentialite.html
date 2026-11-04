@@ -65,9 +65,10 @@
     <p>Pour que vos deux téléphones se synchronisent, une « session » est enregistrée dans une base de données Google Firebase (Cloud Firestore), hébergée en Europe. Elle contient :</p>
     <ul>
       <li>le code de la session, vos prénoms et vos avatars ;</li>
-      <li>le niveau choisi, l'option défis, l'ordre des questions et la question en cours ;</li>
+      <li>le niveau choisi, le nombre de questions, l'option défis, l'ordre des questions et la question en cours ;</li>
       <li>la réponse en cours de chacun, remise à zéro à chaque nouvelle question ;</li>
-      <li>pour chaque question déjà jouée, seulement si vous étiez « en phase » (oui ou non) ;</li>
+      <li>pour chaque question déjà jouée, seulement si vous étiez « en phase » (oui, non ou question passée) ;</li>
+      <li>la dernière réaction envoyée par chacun (cœur, rire ou rougir) ;</li>
       <li>les dates de création et d'expiration de la session.</li>
     </ul>
     <p>L'historique détaillé de vos réponses n'est jamais stocké sur le serveur : il reste sur vos téléphones, pour afficher le bilan et reprendre la partie si l'app est fermée par erreur. Il est effacé dès que vous quittez la partie, et au plus tard 24 h après la dernière réponse.</p>

@@ -25,7 +25,7 @@
 
 ## Comment on joue
 
-1. **Choisissez un niveau**, du plus tendre au plus osé. La partie tire 30 questions au hasard parmi les 240 du niveau.
+1. **Choisissez un niveau**, du plus tendre au plus osé, et la longueur de la partie : 10, 20 ou 30 questions tirées au hasard parmi les 240 du niveau.
 2. **Répondez chacun de votre côté** : « Qui de nous deux… ? », ou devinez ce que l'autre va répondre.
 3. **Les réponses s'affichent ensemble.** Même réponse : un point de complicité. Pas d'accord : on en parle… ou on relève un petit défi.
 4. **Le bilan final** donne votre score de complicité, à garder en image ou en texte.
@@ -45,7 +45,10 @@ Les défis sont facultatifs : on peut toujours passer son tour, ou les désactiv
 ## Fonctionnalités
 
 - **Deux façons de jouer** : sur un seul téléphone qu'on se passe, ou sur deux téléphones reliés par un code (`K7QM-3XRP`).
-- **Invitation en un geste** : le bouton « Partager » envoie un lien qui ouvre le jeu avec le code déjà rempli.
+- **Invitation en un geste** : le bouton « Partager » envoie un lien qui ouvre le jeu avec le code déjà rempli, ou l'autre téléphone scanne un QR code.
+- **Parties de 10, 20 ou 30 questions**, et un bouton « Passer » pour une question qui ne vous inspire pas.
+- **Réactions rapides** (cœur, rire, rougir) envoyées à l'autre téléphone au moment de la révélation, **sons doux** optionnels et transitions animées.
+- **Bilan à partager** : votre score de complicité, vos désaccords, et l'image du bilan à envoyer en un geste.
 - **Reprise de partie** : si l'app se ferme par erreur, une fenêtre propose de reprendre là où vous en étiez.
 - **Application installable** (PWA) : sur l'écran d'accueil comme une vraie app, et le jeu à un téléphone marche hors connexion.
 - **Pensé pour le téléphone** : chaque écran tient sans défiler, des petits écrans aux grands ; thème clair et sombre.
@@ -70,6 +73,7 @@ Site statique en HTML, CSS et JavaScript, sans framework ni étape de build. Les
 | `firestore.rules` | Les règles de sécurité de la base |
 | `sw.js`, `manifest.webmanifest`, `icons/` | L'application installable et le mode hors ligne |
 | `fonts.css`, `fonts/` | Les polices Fredoka et Nunito, servies par le site (licence OFL) |
+| `vendor/qrcode.js` | Générateur de QR code (qrcode-generator, MIT) |
 | `confidentialite.html` | Confidentialité et mentions légales |
 
 ### Tester en local
@@ -101,7 +105,7 @@ Après une modification, lance la vérification (format, doublons entre niveaux,
 node tools/check-questions.js
 ```
 
-Le nombre de questions par partie est `DECK_SIZE` dans `app.js`.
+Les longueurs de partie proposées sont `LENGTHS` dans `app.js` (30 par défaut, `DECK_SIZE`).
 
 ### Héberger ta propre version
 
