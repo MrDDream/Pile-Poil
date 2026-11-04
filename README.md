@@ -27,7 +27,7 @@
 
 ## Comment on joue
 
-1. **Choisissez un niveau**, du plus tendre au plus osé, ou le mode **Aléatoire** qui pioche dans les 5, et la longueur de la partie : 10, 20, 30 ou 50 questions tirées au hasard (environ 250 par niveau).
+1. **Choisissez un niveau**, du plus tendre au plus osé, ou le mode **Aléatoire** qui pioche dans les 5, et la longueur de la partie : 10, 20, 30 ou 50 questions tirées au hasard (environ 400 à 490 par niveau).
 2. **Répondez chacun de votre côté** : « Qui de nous deux… ? », ou devinez ce que l'autre va répondre.
 3. **Les réponses s'affichent ensemble.** Même réponse : un point de complicité. Pas d'accord : on en parle… ou on relève un petit défi.
 4. **Le bilan final** donne votre score de complicité, à garder en image ou en texte.
