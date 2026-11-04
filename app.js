@@ -131,6 +131,7 @@ const ICON = {
   soundOn: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
   soundOff: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>',
   edit: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+  skipIc: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6l7 6-7 6zM13 6l7 6-7 6z"/></svg>',
   qr: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.2"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.2"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.2"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5"/></svg>',
   info: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8v.5M12 17h.01"/></svg>',
   share: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M8 11H6.5A2.5 2.5 0 0 0 4 13.5v5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-5a2.5 2.5 0 0 0-2.5-2.5H16"/></svg>',
@@ -729,9 +730,6 @@ function viewPlay(){
       kids.push(waiting("Réponse envoyée. " + pname(S, other(role)) + " réfléchit…"));
       kids.push(btn("link", null, "Changer ma réponse", ()=>answer(role, null)));
     }
-    // Passer : la question ne compte ni pour ni contre, sans défi.
-    kids.push(h("button", {type:"button", class:"link skip", "aria-label":"Passer cette question", on:{click:()=>next(true)}},
-      h("span", {class:"sk-l", text:"Passer cette question"}), h("span", {class:"sk-s", text:"Passer"})));
   } else {
     const m = isMatch(S);
     const rv = (r) => {
@@ -757,7 +755,10 @@ function viewPlay(){
     h("div", {class:"levelbar"},
       h("span", {class:"nm", text: L.name}),
       h("span", {class:"segs", "aria-hidden":"true"}, LEVELS.map(x => h("i", {style: x.n <= card.l ? "background:var(" + x.tok + ")" : null}))),
-      h("span", {class:"ct", text: (S.idx+1) + " / " + S.deck.length})),
+      h("span", {class:"ct", text: (S.idx+1) + " / " + S.deck.length}),
+      // Passer : en haut, loin des réponses ; la question ne compte ni pour ni contre, sans défi.
+      both ? null : h("button", {type:"button", class:"skip", "aria-label":"Passer cette question", title:"Passer cette question", on:{click:()=>next(true)}},
+        "Passer", icon(ICON.skipIc))),
     h("article", {class:"card" + (enter ? " enter" : "")}, kids),
     errLine(),
   ];
