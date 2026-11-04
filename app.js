@@ -5,22 +5,110 @@
    who   : « Qui de nous deux… » – chacun désigne l'un des deux, on compare.
    guess : question sur {X} (la personne visée) – {X} répond pour elle-même, l'autre devine. */
 const LEVELS = [
-  {n:1, name:"Complicité", tok:"--h1", tag:"Petites manies et habitudes du quotidien"},
-  {n:2, name:"Souvenirs",  tok:"--h2", tag:"Votre histoire, vos premières fois"},
-  {n:3, name:"Séduction",  tok:"--h3", tag:"Ce qui vous fait craquer l'un chez l'autre"},
-  {n:4, name:"Coquin",     tok:"--h4", tag:"Ça commence à chauffer sous la couette"},
-  {n:5, name:"Brûlant",    tok:"--h5", tag:"Fantasmes et envies inavouées"},
+  {n:1, name:"Complicité", tok:"--h1", tag:"Petites manies et habitudes du quotidien",
+   dare:{t:"Petits défis complices", s:"Un gage tout doux quand vos réponses diffèrent"}},
+  {n:2, name:"Souvenirs",  tok:"--h2", tag:"Votre histoire, vos premières fois",
+   dare:{t:"Défis souvenirs", s:"Un moment à revivre quand vos réponses diffèrent"}},
+  {n:3, name:"Séduction",  tok:"--h3", tag:"Ce qui vous fait craquer l'un chez l'autre",
+   dare:{t:"Défis charmeurs", s:"Un geste tendre quand vos réponses diffèrent"}},
+  {n:4, name:"Coquin",     tok:"--h4", tag:"Ça commence à chauffer sous la couette",
+   dare:{t:"Défis coquins", s:"Un défi taquin quand vos réponses diffèrent"}},
+  {n:5, name:"Brûlant",    tok:"--h5", tag:"Fantasmes et envies inavouées",
+   dare:{t:"Défis brûlants", s:"Un défi osé quand vos réponses diffèrent"}},
 ];
 /* Les questions sont dans le dossier questions/ (un fichier par niveau). */
 const Q = window.PILEPOIL_Q || [];
 const DECK_SIZE = 30; // nombre de questions tirées au hasard pour une partie
+/* Défis proposés quand les réponses diffèrent. Le ton suit le niveau : rien de coquin avant le niveau 4. */
 const DARES = {
-  1:["Chacun dit une qualité de l'autre qu'il n'a jamais dite.","Imitez-vous mutuellement au réveil.","Un câlin de 10 secondes avant la question suivante."],
-  2:["Racontez chacun votre souvenir préféré de vous deux.","Un bisou sur le bout du nez.","Rejouez votre premier baiser."],
-  3:["Un bisou dans le cou.","Un compliment sincère, les yeux dans les yeux, sans rire.","Un slow de 30 secondes, même sans musique."],
-  4:["Un massage des épaules de 2 minutes.","Un baiser de cinéma de 10 secondes.","Retirez chacun un vêtement… une chaussette compte."],
-  5:["Retirez chacun un vêtement, celui que l'autre choisit.","Murmure à l'oreille de l'autre ce que tu as envie de lui faire ce soir.","Embrasse l'autre pendant 10 secondes, là où il ou elle le décide.","Un massage de 2 minutes, torse nu.","Choisissez ensemble une position à essayer plus tard ce soir."],
+  1:[
+    "Dites chacun une qualité de l'autre que vous n'avez jamais dite à voix haute.",
+    "Imitez-vous mutuellement au réveil.",
+    "Un câlin de 10 secondes avant la question suivante.",
+    "Inventez sur le moment votre poignée de main secrète.",
+    "Restez 15 secondes les yeux dans les yeux sans rire.",
+    "Chantez ensemble le refrain d'une chanson que vous connaissez tous les deux.",
+    "Racontez la dernière chose qui vous a fait rire ensemble.",
+    "Inventez chacun un nouveau surnom pour l'autre.",
+    "Faites une photo grimace à deux.",
+    "Citez à tour de rôle trois choses que vous aimez faire ensemble.",
+    "Un massage des mains de 30 secondes chacun.",
+    "Imitez la façon dont l'autre répond au téléphone.",
+    "Promettez-vous une petite attention pour demain.",
+    "Imitez la tête de l'autre quand la faim arrive.",
+    "Faites-vous un compliment sur un détail que personne ne remarque.",
+  ],
+  2:[
+    "Racontez chacun votre souvenir préféré de vous deux.",
+    "Un bisou sur le bout du nez.",
+    "Rejouez votre premier baiser.",
+    "Retrouvez la plus vieille photo de vous deux dans vos téléphones.",
+    "Racontez chacun votre toute première impression de l'autre.",
+    "Rejouez la scène de votre rencontre en 30 secondes.",
+    "Retrouvez la date d'un moment important pour vous deux… sans vérifier.",
+    "Fredonnez une chanson qui vous rappelle un souvenir commun.",
+    "Citez chacun un moment où vous avez été fier ou fière de l'autre.",
+    "Choisissez ensemble une date pour refaire votre premier rendez-vous.",
+    "Racontez un souvenir drôle de vous deux que personne d'autre ne connaît.",
+    "Un câlin de retrouvailles, comme après un long voyage.",
+    "Résumez chacun votre première année ensemble en un seul mot.",
+    "Relisez ensemble les premiers messages que vous vous êtes envoyés.",
+    "Dites merci à l'autre pour un souvenir précis.",
+  ],
+  3:[
+    "Un bisou dans le cou.",
+    "Un compliment sincère, les yeux dans les yeux, sans rire.",
+    "Un slow de 30 secondes, même sans musique.",
+    "Draguez l'autre comme si vous vous rencontriez ce soir.",
+    "Un baisemain dans les règles de l'art.",
+    "Murmurez un compliment à l'oreille de l'autre.",
+    "Regard de braise : 10 secondes sans cligner des yeux.",
+    "Écrivez un mot doux du bout du doigt dans le dos de l'autre, qui doit deviner.",
+    "Un baiser de cinéma, version timide.",
+    "Dites en une phrase ce qui vous a fait craquer chez l'autre.",
+    "Faites votre plus belle déclaration en trois mots.",
+    "Recoiffez l'autre tendrement.",
+    "Lancez votre phrase de drague la plus ringarde.",
+    "Embrassez la paume de la main de l'autre.",
+    "Prenez l'autre dans vos bras et balancez-vous doucement pendant 20 secondes.",
+  ],
+  4:[
+    "Un massage des épaules de 2 minutes.",
+    "Un baiser de cinéma de 10 secondes.",
+    "Retirez chacun un vêtement… une chaussette compte.",
+    "Murmurez une envie coquine à l'oreille de l'autre.",
+    "Un bisou à l'endroit que l'autre choisit, au-dessus de la ceinture.",
+    "Défaites un bouton chez l'autre, sans les mains si vous osez.",
+    "Un câlin collé-serré de 20 secondes, sans parler.",
+    "Caressez le dos de l'autre du bout des doigts pendant 30 secondes.",
+    "Envoyez un message coquin à l'autre, alors que vous êtes côte à côte.",
+    "Un baiser dans le cou qui dure 10 secondes.",
+    "Décrivez la tenue dans laquelle vous aimeriez voir l'autre ce soir.",
+    "Les yeux fermés, devinez où l'autre vous embrasse.",
+    "Massez les pieds de l'autre pendant une minute.",
+    "Offrez à l'autre un bon pour un câlin coquin, à utiliser quand il lui plaira.",
+    "Mordillez doucement l'oreille de l'autre.",
+  ],
+  5:[
+    "Retirez chacun un vêtement, celui que l'autre choisit.",
+    "Murmurez chacun à l'oreille de l'autre ce que vous avez envie de lui faire ce soir.",
+    "Embrassez-vous 10 secondes, là où l'autre le décide.",
+    "Un massage de 2 minutes, torse nu.",
+    "Choisissez ensemble une position à essayer plus tard ce soir.",
+    "Bandez les yeux de l'autre jusqu'à la prochaine question.",
+    "Décrivez votre fantasme du moment en une seule phrase.",
+    "Un baiser sur l'intérieur de la cuisse de l'autre.",
+    "Retirez un vêtement à l'autre, les mains dans le dos.",
+    "Dites sans détour ce qui vous excite le plus chez l'autre.",
+    "Montrez l'endroit où vous préférez être embrassé·e.",
+    "Un baiser langoureux de 20 secondes, mains baladeuses autorisées.",
+    "Choisissez ensemble un jouet ou un accessoire à essayer bientôt.",
+    "Une minute de caresses, les yeux bandés pour qui les reçoit.",
+    "Déshabillez l'autre d'une pièce de votre choix, très lentement.",
+  ],
 };
+/* Le même défi s'affiche sur les deux téléphones : il dépend de la partie et de la question. */
+function dareFor(s, lvl){ const list = DARES[lvl]; return list[(Math.floor((s.round || 0) / 1000) + s.idx * 7) % list.length]; }
 const QBY = Object.fromEntries(Q.map(x=>[x.id,x]));
 
 /* ---------- Icônes ---------- */
@@ -47,7 +135,6 @@ const ICON = {
 function icon(markup){ const t = document.createElement("template"); t.innerHTML = markup.trim(); return t.content.firstChild; }
 
 /* ---------- Illustrations des niveaux ---------- */
-const CHILI = '<svg viewBox="0 0 12 16" aria-hidden="true"><path d="M5.2 4.6c1.6-.5 3.6.2 4.2 2 .9 2.8-.9 6.6-5.6 8.6-.6.2-.9-.4-.5-.8 2-1.9 2.3-4.4 1.6-6.4-.4-1.2-.8-2.9.3-3.4z" fill="#e8322f"/><path d="M5.6 5c-.3-1.4.2-2.6 1.4-3.4" fill="none" stroke="#3f9b4b" stroke-width="1.6" stroke-linecap="round"/><path d="M4.6 5.2c.8-.9 2.6-1 3.6-.2" fill="none" stroke="#3f9b4b" stroke-width="1.6" stroke-linecap="round"/></svg>';
 const LVPIC = {
   1: '<svg viewBox="0 0 48 48"><path d="M24 7c-1.4-2.3-5.4-1.7-5.4 1.2 0 2.3 3 4.3 5.4 5.9 2.4-1.6 5.4-3.6 5.4-5.9 0-2.9-4-3.5-5.4-1.2z" fill="#ff6b8b"/><rect x="5" y="20" width="15" height="19" rx="4" fill="#ffb3c6"/><path d="M20 25h2.5a3.5 3.5 0 0 1 0 7H20" fill="none" stroke="#ffb3c6" stroke-width="3"/><rect x="26" y="20" width="15" height="19" rx="4" fill="#8ec5ff"/><path d="M41 25h2a3.5 3.5 0 0 1 0 7h-2" fill="none" stroke="#8ec5ff" stroke-width="3"/><path d="M9 28q2 2 4 0M30 28q2 2 4 0" fill="none" stroke="#2b1d22" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="12.5" cy="33" rx="2" ry="1.2" fill="#ff6b8b" opacity=".6"/><ellipse cx="33.5" cy="33" rx="2" ry="1.2" fill="#ff6b8b" opacity=".6"/></svg>',
   2: '<svg viewBox="0 0 48 48"><g transform="rotate(-9 24 24)"><rect x="9" y="7" width="30" height="35" rx="2.5" fill="#ffffff" stroke="#e3d6dc" stroke-width="1.2"/><rect x="12.5" y="10.5" width="23" height="21" rx="1" fill="#bfe3ff"/><circle cx="31" cy="15" r="3" fill="#ffd36b"/><path d="M12.5 31.5l7-8 5 5 3.5-3.5 7.5 6.5z" fill="#7cc47f"/><path d="M24 22.6c-.9-1.5-3.5-1.1-3.5.8 0 1.5 2 2.8 3.5 3.8 1.5-1 3.5-2.3 3.5-3.8 0-1.9-2.6-2.3-3.5-.8z" fill="#ff6b8b"/><path d="M15 37h12" stroke="#c9b5bf" stroke-width="1.6" stroke-linecap="round"/></g></svg>',
@@ -122,14 +209,15 @@ function clone(o){ return JSON.parse(JSON.stringify(o)); }
 function merge(t,s){ for(const k in s){ const v=s[k]; if (v && typeof v==="object" && !Array.isArray(v) && t[k] && typeof t[k]==="object" && !Array.isArray(t[k])) merge(t[k],v); else t[k]=v; } return t; }
 
 /* ---------- Stockage : partagé (db) ou local ---------- */
-function localDoc(){
-  let data = null; const subs = new Set();
+function localDoc(initial, onSave){
+  let data = initial ? clone(initial) : null; const subs = new Set();
   const emit = () => subs.forEach(f => f({exists: !!data, data: () => data ? clone(data) : undefined}));
+  const save = () => { if (onSave) onSave(data); };
   return {
     async get(){ return {exists: !!data, data: () => data ? clone(data) : undefined}; },
-    async set(v){ data = clone(v); emit(); },
-    async update(v){ data = merge(data || {}, clone(v)); emit(); },
-    async delete(){ data = null; },
+    async set(v){ data = clone(v); save(); emit(); },
+    async update(v){ data = merge(data || {}, clone(v)); save(); emit(); },
+    async delete(){ data = null; save(); },
     onSnapshot(fn){ subs.add(fn); setTimeout(emit, 0); return () => subs.delete(fn); },
   };
 }
@@ -138,11 +226,23 @@ let db = null, dbChecked = false;
 /* ---------- État ---------- */
 let S = null, ref = null, unsub = null, role = null, local = false;
 /* Historique des réponses, gardé seulement dans ce navigateur (jamais envoyé au serveur). Clé : "round:idx". */
-const HIST = {};
-function keepHist(s){
-  if (s && s.phase === "play" && ansOf(s,"host") !== null && ansOf(s,"guest") !== null)
-    HIST[s.round + ":" + s.idx] = { h: ansOf(s,"host"), g: ansOf(s,"guest") };
+/* Sauvegarde sur l'appareil, pour reprendre une partie fermée par erreur. Effacée en quittant, ou au bout de 24 h. */
+const SAVE_TTL = 24 * 3600 * 1000;
+function loadSaved(k){
+  try { const v = JSON.parse(store.get(k) || "null"); if (v && v.at && Date.now() - v.at < SAVE_TTL) return v; } catch(e){}
+  store.del(k); return null;
 }
+function saveLocal(k, v){ try { store.set(k, JSON.stringify(Object.assign({ at: Date.now() }, v))); } catch(e){} }
+const saveLocalGame = (d) => d ? saveLocal("dm-local", { data: d }) : store.del("dm-local");
+const HIST = (loadSaved("dm-hist") || {}).items || {};
+function keepHist(s){
+  if (s && s.phase === "play" && ansOf(s,"host") !== null && ansOf(s,"guest") !== null){
+    for (const k in HIST) if (!k.startsWith(s.round + ":")) delete HIST[k];   // on ne garde que la partie en cours
+    HIST[s.round + ":" + s.idx] = { h: ansOf(s,"host"), g: ansOf(s,"guest") };
+    saveLocal("dm-hist", { items: HIST });
+  }
+}
+function clearHist(){ for (const k in HIST) delete HIST[k]; store.del("dm-hist"); }
 let screen = store.get("dm-adult") === "1" ? "home" : "gate", err = "", lastCardKey = null, handoffOk = "";
 let draft = { name: store.get("dm-name") || "", partner: "", av: store.get("dm-av") || "chat", av2: "lapin", maxL: 5, dares: true, code: "" };
 
@@ -175,7 +275,7 @@ function leave(){
   // Partie à distance : on efface la session du serveur pour les deux joueurs.
   if (ref && !local && ref.delete) ref.delete().catch(() => {});
   if (S && S.code) store.del("dm-role-" + S.code);
-  store.del("dm-last");
+  store.del("dm-last"); store.del("dm-local"); clearHist();
   S = null; ref = null; role = null; local = false; screen = "home"; err = ""; exportMsg = ""; render();
 }
 async function act(fn){
@@ -200,7 +300,7 @@ async function createLocal(){
   const a = draft.name.trim(), b = draft.partner.trim();
   if (!a || !b){ err = "Indiquez vos deux prénoms."; render(); return; }
   store.set("dm-name", a);
-  const r = localDoc();
+  const r = localDoc(null, saveLocalGame);
   attach("host", true, r, "");
   await r.set(Object.assign({ code: "", maxL: draft.maxL, dares: draft.dares, players: { host:{name:a, av:draft.av}, guest:{name:b, av:draft.av2} } }, freshGame(draft.maxL)));
 }
@@ -221,6 +321,38 @@ async function joinSession(){
     await r.update({ players: { guest: { name, av: draft.av } } });
     attach("guest", false, r, code);
   });
+}
+function resumeLocal(){
+  const v = loadSaved("dm-local"); if (!v || !v.data) { render(); return; }
+  attach("host", true, localDoc(v.data, saveLocalGame), "");
+}
+function abandonRemote(code){
+  try { db.doc("sessions/" + code).delete().catch(() => {}); } catch(e){}
+  store.del("dm-last"); store.del("dm-role-" + code); clearHist(); render();
+}
+/* Au démarrage : une partie a été fermée sans « Quitter » ? On propose de la reprendre. */
+async function offerResume(){
+  if (S || modal || inviteCode || screen !== "home") return;
+  const loc = loadSaved("dm-local");
+  if (loc && loc.data && loc.data.players && loc.data.deck){
+    const d = loc.data;
+    const where = d.phase === "end" ? "au bilan" : "à la question " + (d.idx + 1) + " sur " + d.deck.length;
+    ask({ icon:"replay", title:"Reprendre la partie ?", confirm:"Reprendre", cancel:"Abandonner",
+      text:"La partie de " + pname(d, "host") + " et " + pname(d, "guest") + " s'est arrêtée " + where + ".",
+      onConfirm: resumeLocal, onCancel: ()=>{ store.del("dm-local"); clearHist(); render(); } });
+    return;
+  }
+  const last = store.get("dm-last");
+  if (!last || !db) return;
+  let snap = null; try { snap = await db.doc("sessions/" + last).get(); } catch(e){ return; }
+  if (S || modal || screen !== "home") return;
+  if (!snap.exists){ store.del("dm-last"); render(); return; }
+  const d = snap.data(); const r = store.get("dm-role-" + last) || "guest";
+  const partner = d.players && d.players[other(r)] && d.players[other(r)].name;
+  const where = d.phase === "lobby" ? "pas encore commencée" : d.phase === "end" ? "arrivée au bilan" : "arrêtée à la question " + (d.idx + 1) + " sur " + d.deck.length;
+  ask({ icon:"replay", title:"Reprendre la partie ?", confirm:"Reprendre", cancel:"Abandonner",
+    text:"Ta session " + last + (partner ? " avec " + partner : "") + " est toujours ouverte, " + where + ". « Abandonner » l'efface pour vous deux.",
+    onConfirm: ()=>resume(last), onCancel: ()=>abandonRemote(last) });
 }
 async function resume(code){
   await act(async () => {
@@ -252,30 +384,35 @@ function avPicker(key, lbl, hideLabel){
   const id = "avp-" + key;
   return h("div", {class:"field"}, h("label", {id, text: lbl, class: hideLabel ? "sr-only" : null}),
     h("div", {class:"avpick", role:"group", "aria-labelledby": id}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n, title: a.n,
-      on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k))))));
+      on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k)), h("span", {class:"avn", "aria-hidden":"true", text:a.n})))));
+}
+function heatDots(n){
+  const d = h("span", {class:"dots5", "aria-hidden":"true"});
+  for (let i = 1; i <= 5; i++) d.append(h("i", {class: i <= n ? "on" : null}));
+  return d;
 }
 function levelPicker(){
   const L = LEVELS[draft.maxL-1];
   return h("div", {class:"field"},
     h("label", {id:"lvl-lbl", text:"Quel niveau ce soir ?"}),
-    h("div", {class:"levels", role:"group", "aria-labelledby":"lvl-lbl"},
-      LEVELS.map(X => {
-        const heat = h("span", {class:"heat", "aria-hidden":"true"});
-        for (let i = 0; i < X.n; i++) heat.append(icon(CHILI));
-        return h("button", {type:"button", class:"lv " + (X.n === draft.maxL ? "in" : "out"), style:"--lc:var(" + X.tok + ")",
-          "aria-pressed": String(draft.maxL === X.n), "aria-label": X.name + ", niveau " + X.n + " : " + X.tag,
-          on:{click:()=>{ draft.maxL = X.n; render(); }}},
-          h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[X.n])),
-          h("span", {class:"nm", text:X.name}), heat);
-      })),
-    h("div", {class:"lvsum"},
-      h("span", null, h("b", {text: L.name}), " · " + L.tag),
-      h("span", null, h("b", {text:String(deckSize(draft.maxL))}), " questions au hasard parmi " + lvCount(draft.maxL))));
+    h("div", {class:"lvcard", style:"--lc:var(" + L.tok + ")", "aria-live":"polite"},
+      h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
+      h("span", {class:"txt"},
+        h("span", {class:"hd"}, h("b", {text: L.name}), heatDots(L.n), h("span", {class:"sr-only", text:"intensité " + L.n + " sur 5"})),
+        h("span", {class:"tg", text: L.tag}),
+        h("span", {class:"ct", text: deckSize(L.n) + " questions au hasard parmi " + lvCount(L.n)}))),
+    h("div", {class:"lvtrack", role:"group", "aria-labelledby":"lvl-lbl"},
+      LEVELS.map(X => h("button", {type:"button", class:"lvstep", style:"--lc:var(" + X.tok + ")",
+        "aria-pressed": String(draft.maxL === X.n), "aria-label": X.name + ", niveau " + X.n + " sur 5",
+        on:{click:()=>{ draft.maxL = X.n; render(); }}},
+        h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[X.n])),
+        h("span", {class:"nm", text: X.name})))));
 }
 function dareSwitch(){
-  return h("label", {class:"toggle", for:"dares"},
-    h("span", {class:"ic", "aria-hidden":"true"}, icon(CHILI)),
-    h("span", {class:"tx"}, h("b", {text:"Défis coquins"}), h("span", {text:"Un défi quand vos réponses diffèrent"})),
+  const L = LEVELS[draft.maxL-1];
+  return h("label", {class:"toggle", for:"dares", style:"--lc:var(" + L.tok + ")"},
+    h("span", {class:"ic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
+    h("span", {class:"tx"}, h("b", {text: L.dare.t}), h("span", {text: L.dare.s})),
     h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; }}}));
 }
 function nameField(id, lbl, key, ph){
@@ -306,7 +443,9 @@ function viewMinor(){
   ];
 }
 function viewHome(){
-  const last = store.get("dm-last"); const shared = !!db;
+  const last = store.get("dm-last"); const shared = !!db; const loc = loadSaved("dm-local");
+  const resumeBtn = loc ? btn("link", null, "Reprendre la partie en cours", resumeLocal)
+    : (last && shared) ? btn("link", null, "Reprendre la session " + last, ()=>resume(last)) : null;
   return [
     brand(true),
     h("p", {class:"lead", text:"Le jeu de questions pour couples. Répondez chacun de votre côté, puis découvrez si vous êtes sur la même longueur d'onde."}),
@@ -314,11 +453,11 @@ function viewHome(){
     h("section", {class:"panel"},
       shared ? h("div", {class:"stack"},
         btn("primary", "plus", "Créer une session", ()=>{ screen="create"; err=""; render(); }),
-        btn("ghost", "key", "J'ai reçu un code", ()=>{ screen="join"; err=""; render(); }),
-        last ? btn("link", null, "Reprendre la session " + last, ()=>resume(last)) : null)
+        btn("ghost", "key", "J'ai reçu un code", ()=>{ screen="join"; err=""; render(); }))
       : h("p", {class:"muted", style:"font-size:14px;text-align:center", text: dbChecked ? "Les sessions à distance ne sont pas disponibles ici. Jouez sur un seul téléphone en vous le passant." : "Connexion aux sessions…"}),
       shared ? h("div", {class:"divider", text:"ou"}) : null,
-      btn(shared ? "ghost" : "primary", "phone", "Jouer sur un seul téléphone", ()=>{ screen="local"; err=""; render(); })),
+      btn(shared ? "ghost" : "primary", "phone", "Jouer sur un seul téléphone", ()=>{ screen="local"; err=""; render(); }),
+      resumeBtn),
     errLine()
   ];
 }
@@ -417,7 +556,7 @@ function viewPlay(){
     kids.push(h("div", {class:"result " + (m ? "ok" : "ko")},
       h("b", {text: m ? "En phase" : "Pas d'accord"}),
       h("span", {text: m ? "Un point de complicité." : (card.t === "guess" ? "Parlez-en : qu'est-ce qui a trompé " + pname(S, other(target(S))) + " ?" : "À vous de défendre votre choix.")})));
-    if (!m && S.dares){ const list = DARES[card.l]; kids.push(h("div", {class:"dare"}, h("small", {text:"Défi"}), h("p", {text: list[S.idx % list.length]}))); }
+    if (!m && S.dares) kids.push(h("div", {class:"dare"}, h("small", {text:"Défi"}), h("p", {text: dareFor(S, card.l)}), h("span", {class:"pass", text:"Facultatif : on peut toujours passer son tour."})));
     kids.push(btn("primary", "next", S.idx + 1 >= S.deck.length ? "Voir le bilan" : "Question suivante", next));
   }
   const played = playedCount(S);
@@ -639,7 +778,7 @@ function renderModal(){
   const sheet = h("div", {class:"sheet", role:"alertdialog", "aria-modal":"true", "aria-labelledby":"mdl-t", "aria-describedby":"mdl-d"},
     h("span", {class:"sic", "aria-hidden":"true"}, icon(ICON[m.icon || "exit"])),
     h("h3", {id:"mdl-t", text:m.title}), h("p", {id:"mdl-d", text:m.text}),
-    h("div", {class:"row"}, m.cancel === false ? null : btn("ghost wide", null, m.cancel || "Annuler", closeModal), confirmBtn));
+    h("div", {class:"row"}, m.cancel === false ? null : btn("ghost wide", null, m.cancel || "Annuler", ()=>{ closeModal(); if (m.onCancel) m.onCancel(); }), confirmBtn));
   const scrim = h("div", {class:"scrim", on:{
     click:(e)=>{ if (e.target === scrim) closeModal(); },
     keydown:(e)=>{ if (e.key === "Escape"){ e.preventDefault(); closeModal(); }
@@ -749,5 +888,6 @@ if ("serviceWorker" in navigator && location.protocol !== "file:"){
   dbChecked = true;
   if (!db && screen === "join"){ screen = "home"; if (inviteCode) err = "Les sessions à distance ne sont pas disponibles pour le moment."; }
   if (!S) render();
+  offerResume();
 })();
 })();
