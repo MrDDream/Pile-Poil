@@ -1,5 +1,6 @@
 /*
   Niveau 2 · Souvenirs : votre histoire, vos premières fois.
+
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
   Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
@@ -496,4 +497,8 @@
 {id:"s491",l:2,t:"who",q:"Qui de nous deux se souvient le mieux de notre premier souvenir de vacances ?"},
 {id:"s492",l:2,t:"who",q:"Qui de nous deux a le plus parlé de notre premier souvenir de vacances au début ?"},
 {id:"s493",l:2,t:"who",q:"Qui de nous deux a gardé le plus de traces de notre premier souvenir de vacances ?"},
+{id:"s503",l:2,t:"who",q:"Qui de nous deux a le plus parlé de notre relation à ses amis au début ?"},
+{id:"s505",l:2,t:"who",q:"Qui de nous deux a le plus de souvenirs liés à un voyage de nos débuts ?"},
+{id:"s506",l:2,t:"who",q:"Qui de nous deux se souvient le mieux de notre premier week-end ensemble ?"},
+{id:"s507",l:2,t:"who",q:"Qui de nous deux a le plus de mal à se passer des petits rituels de nos débuts ?"},
 );

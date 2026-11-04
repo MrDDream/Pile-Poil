@@ -1,8 +1,9 @@
 /*
   Niveau 1 · Complicité : petites manies et habitudes du quotidien.
+
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
-  Les id ne doivent jamais changer ni être réutilisés.
+  Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
 */
 (window.PILEPOIL_Q = window.PILEPOIL_Q || []).push(
 {id:"a1",l:1,t:"who",q:"Qui de nous deux est le plus têtu ?"},

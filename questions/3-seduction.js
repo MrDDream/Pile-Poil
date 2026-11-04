@@ -1,5 +1,6 @@
 /*
   Niveau 3 · Séduction : ce qui vous fait craquer l’un chez l’autre.
+
   t:"who"   → « Qui de nous deux… » : chacun désigne l’un des deux, on compare.
   t:"guess" → question sur {X} : {X} répond pour lui-même ou elle-même, l’autre devine (4 choix dans o).
   Les id ne doivent jamais changer ni être réutilisés (une partie en cours y fait référence).
@@ -400,4 +401,8 @@
 {id:"d395",l:3,t:"who",q:"Qui de nous deux perd le fil dès que l'autre porte une chemise un peu trop ouverte ?"},
 {id:"d396",l:3,t:"who",q:"Qui de nous deux a l'historique de messages le plus coquin ?"},
 {id:"d397",l:3,t:"who",q:"Qui de nous deux provoque le plus souvent les moments de tendresse ?"},
+{id:"d408",l:3,t:"who",q:"Qui de nous deux a le plus de mal à rester sage en public ?"},
+{id:"d409",l:3,t:"who",q:"Qui de nous deux a le plus envie d'un baiser surprise ?"},
+{id:"d410",l:3,t:"who",q:"Qui de nous deux a le plus de mal à se concentrer au travail à cause de l'autre ?"},
+{id:"d411",l:3,t:"who",q:"Qui de nous deux fait le plus de messages coquins ?"},
 );
