@@ -9,10 +9,10 @@
   Ce qui protège la base, ce sont les règles du fichier firestore.rules.
 */
 window.PILEPOIL_FIREBASE = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyDSFeQEwbdqdW-wUOvBS37RebEzRuzGbGU",
+  authDomain: "pile-poile.firebaseapp.com",
+  projectId: "pile-poile",
+  storageBucket: "pile-poile.firebasestorage.app",
+  messagingSenderId: "193810183844",
+  appId: "1:193810183844:web:dc955ba7bb93cfc0df9831",
 };
