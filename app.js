@@ -530,32 +530,17 @@ function avPicker(key, lbl, hideLabel){
     h("div", {class:"avpick", role:"group", "aria-labelledby": id, "data-keep-scroll": id}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n, title: a.n,
       on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k)), h("span", {class:"avn", "aria-hidden":"true", text:a.n})))));
 }
-function heatDots(n){
-  const d = h("span", {class:"dots5", "aria-hidden":"true"});
-  for (let i = 1; i <= 5; i++) d.append(h("i", {class: i <= n ? "on" : null}));
-  return d;
-}
 function levelPicker(){
   const L = LEVELS[draft.maxL-1];
   return h("div", {class:"field"},
-    h("div", {class:"fhead"},
-      h("label", {id:"lvl-lbl", text:"Niveau ce soir"}),
-      h("span", {class:"lenseg", role:"group", "aria-label":"Nombre de questions"},
-        h("span", {class:"lenbtns"}, LENGTHS.map(n => h("button", {type:"button", class:"len", "aria-pressed": String(draft.len === n), "aria-label": n + " questions",
-          on:{click:()=>{ draft.len = n; store.set("dm-len", String(n)); render(); }}}, String(n)))),
-        h("span", {class:"lenlbl", "aria-hidden":"true", text:"questions"}))),
-    h("div", {class:"lvcard", style:"--lc:var(" + L.tok + ")", "aria-live":"polite"},
-      h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
-      h("span", {class:"txt"},
-        h("span", {class:"hd"}, h("b", {text: L.name}), heatDots(L.n), h("span", {class:"sr-only", text:"intensité " + L.n + " sur 5"})),
-        h("span", {class:"tg", text: L.tag}),
-        h("span", {class:"ct", text: draft.len + " questions tirées au hasard parmi " + lvCount(L.n)}))),
+    h("label", {id:"lvl-lbl", text:"Niveau"}),
     h("div", {class:"lvtrack", role:"group", "aria-labelledby":"lvl-lbl"},
       LEVELS.map(X => h("button", {type:"button", class:"lvstep", style:"--lc:var(" + X.tok + ")",
-        "aria-pressed": String(draft.maxL === X.n), "aria-label": X.name + ", niveau " + X.n + " sur 5",
+        "aria-pressed": String(draft.maxL === X.n), "aria-label": X.name + ", niveau " + X.n + " sur 5 : " + X.tag,
         on:{click:()=>{ draft.maxL = X.n; render(); }}},
         h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[X.n])),
-        h("span", {class:"nm", text: X.name})))));
+        h("span", {class:"nm", text: X.name})))),
+    h("p", {class:"lvcap", "aria-live":"polite"}, h("b", {text: L.name}), " · " + L.tag));
 }
 function explainDares(){
   const L = LEVELS[draft.maxL-1];
@@ -564,14 +549,6 @@ function explainDares(){
       + "Son ton suit le niveau : tout doux en Complicité, osé en Brûlant. C'est toujours facultatif, on peut passer son tour. "
       + "Exemple en " + L.name + " : « " + DARES[L.n][0] + " »",
     onConfirm: ()=>{} });
-}
-function dareSwitch(){
-  const L = LEVELS[draft.maxL-1];
-  return h("label", {class:"toggle", for:"dares", style:"--lc:var(" + L.tok + ")"},
-    h("span", {class:"ic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
-    h("span", {class:"tx"}, h("b", {text: L.dare.t}), h("span", {text: L.dare.s})),
-    btn("help", "info", "", (e)=>{ e.preventDefault(); explainDares(); }, {"aria-label":"À quoi servent les défis ?", title:"À quoi servent les défis ?"}),
-    h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; }}}));
 }
 function nameField(id, lbl, key, ph){
   return h("div", {class:"field"}, h("label", {for:id, text:lbl}),
@@ -623,32 +600,44 @@ function privacyNote(){
   return h("p", {class:"note"}, "Vos prénoms passent par notre serveur le temps de la partie, puis tout est effacé. ",
     h("a", {href:"confidentialite.html", text:"En savoir plus"}));
 }
+/* Nombre de questions et défis, côte à côte. */
+function optionsRow(){
+  const L = LEVELS[draft.maxL-1];
+  return h("div", {class:"optrow"},
+    h("div", {class:"obox"},
+      h("span", {class:"olbl", id:"len-lbl", text:"Questions"}),
+      h("span", {class:"lenbtns", role:"group", "aria-labelledby":"len-lbl"}, LENGTHS.map(n => h("button", {type:"button", class:"len", "aria-pressed": String(draft.len === n), "aria-label": n + " questions",
+        on:{click:()=>{ draft.len = n; store.set("dm-len", String(n)); render(); }}}, String(n))))),
+    h("div", {class:"obox", style:"--lc:var(" + L.tok + ")"},
+      h("span", {class:"olbl"}, h("label", {for:"dares", text: "Défis"}),
+        btn("help", "info", "", ()=>explainDares(), {"aria-label":"À quoi servent les défis ?", title:"À quoi servent les défis ?"})),
+      h("span", {class:"orow"},
+        h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; render(); }}}),
+        h("span", {class:"ostate", text: draft.dares ? L.dare.t.replace(/^Défis /, "").replace(/^./, c => c.toUpperCase()) : "Désactivés"}))));
+}
 function viewCreate(){
-  return [h("section", {class:"panel"},
-    h("h2", {text:"Nouvelle session"}),
-    nameField("host-name", "Ton prénom", "name", "ex. Julien"),
+  return [h("section", {class:"panel form"},
+    nameField("host-name", "Ton prénom", "name", "Julien"),
     avPicker("av", "Ta photo de profil"),
-    levelPicker(), dareSwitch(),
-    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Obtenir le code", createSession)), privacyNote()), errLine()];
+    levelPicker(), optionsRow(),
+    btn("primary cta", null, "Obtenir le code", createSession), privacyNote()), errLine()];
 }
 function viewLocal(){
-  return [h("section", {class:"panel"},
-    h("h2", {text:"Sur un seul téléphone"}),
+  return [h("section", {class:"panel form"},
     h("div", {class:"pair"},
       h("div", {class:"stack"}, nameField("p1-name", "Joueur 1", "name", "Julien"), avPicker("av", "Avatar du joueur 1", true)),
       h("div", {class:"stack"}, nameField("p2-name", "Joueur 2", "partner", "Léa"), avPicker("av2", "Avatar du joueur 2", true))),
-    levelPicker(), dareSwitch(),
-    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Commencer", createLocal))), errLine()];
+    levelPicker(), optionsRow(),
+    btn("primary cta", null, "Commencer", createLocal)), errLine()];
 }
 function viewJoin(){
-  return [h("section", {class:"panel"},
-    h("h2", {text:"Rejoindre ta moitié"}),
+  return [h("section", {class:"panel form"},
     h("div", {class:"field"}, h("label", {for:"join-code", text:"Le code reçu"}),
       h("input", {type:"text", id:"join-code", class:"code", value: draft.code, maxlength:"12", autocomplete:"off", autocapitalize:"characters", spellcheck:"false", placeholder:"XXXX-XXXX",
         on:{input:e=>{ const v = cleanCode(e.target.value); draft.code = v; if (e.target.value !== v) e.target.value = v; }}})),
-    nameField("guest-name", "Ton prénom", "name", "ex. Léa"),
+    nameField("guest-name", "Ton prénom", "name", "Léa"),
     avPicker("av", "Ta photo de profil"),
-    h("div", {class:"row"}, btn("ghost", "back", "Retour", ()=>{ screen="home"; render(); }), btn("primary", null, "Rejoindre", joinSession)), privacyNote()), errLine()];
+    btn("primary cta", null, "Rejoindre", joinSession), privacyNote()), errLine()];
 }
 function viewLobby(){
   const guest = S.players && S.players.guest; const isHost = role === "host";
@@ -1108,15 +1097,19 @@ function installButton(){
 
 /* ---------- Barre d'outils ---------- */
 const $toolbar = document.getElementById("toolbar");
+const FORM_TITLES = { create: "Nouvelle session", local: "Un seul téléphone", join: "Rejoindre" };
 function currentScreen(){ return S ? S.phase : screen; }
 function renderToolbar(){
   const dark = effectiveTheme() === "dark";
   const bigBrand = ["home", "gate", "minor"].includes(currentScreen());
   const inPlay = S && S.phase === "play";
+  const formTitle = !S && FORM_TITLES[screen];
   const left = inPlay ? btn("tb icon", "exit", "", askLeave, {"aria-label":"Quitter la partie", title:"Quitter la partie"})
-    : S ? btn("tb", "exit", "Quitter", askLeave) : bigBrand ? installButton() : brand(false);
-  // Au centre : le logo, ou les réactions juste après une révélation à deux téléphones.
-  const center = (inPlay && !local && revealed(S)) ? reactionBar() : S ? brand(false) : h("span", {class:"spacer"});
+    : S ? btn("tb", "exit", "Quitter", askLeave) : bigBrand ? installButton()
+    : formTitle ? btn("tb icon", "back", "", ()=>{ screen = "home"; err = ""; render(); }, {"aria-label":"Retour", title:"Retour"}) : brand(false);
+  // Au centre : le titre d'un formulaire, le logo, ou les réactions juste après une révélation à deux téléphones.
+  const center = (inPlay && !local && revealed(S)) ? reactionBar() : S ? brand(false)
+    : formTitle ? h("h2", {class:"tbtitle", text: formTitle}) : h("span", {class:"spacer"});
   $toolbar.replaceChildren(left, center, h("span", {class:"tbr"},
     btn("tb icon", soundOn ? "soundOn" : "soundOff", "", toggleSound, {"aria-label": soundOn ? "Couper les sons" : "Activer les sons", title: soundOn ? "Couper les sons" : "Activer les sons", "aria-pressed": String(soundOn)}),
     btn("tb icon", dark ? "sun" : "moon", "", toggleTheme, {"aria-label": dark ? "Passer en mode clair" : "Passer en mode sombre", title: dark ? "Mode clair" : "Mode sombre"})));
