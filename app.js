@@ -5,13 +5,13 @@
    who   : « Qui de nous deux… » – chacun désigne l'un des deux, on compare.
    guess : question sur {X} (la personne visée) – {X} répond pour elle-même, l'autre devine. */
 const LEVELS = [
-  {n:1, name:"Complicité", tok:"--h1", tag:"Petites manies et habitudes du quotidien",
-   dare:{t:"Petits défis complices", s:"Un gage tout doux quand vos réponses diffèrent"}},
+  {n:1, name:"Complicité", tok:"--h1", tag:"Manies et petites habitudes",
+   dare:{t:"Défis complices", s:"Un gage tout doux quand vos réponses diffèrent"}},
   {n:2, name:"Souvenirs",  tok:"--h2", tag:"Votre histoire, vos premières fois",
    dare:{t:"Défis souvenirs", s:"Un moment à revivre quand vos réponses diffèrent"}},
-  {n:3, name:"Séduction",  tok:"--h3", tag:"Ce qui vous fait craquer l'un chez l'autre",
+  {n:3, name:"Séduction",  tok:"--h3", tag:"Ce qui vous fait craquer",
    dare:{t:"Défis charmeurs", s:"Un geste tendre quand vos réponses diffèrent"}},
-  {n:4, name:"Coquin",     tok:"--h4", tag:"Ça commence à chauffer sous la couette",
+  {n:4, name:"Coquin",     tok:"--h4", tag:"Ça chauffe sous la couette",
    dare:{t:"Défis coquins", s:"Un défi taquin quand vos réponses diffèrent"}},
   {n:5, name:"Brûlant",    tok:"--h5", tag:"Fantasmes et envies inavouées",
    dare:{t:"Défis brûlants", s:"Un défi osé quand vos réponses diffèrent"}},
@@ -123,6 +123,7 @@ const ICON = {
   key: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></svg>',
   phone: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18h2"/></svg>',
   download: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+  info: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.8v.5M12 17h.01"/></svg>',
   share: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M8 11H6.5A2.5 2.5 0 0 0 4 13.5v5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-5a2.5 2.5 0 0 0-2.5-2.5H16"/></svg>',
   copy: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>',
   sun: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg>',
@@ -143,22 +144,159 @@ const LVPIC = {
   5: '<svg viewBox="0 0 48 48"><path d="M24 3c2 6 9 9 11 17 1.5-2 1.6-4.5 1.2-6.6C41 18 43 23 43 28c0 9-8.5 16-19 16S5 37 5 28c0-6 3-10 6.5-13 .2 2.6 1 4.6 2.6 6C14.5 13 20 9 24 3z" fill="#ff8a3d"/><path d="M24 13c1.3 4 5.5 6.2 6.8 11 1-1.2 1.2-2.7 1-4 2.6 2.7 3.8 5.7 3.8 8.6 0 6.2-5.3 11-11.6 11S12.4 34.8 12.4 28.6c0-3.6 1.8-6.4 4-8.3.1 1.6.7 2.9 1.6 3.7C18.4 19 21.4 16.6 24 13z" fill="#ffc94a"/><path d="M24 40c-.4-.3-7-4.4-7-9 0-2.4 1.8-4 3.8-4 1.3 0 2.4.7 3.2 1.8.8-1.1 1.9-1.8 3.2-1.8 2 0 3.8 1.6 3.8 4 0 4.6-6.6 8.7-7 9z" fill="#e2304f"/></svg>',
 };
 
-/* ---------- Avatars animaux (SVG) ---------- */
-const EYES = '<circle cx="25" cy="36" r="3.2" fill="#2b1d22"/><circle cx="39" cy="36" r="3.2" fill="#2b1d22"/><circle cx="26" cy="35" r="1.1" fill="#fff"/><circle cx="40" cy="35" r="1.1" fill="#fff"/>';
-const BLUSH = '<ellipse cx="18.5" cy="43" rx="4" ry="2.4" fill="#ff7f9c" opacity=".55"/><ellipse cx="45.5" cy="43" rx="4" ry="2.4" fill="#ff7f9c" opacity=".55"/>';
-const MOUTH = (y) => '<path d="M28.5 ' + y + 'q3.5 3 7 0" fill="none" stroke="#2b1d22" stroke-width="2" stroke-linecap="round"/>';
+/* ---------- Avatars animaux (SVG, 64 × 64) ----------
+   Chaque avatar = une tête et un buste sur un fond de couleur, découpés en rond. */
+const INK = "#2b1d22";
+const eye = (x, y, s) => { s = s || 1;
+  return '<ellipse cx="' + x + '" cy="' + y + '" rx="' + (2.5*s) + '" ry="' + (2.9*s) + '" fill="' + INK + '"/>'
+    + '<circle cx="' + (x + .9*s) + '" cy="' + (y - 1.1*s) + '" r="' + (1.05*s) + '" fill="#fff"/>'
+    + '<circle cx="' + (x - .8*s) + '" cy="' + (y + 1.2*s) + '" r="' + (.45*s) + '" fill="#fff" opacity=".8"/>'; };
+const eyes = (y, dx, s) => eye(32 - (dx || 6.5), y, s) + eye(32 + (dx || 6.5), y, s);
+const blush = (y, dx, c) => '<ellipse cx="' + (32 - (dx || 11)) + '" cy="' + y + '" rx="3.4" ry="2" fill="' + (c || "#ff7f9c") + '" opacity=".5"/>'
+  + '<ellipse cx="' + (32 + (dx || 11)) + '" cy="' + y + '" rx="3.4" ry="2" fill="' + (c || "#ff7f9c") + '" opacity=".5"/>';
+const smile = (y, w) => { w = w || 3; return '<path d="M' + (32 - w) + ' ' + y + 'q' + w + ' ' + (w * .85) + ' ' + (2 * w) + ' 0" fill="none" stroke="' + INK + '" stroke-width="1.7" stroke-linecap="round"/>'; };
+const body = (c, chest) => '<path d="M7 66C8 54 18 47.5 32 47.5S56 54 57 66z" fill="' + c + '"/>'
+  + (chest ? '<path d="M23.5 66c0-8.5 3.8-13 8.5-13s8.5 4.5 8.5 13z" fill="' + chest + '"/>' : "");
+const shade = (cy, r) => '<path d="M' + (32 - r) + ' ' + cy + 'a' + r + ' ' + r + ' 0 0 0 ' + (2 * r) + ' 0a' + r + ' ' + (r * .7) + ' 0 0 1 ' + (-2 * r) + ' 0z" fill="#000" opacity=".07"/>';
+const whiskers = (y, c) => '<path d="M12.5 ' + (y - 2) + 'l7.5 1.3M12.5 ' + (y + 2.5) + 'l7.5-.8M51.5 ' + (y - 2) + 'l-7.5 1.3M51.5 ' + (y + 2.5) + 'l-7.5-.8" stroke="' + c + '" stroke-width="1" stroke-linecap="round" opacity=".55"/>';
+
 const AVATARS = [
-  {k:"chat", n:"Chat", bg:"#ffe3c7", s:'<path d="M14 31L17 11l13 11z" fill="#f4a259"/><path d="M50 31L47 11 34 22z" fill="#f4a259"/><path d="M17.5 25l1-10 7.5 6z" fill="#ffc2c8"/><path d="M46.5 25l-1-10-7.5 6z" fill="#ffc2c8"/><circle cx="32" cy="38" r="19" fill="#f4a259"/>' + EYES + BLUSH + '<path d="M30 40.5h4l-2 2.2z" fill="#e9707f"/>' + MOUTH(44)},
-  {k:"chien", n:"Chien", bg:"#e3edff", s:'<circle cx="32" cy="38" r="19" fill="#d9a66b"/><ellipse cx="14" cy="34" rx="6.5" ry="13" fill="#8a5a3b" transform="rotate(18 14 34)"/><ellipse cx="50" cy="34" rx="6.5" ry="13" fill="#8a5a3b" transform="rotate(-18 50 34)"/><ellipse cx="32" cy="45" rx="9" ry="7" fill="#f3dcc0"/>' + EYES + BLUSH + '<ellipse cx="32" cy="41.5" rx="3.3" ry="2.3" fill="#2b1d22"/>' + MOUTH(45.5)},
-  {k:"lapin", n:"Lapin", bg:"#ffe0ec", s:'<ellipse cx="24" cy="15" rx="5.5" ry="14" fill="#f6f0f4"/><ellipse cx="40" cy="15" rx="5.5" ry="14" fill="#f6f0f4"/><ellipse cx="24" cy="16" rx="2.6" ry="10" fill="#ffb3c6"/><ellipse cx="40" cy="16" rx="2.6" ry="10" fill="#ffb3c6"/><circle cx="32" cy="39" r="18.5" fill="#f6f0f4"/>' + EYES + BLUSH + '<ellipse cx="32" cy="41" rx="2.2" ry="1.6" fill="#ff8fab"/>' + MOUTH(43.5)},
-  {k:"ours", n:"Ourson", bg:"#e5f4dc", s:'<circle cx="15" cy="22" r="8" fill="#a8714a"/><circle cx="49" cy="22" r="8" fill="#a8714a"/><circle cx="15" cy="22" r="4" fill="#e2b48f"/><circle cx="49" cy="22" r="4" fill="#e2b48f"/><circle cx="32" cy="38" r="19" fill="#a8714a"/><ellipse cx="32" cy="45" rx="9" ry="6.5" fill="#e2b48f"/>' + EYES + BLUSH + '<ellipse cx="32" cy="42" rx="3" ry="2.1" fill="#2b1d22"/>' + MOUTH(45.5)},
-  {k:"panda", n:"Panda", bg:"#dff3f1", s:'<circle cx="15" cy="22" r="7.5" fill="#2b1d22"/><circle cx="49" cy="22" r="7.5" fill="#2b1d22"/><circle cx="32" cy="38" r="19" fill="#ffffff"/><ellipse cx="24" cy="36" rx="5.5" ry="6.8" fill="#2b1d22" transform="rotate(25 24 36)"/><ellipse cx="40" cy="36" rx="5.5" ry="6.8" fill="#2b1d22" transform="rotate(-25 40 36)"/><circle cx="25" cy="35.5" r="1.7" fill="#fff"/><circle cx="39" cy="35.5" r="1.7" fill="#fff"/>' + BLUSH + '<ellipse cx="32" cy="42" rx="2.6" ry="1.8" fill="#2b1d22"/>' + MOUTH(45)},
-  {k:"renard", n:"Renard", bg:"#fff0d2", s:'<path d="M13 32L15 9l15 12z" fill="#ef7d3c"/><path d="M51 32L49 9 34 21z" fill="#ef7d3c"/><path d="M16.5 25l.5-11 8 6z" fill="#fff4e6"/><path d="M47.5 25l-.5-11-8 6z" fill="#fff4e6"/><circle cx="32" cy="38" r="19" fill="#ef7d3c"/><path d="M13.5 39q18.5 5 37 0-3.5 17-18.5 18-15-1-18.5-18z" fill="#fff4e6"/>' + EYES + BLUSH + '<ellipse cx="32" cy="43" rx="2.8" ry="2" fill="#2b1d22"/>'},
-  {k:"grenouille", n:"Grenouille", bg:"#e4f3ff", s:'<circle cx="22" cy="25" r="8.5" fill="#79c37b"/><circle cx="42" cy="25" r="8.5" fill="#79c37b"/><ellipse cx="32" cy="41" rx="21" ry="16" fill="#79c37b"/><circle cx="22" cy="25" r="5" fill="#fff"/><circle cx="42" cy="25" r="5" fill="#fff"/><circle cx="23" cy="26" r="2.6" fill="#2b1d22"/><circle cx="43" cy="26" r="2.6" fill="#2b1d22"/><ellipse cx="17" cy="44" rx="4" ry="2.4" fill="#ff7f9c" opacity=".55"/><ellipse cx="47" cy="44" rx="4" ry="2.4" fill="#ff7f9c" opacity=".55"/><path d="M23 43q9 7 18 0" fill="none" stroke="#2b1d22" stroke-width="2" stroke-linecap="round"/>'},
-  {k:"pingouin", n:"Pingouin", bg:"#e5eaff", s:'<circle cx="32" cy="37" r="20" fill="#34425c"/><path d="M32 30c-4-6-14-4-14 6 0 9 6 15 14 15s14-6 14-15c0-10-10-12-14-6z" fill="#fff"/>' + EYES + BLUSH + '<path d="M28.5 41h7l-3.5 4.5z" fill="#f6a43a"/>'},
+  {k:"chat", n:"Chat", bg:"#ffe3c7", s:
+    body("#e8914a", "#fff3e6")
+    + '<path d="M14.5 29L16.5 9.5 29 19z" fill="#f4a259"/><path d="M49.5 29L47.5 9.5 35 19z" fill="#f4a259"/>'
+    + '<path d="M18 24.5l1.2-10 7 5.3z" fill="#ffc2c8"/><path d="M46 24.5l-1.2-10-7 5.3z" fill="#ffc2c8"/>'
+    + '<circle cx="32" cy="33" r="17.5" fill="#f4a259"/>' + shade(33, 17.5)
+    + '<path d="M32 16.5v4.2M27.6 17.6l1.2 3.3M36.4 17.6l-1.2 3.3" stroke="#d9823d" stroke-width="1.7" stroke-linecap="round"/>'
+    + '<ellipse cx="32" cy="39.5" rx="7" ry="4.6" fill="#fff3e6"/>'
+    + eyes(32.5) + blush(38.5, 11.5)
+    + '<path d="M30.2 37.2h3.6l-1.8 2.1z" fill="#e9707f"/>'
+    + '<path d="M29 40.6q1.5 1.6 3 0q1.5 1.6 3 0" fill="none" stroke="' + INK + '" stroke-width="1.5" stroke-linecap="round"/>'
+    + whiskers(39, "#a65a26")},
+  {k:"chien", n:"Chien", bg:"#e3edff", s:
+    body("#c9955c", "#f3dcc0")
+    + '<circle cx="32" cy="33.5" r="17.5" fill="#d9a66b"/>' + shade(33.5, 17.5)
+    + '<ellipse cx="39.5" cy="31.5" rx="5.6" ry="5.2" fill="#b97b45"/>'
+    + '<ellipse cx="15.5" cy="32" rx="6" ry="12" fill="#8a5a3b" transform="rotate(16 15.5 32)"/>'
+    + '<ellipse cx="48.5" cy="32" rx="6" ry="12" fill="#8a5a3b" transform="rotate(-16 48.5 32)"/>'
+    + '<ellipse cx="32" cy="40.5" rx="8.2" ry="6.2" fill="#f3dcc0"/>'
+    + eyes(31.5) + blush(39.5, 12)
+    + '<ellipse cx="32" cy="37.6" rx="3.4" ry="2.4" fill="' + INK + '"/><ellipse cx="31" cy="36.9" rx="1" ry=".6" fill="#fff" opacity=".7"/>'
+    + '<path d="M32 40v1.5M28.8 41.5q3.2 2.8 6.4 0" fill="none" stroke="' + INK + '" stroke-width="1.5" stroke-linecap="round"/>'
+    + '<path d="M30.7 42.8c0 2.6 2.6 2.6 2.6 0z" fill="#ff7f9c"/>'},
+  {k:"lapin", n:"Lapin", bg:"#ffe0ec", s:
+    body("#ece2e8", "#fff")
+    + '<ellipse cx="24.5" cy="14" rx="5.5" ry="13" fill="#f6f0f4" transform="rotate(-8 24.5 14)"/>'
+    + '<ellipse cx="39.5" cy="14" rx="5.5" ry="13" fill="#f6f0f4" transform="rotate(8 39.5 14)"/>'
+    + '<ellipse cx="24.5" cy="15" rx="2.6" ry="9.5" fill="#ffb3c6" transform="rotate(-8 24.5 15)"/>'
+    + '<ellipse cx="39.5" cy="15" rx="2.6" ry="9.5" fill="#ffb3c6" transform="rotate(8 39.5 15)"/>'
+    + '<circle cx="32" cy="35" r="17" fill="#f6f0f4"/>' + shade(35, 17)
+    + eyes(33.5) + blush(39.5, 11.5)
+    + '<path d="M30.6 38.4h2.8l-1.4 1.7z" fill="#ff8fab"/>'
+    + '<path d="M32 40.1v1.2M29.6 41.3q1.2 1.2 2.4 0q1.2 1.2 2.4 0" fill="none" stroke="' + INK + '" stroke-width="1.4" stroke-linecap="round"/>'
+    + '<rect x="30.8" y="41.6" width="2.4" height="2.6" rx=".6" fill="#fff" stroke="#e3d6dc" stroke-width=".6"/>'
+    + whiskers(39.5, "#b9a9b3")},
+  {k:"ours", n:"Ourson", bg:"#e5f4dc", s:
+    body("#8d5c3a", "#e2b48f")
+    + '<circle cx="16.5" cy="19.5" r="6.8" fill="#a8714a"/><circle cx="47.5" cy="19.5" r="6.8" fill="#a8714a"/>'
+    + '<circle cx="16.5" cy="19.5" r="3.4" fill="#e2b48f"/><circle cx="47.5" cy="19.5" r="3.4" fill="#e2b48f"/>'
+    + '<circle cx="32" cy="34" r="18" fill="#a8714a"/>' + shade(34, 18)
+    + '<ellipse cx="32" cy="40.5" rx="8.4" ry="6.2" fill="#e2b48f"/>'
+    + eyes(31.5) + blush(39, 12.5)
+    + '<ellipse cx="32" cy="37.6" rx="3.3" ry="2.3" fill="' + INK + '"/><ellipse cx="31" cy="36.9" rx="1" ry=".6" fill="#fff" opacity=".7"/>'
+    + '<path d="M32 39.8v1.6M29.4 41.5q2.6 2.2 5.2 0" fill="none" stroke="' + INK + '" stroke-width="1.5" stroke-linecap="round"/>'},
+  {k:"panda", n:"Panda", bg:"#dff3f1", s:
+    body("#2f2f3a", "#fff")
+    + '<circle cx="16.5" cy="19.5" r="6.8" fill="#2f2f3a"/><circle cx="47.5" cy="19.5" r="6.8" fill="#2f2f3a"/>'
+    + '<circle cx="32" cy="34" r="18" fill="#fff"/>' + shade(34, 18)
+    + '<ellipse cx="25" cy="33" rx="4.8" ry="6.3" fill="#2f2f3a" transform="rotate(28 25 33)"/>'
+    + '<ellipse cx="39" cy="33" rx="4.8" ry="6.3" fill="#2f2f3a" transform="rotate(-28 39 33)"/>'
+    + '<circle cx="25.5" cy="32.5" r="2.3" fill="#fff"/><circle cx="38.5" cy="32.5" r="2.3" fill="#fff"/>'
+    + '<circle cx="25.9" cy="32.6" r="1.35" fill="' + INK + '"/><circle cx="38.9" cy="32.6" r="1.35" fill="' + INK + '"/>'
+    + blush(40, 12.5)
+    + '<path d="M30.1 38.3h3.8l-1.9 2.1z" fill="' + INK + '"/>' + smile(41.5, 2.6)},
+  {k:"renard", n:"Renard", bg:"#fff0d2", s:
+    body("#e06c2c", "#fff4e6")
+    + '<path d="M13.5 29L15 7.5 29 18.5z" fill="#ef7d3c"/><path d="M50.5 29L49 7.5 35 18.5z" fill="#ef7d3c"/>'
+    + '<path d="M17 24.5l.6-10.5 7.6 5.6z" fill="#fff4e6"/><path d="M47 24.5l-.6-10.5-7.6 5.6z" fill="#fff4e6"/>'
+    + '<path d="M15 7.5l-.4 5.3 4.4-2.4zM49 7.5l.4 5.3-4.4-2.4z" fill="#3b2a2a"/>'
+    + '<path d="M14 30c0-10 8-14.5 18-14.5S50 20 50 30c0 9.5-8 17.5-18 19.5C22 47.5 14 39.5 14 30z" fill="#ef7d3c"/>'
+    + '<path d="M14.6 34.5c5 3.6 11 4.6 17.4 11.5 6.4-6.9 12.4-7.9 17.4-11.5-1.4 8-8.4 14-17.4 15-9-1-16-7-17.4-15z" fill="#fff4e6"/>'
+    + eyes(31, 6.8) + blush(37.5, 12)
+    + '<ellipse cx="32" cy="44.6" rx="2.6" ry="1.9" fill="' + INK + '"/>'},
+  {k:"grenouille", n:"Grenouille", bg:"#e4f3ff", s:
+    body("#5aa65e", "#c9e8b0")
+    + '<circle cx="22" cy="22" r="8.5" fill="#79c37b"/><circle cx="42" cy="22" r="8.5" fill="#79c37b"/>'
+    + '<ellipse cx="32" cy="37" rx="21" ry="14.5" fill="#79c37b"/>' + shade(37, 14.5)
+    + '<circle cx="22" cy="22" r="5.3" fill="#fff"/><circle cx="42" cy="22" r="5.3" fill="#fff"/>'
+    + '<circle cx="22.8" cy="22.6" r="2.8" fill="' + INK + '"/><circle cx="42.8" cy="22.6" r="2.8" fill="' + INK + '"/>'
+    + '<circle cx="23.7" cy="21.5" r="1" fill="#fff"/><circle cx="43.7" cy="21.5" r="1" fill="#fff"/>'
+    + '<circle cx="29.5" cy="33" r=".9" fill="#3f7f43"/><circle cx="34.5" cy="33" r=".9" fill="#3f7f43"/>'
+    + blush(40, 13.5)
+    + '<path d="M22.5 39.5q9.5 8 19 0" fill="none" stroke="' + INK + '" stroke-width="1.8" stroke-linecap="round"/>'},
+  {k:"pingouin", n:"Pingouin", bg:"#e5eaff", s:
+    body("#34425c", "#fff")
+    + '<circle cx="32" cy="33" r="19" fill="#34425c"/>'
+    + '<path d="M32 26.5c-4-6-14.5-4-14.5 6.5 0 9 6.5 14.5 14.5 14.5S46.5 42 46.5 33c0-10.5-10.5-12.5-14.5-6.5z" fill="#fff"/>'
+    + shade(33, 19)
+    + eyes(33, 6.2) + blush(39.5, 10.5)
+    + '<path d="M28.6 37.4h6.8l-3.4 4.4z" fill="#f6a43a"/><path d="M28.6 37.4h6.8l-1 1.2h-4.8z" fill="#fbc56b"/>'},
+  {k:"vache", n:"Vache", bg:"#efe8ff", s:
+    body("#fbfbfb", null)
+    + '<path d="M14 58c3-4 8-5 11-2-1 4-6 7-11 2zM44 54c4-2 8 0 9 4-4 2-8 1-9-4z" fill="#2f2f3a"/>'
+    + '<path d="M26.5 49.5h11v4h-11z" fill="#e14b5a"/><circle cx="32" cy="55" r="3" fill="#f6c443"/><circle cx="32" cy="55.8" r=".9" fill="#a8741c"/>'
+    + '<path d="M21 19c-3.5-2.5-4-7-2-9.5 1 3 3.2 5 6.5 6z" fill="#f3e3c2"/><path d="M43 19c3.5-2.5 4-7 2-9.5-1 3-3.2 5-6.5 6z" fill="#f3e3c2"/>'
+    + '<ellipse cx="13.5" cy="29" rx="6.2" ry="3.3" fill="#fbfbfb" transform="rotate(-22 13.5 29)"/><ellipse cx="50.5" cy="29" rx="6.2" ry="3.3" fill="#fbfbfb" transform="rotate(22 50.5 29)"/>'
+    + '<ellipse cx="14" cy="29" rx="3.6" ry="1.7" fill="#f7b6c2" transform="rotate(-22 14 29)"/><ellipse cx="50" cy="29" rx="3.6" ry="1.7" fill="#f7b6c2" transform="rotate(22 50 29)"/>'
+    + '<ellipse cx="32" cy="33" rx="16.5" ry="17" fill="#fbfbfb"/>' + shade(33, 16.5)
+    + '<path d="M18.3 27c1.4-6.5 9-9.6 12.6-5.4 2.2 2.7-.6 6.4-5 6.4-3.4 0-6.5 1.6-7.6-1z" fill="#2f2f3a"/>'
+    + '<path d="M41 24.5c2.6-1.8 5.6-.6 6.4 2-2.4 1.2-5 .9-6.4-2z" fill="#2f2f3a"/>'
+    + eyes(30.5, 6.6) + blush(37, 12.5)
+    + '<ellipse cx="32" cy="42" rx="10" ry="6.8" fill="#f7b6c2"/>'
+    + '<ellipse cx="28" cy="41.5" rx="1.5" ry="2.1" fill="#c5677b"/><ellipse cx="36" cy="41.5" rx="1.5" ry="2.1" fill="#c5677b"/>'
+    + '<path d="M29.5 45.6q2.5 1.6 5 0" fill="none" stroke="#c5677b" stroke-width="1.4" stroke-linecap="round"/>'},
+  {k:"cochon", n:"Cochon", bg:"#fff6d5", s:
+    body("#ee93a8", "#f9c2cf")
+    + '<path d="M15 25.5L17.5 10.5 28.5 19z" fill="#f7a8b8"/><path d="M49 25.5L46.5 10.5 35.5 19z" fill="#f7a8b8"/>'
+    + '<path d="M18.4 21.5l1.4-7.5 5.4 4.4z" fill="#e98aa0"/><path d="M45.6 21.5l-1.4-7.5-5.4 4.4z" fill="#e98aa0"/>'
+    + '<circle cx="32" cy="34" r="18" fill="#f7a8b8"/>' + shade(34, 18)
+    + eyes(30.5, 7) + blush(38, 12.5, "#e8577a")
+    + '<ellipse cx="32" cy="39.5" rx="7.6" ry="5.4" fill="#f28da3"/><ellipse cx="32" cy="38.7" rx="6.4" ry="4.2" fill="#f59cb0"/>'
+    + '<ellipse cx="29.4" cy="39.4" rx="1.4" ry="2" fill="#c4566f"/><ellipse cx="34.6" cy="39.4" rx="1.4" ry="2" fill="#c4566f"/>'
+    + smile(46.3, 2.4)},
+  {k:"cheval", n:"Cheval", bg:"#f1ece4", s:
+    body("#a8652f", null)
+    + '<path d="M41 47c4 2 7 6 8 12l-6 2c-1-5-3-9-6-11z" fill="#4a2c1e"/>'
+    + '<path d="M21 19.5L22.5 7.5 29 15z" fill="#b8743f"/><path d="M43 19.5L41.5 7.5 35 15z" fill="#b8743f"/>'
+    + '<path d="M23.4 16.8l.8-6 3.2 3.8z" fill="#8a5129"/><path d="M40.6 16.8l-.8-6-3.2 3.8z" fill="#8a5129"/>'
+    + '<path d="M19.5 27C19.5 18 25 13.5 32 13.5S44.5 18 44.5 27l1 14.5C45.5 49 39.5 53 32 53s-13.5-4-13.5-11.5z" fill="#b8743f"/>'
+    + shade(43, 13.5)
+    + '<path d="M30.4 17h3.2l1.3 15.5h-5.8z" fill="#fff6ec" opacity=".9"/>'
+    + '<path d="M24.5 15.5c1.5-5 10-6.5 14-2.2-2.2-.2-3.4 2.6-6.6 3-1.6-2.2-4-2.4-7.4-.8z" fill="#4a2c1e"/>'
+    + eyes(29.5, 7.2) + blush(37, 11)
+    + '<ellipse cx="32" cy="45" rx="10.2" ry="7.6" fill="#e8c9a4"/>'
+    + '<ellipse cx="28.2" cy="45" rx="1.4" ry="2.1" fill="#7a4a2a"/><ellipse cx="35.8" cy="45" rx="1.4" ry="2.1" fill="#7a4a2a"/>'
+    + '<path d="M29.4 49.4q2.6 1.6 5.2 0" fill="none" stroke="#7a4a2a" stroke-width="1.4" stroke-linecap="round"/>'},
+  {k:"souris", n:"Souris", bg:"#fff0e8", s:
+    body("#a3aabb", "#e9ecf2")
+    + '<circle cx="15" cy="21.5" r="10" fill="#b9bfcc"/><circle cx="49" cy="21.5" r="10" fill="#b9bfcc"/>'
+    + '<circle cx="15.5" cy="22" r="6.4" fill="#ffc2d1"/><circle cx="48.5" cy="22" r="6.4" fill="#ffc2d1"/>'
+    + '<circle cx="32" cy="36" r="16.5" fill="#b9bfcc"/>' + shade(36, 16.5)
+    + '<ellipse cx="32" cy="41" rx="7.4" ry="5.2" fill="#e9ecf2"/>'
+    + eyes(34, 6) + blush(40.5, 11.5)
+    + '<circle cx="32" cy="39.8" r="2.3" fill="#ff8fab"/><circle cx="31.3" cy="39.1" r=".7" fill="#fff" opacity=".8"/>'
+    + '<path d="M32 42v1.2M29.8 43.3q2.2 1.8 4.4 0" fill="none" stroke="' + INK + '" stroke-width="1.4" stroke-linecap="round"/>'
+    + whiskers(41, "#6f7686")},
 ];
 const AVBY = Object.fromEntries(AVATARS.map(a=>[a.k,a]));
-function avatarSvg(k){ const a = AVBY[k] || AVATARS[0]; return icon('<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="' + a.bg + '"/>' + a.s + '</svg>'); }
+let avClip = 0;
+/* Le dessin est découpé en rond (le buste dépasse du cercle) ; chaque SVG a son propre identifiant de découpe. */
+function avatarMarkup(k, size){
+  const a = AVBY[k] || AVATARS[0]; const id = "avc" + (++avClip);
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"' + (size ? ' width="' + size + '" height="' + size + '"' : ' aria-hidden="true"') + '>'
+    + '<defs><clipPath id="' + id + '"><circle cx="32" cy="32" r="32"/></clipPath></defs>'
+    + '<g clip-path="url(#' + id + ')"><rect width="64" height="64" fill="' + a.bg + '"/>' + a.s + '</g></svg>';
+}
+function avatarSvg(k){ return icon(avatarMarkup(k)); }
 
 /* ---------- Outils ---------- */
 const $app = document.getElementById("app");
@@ -383,7 +521,7 @@ function av(s, r){ const k = s.players && s.players[r] && s.players[r].av; retur
 function avPicker(key, lbl, hideLabel){
   const id = "avp-" + key;
   return h("div", {class:"field"}, h("label", {id, text: lbl, class: hideLabel ? "sr-only" : null}),
-    h("div", {class:"avpick", role:"group", "aria-labelledby": id}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n, title: a.n,
+    h("div", {class:"avpick", role:"group", "aria-labelledby": id, "data-keep-scroll": id}, AVATARS.map(a => h("button", {type:"button", class:"avbtn", "aria-pressed": String(draft[key] === a.k), "aria-label": a.n, title: a.n,
       on:{click:()=>{ draft[key] = a.k; render(); }}}, h("span", {class:"ava"}, avatarSvg(a.k)), h("span", {class:"avn", "aria-hidden":"true", text:a.n})))));
 }
 function heatDots(n){
@@ -408,11 +546,20 @@ function levelPicker(){
         h("span", {class:"pic", "aria-hidden":"true"}, icon(LVPIC[X.n])),
         h("span", {class:"nm", text: X.name})))));
 }
+function explainDares(){
+  const L = LEVELS[draft.maxL-1];
+  ask({ icon:"info", cancel:false, confirm:"Compris", title:"Les défis",
+    text:"Quand vos réponses ne collent pas, un petit défi s'affiche, à faire ensemble avant la question suivante. "
+      + "Son ton suit le niveau : tout doux en Complicité, osé en Brûlant. C'est toujours facultatif, on peut passer son tour. "
+      + "Exemple en " + L.name + " : « " + DARES[L.n][0] + " »",
+    onConfirm: ()=>{} });
+}
 function dareSwitch(){
   const L = LEVELS[draft.maxL-1];
   return h("label", {class:"toggle", for:"dares", style:"--lc:var(" + L.tok + ")"},
     h("span", {class:"ic", "aria-hidden":"true"}, icon(LVPIC[L.n])),
     h("span", {class:"tx"}, h("b", {text: L.dare.t}), h("span", {text: L.dare.s})),
+    btn("help", "info", "", (e)=>{ e.preventDefault(); explainDares(); }, {"aria-label":"À quoi servent les défis ?", title:"À quoi servent les défis ?"}),
     h("input", {type:"checkbox", role:"switch", id:"dares", checked: draft.dares, on:{change:e=>{ draft.dares = e.target.checked; }}}));
 }
 function nameField(id, lbl, key, ph){
@@ -462,7 +609,7 @@ function viewHome(){
   ];
 }
 function privacyNote(){
-  return h("p", {class:"note"}, "Vos prénoms et la réponse en cours passent par notre serveur, puis tout est effacé quand l'un de vous quitte. ",
+  return h("p", {class:"note"}, "Vos prénoms passent par notre serveur le temps de la partie, puis tout est effacé. ",
     h("a", {href:"confidentialite.html", text:"En savoir plus"}));
 }
 function viewCreate(){
@@ -607,7 +754,7 @@ function svgImg(str){
   return new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null);
     im.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(str.replace(/var\(--accent\)/g, "#e2405f")); });
 }
-function avatarStr(k){ const a = AVBY[k] || AVATARS[0]; return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256"><circle cx="32" cy="32" r="32" fill="' + a.bg + '"/>' + a.s + '</svg>'; }
+function avatarStr(k){ return avatarMarkup(k, 256); }
 async function recapImage(){
   try { await document.fonts.ready; } catch(e){}
   const st = endStats(); const A = pname(S,"host"), B = pname(S,"guest");
@@ -860,7 +1007,16 @@ function render(){
   if (S) v = S.phase === "lobby" ? viewLobby() : S.phase === "end" ? viewEnd() : viewPlay();
   else v = screen === "gate" ? viewGate() : screen === "minor" ? viewMinor() : screen === "create" ? viewCreate() : screen === "join" ? viewJoin() : screen === "local" ? viewLocal() : viewHome();
   document.body.dataset.screen = currentScreen();
+  // Les bandes d'avatars gardent leur position de défilement d'un affichage à l'autre.
+  const scrolls = {}; document.querySelectorAll("[data-keep-scroll]").forEach(e => { scrolls[e.dataset.keepScroll] = e.scrollLeft; });
   $app.replaceChildren(h("div", {class:"view"}, v));
+  document.querySelectorAll("[data-keep-scroll]").forEach(e => {
+    if (e.dataset.keepScroll in scrolls){ e.scrollLeft = scrolls[e.dataset.keepScroll]; return; }
+    const sel = e.querySelector('[aria-pressed="true"]');   // première fois : on montre l'avatar choisi
+    if (!sel) return;
+    const x = sel.getBoundingClientRect().left - e.getBoundingClientRect().left + e.scrollLeft;
+    if (x + sel.offsetWidth > e.clientWidth) e.scrollLeft = x - (e.clientWidth - sel.offsetWidth) / 2;
+  });
   try { highlightNames($app); } catch(e){}
   renderToolbar();
   if (focusId){ const el = document.getElementById(focusId); if (el && el.tagName === "INPUT"){ el.focus(); try{ el.setSelectionRange(el.value.length, el.value.length); }catch(e){} } }

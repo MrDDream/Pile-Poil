@@ -34,10 +34,10 @@
 
 | Niveau | Le thème | Les défis |
 | --- | --- | --- |
-| 1 · Complicité | Petites manies et habitudes du quotidien | Tout doux et drôles |
+| 1 · Complicité | Manies et petites habitudes | Tout doux et drôles |
 | 2 · Souvenirs | Votre histoire, vos premières fois | Des moments à revivre |
-| 3 · Séduction | Ce qui vous fait craquer l'un chez l'autre | Charmeurs |
-| 4 · Coquin | Ça commence à chauffer sous la couette | Taquins |
+| 3 · Séduction | Ce qui vous fait craquer | Charmeurs |
+| 4 · Coquin | Ça chauffe sous la couette | Taquins |
 | 5 · Brûlant | Fantasmes et envies inavouées | Osés |
 
 Les défis sont facultatifs : on peut toujours passer son tour, ou les désactiver avant la partie.
